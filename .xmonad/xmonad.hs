@@ -43,7 +43,7 @@ myBar = "xmobar"
 myPP =
   xmobarPP
   -- a primeira cor é a do nome a segunda é o fundo, os outros dois delimitam a ws ativas
-    { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange "</fc>") (xmobarColor faded_orange light4 "\xe0b0")
+    { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange "") (xmobarColor faded_orange light4 "\xe0b0")
       --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
     , ppHidden = xmobarColor dark0 light4 . wrap "" "<fc=#282828,#a89984>\xe0b1</fc>"
     , ppOrder = \(ws:l:wn:_) -> map (\x -> "<fc=" ++ dark0 ++ "," ++ light4 ++">"++x ++ " "  ++ "</fc>") [ws,l] --  [xmobarColor "" "" l]
