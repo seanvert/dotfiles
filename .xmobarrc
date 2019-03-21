@@ -11,7 +11,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%StdinReader%<fc=#000000,#bdae93>%battery% %multicpu% %coretemp%</fc><fc=#000000,#d5c4a1> %memory% %swap%</fc><fc=#000000,#ebdbb2>%dynnetwork%</fc>  %todo_pipe%}{ %date%" -- | %kbd% %bright%"
+   , template = "%StdinReader%<fc=#000000,#bdae93>%battery% %multicpu% %coretemp%</fc><fc=#000000,#d5c4a1> %memory% %swap%</fc><fc=#000000,#ebdbb2>%dynnetwork%</fc>  <fc=#9d0006>%todo_pipe% </fc>}{ %date%" -- | %kbd% %bright%"
       -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
@@ -60,12 +60,12 @@ Config {
                              ] 10
 
         -- cpu core temperature monitor
-        , Run CoreTemp       [ "--template" , "<fc=#3c3836,#bdae93><core0>°C <fc=#bdae93,#d5c4a1>\xe0b0</fc></fc>"
+        , Run CoreTemp       [ "--template" , "<fc=#3c3836,#bdae93><core0>°C</fc> <fc=#bdae93,#d5c4a1>\xe0b0</fc>"
                              , "--Low"      , "70"        -- units: °C
                              , "--High"     , "80"        -- units: °C
-                             , "--low"      , "#3c3836,#bdae93><fc=#79740e,#bdae93>\xf2ca</fc" 
-                             , "--normal"   , "#3c3836,#bdae93><fc=#b57614,#bdae93>\xf2ca</fc></fc"
-                             , "--high"     , "#3c3836,#bdae93><fc=#d65d0e,#bdae93>\xf2ca</fc></fc"
+                             , "--low"      , "#3c3836,#bdae93><fc=#79740e,#bdae93>\xf2ca </fc" 
+                             , "--normal"   , "#3c3836,#bdae93><fc=#b57614,#bdae93>\xf2ca </fc"
+                             , "--high"     , "#3c3836,#bdae93><fc=#d65d0e,#bdae93>\xf2ca </fc"
                              ] 50
 
         -- memory usage monitor
@@ -90,7 +90,7 @@ Config {
                                        -- discharging status
                                        , "-o"	, "(<timeleft>)"
                                        -- AC "on" status
-                                       , "-O"	, "<fc=#FD971F>\xf241</fc>" --Carregando</fc>"
+                                       , "-O"	, "<fc=#FD971F,#dbae93>\xf241</fc>" --Carregando</fc>"
                                        -- charged status
                                        , "-i"	, "<fc=#b8bb26,#bdae93>\xf240</fc>" -- "<fc=#A6E22E>Cheia</fc>"
                              ] 50
