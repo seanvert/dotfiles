@@ -9,7 +9,10 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
+import XMonad.Layout.Tabbed
+import XMonad.Layout.FixedColumn
 import XMonad.Prompt
+
 
 import XMonad.Util.EZConfig
 -- scratchpads :D
@@ -24,7 +27,11 @@ import XMonad.Actions.SpawnOn --faz os programas aparecerem em determinadas áre
 -- tree select
 import Data.Tree
 import XMonad.Actions.TreeSelect
-
+-- dynamic workspaces
+-- TODO acho que dá pra fazer alguma coisa que "conserta" o nome das minhas workspaces
+-- depois vou olhar um jeito, acho que envolve regexp ou alguma coisa com as strins
+-- depois penso com mais calma
+import XMonad.Actions.DynamicWorkspaces (addWorkspace)
 
 -- Função main
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
@@ -35,10 +42,63 @@ myBar = "xmobar"
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
 myPP =
   xmobarPP
-    { ppCurrent = xmobarColor "#A6E22E" "" . wrap "\xf100" "\xf101"
-    , ppOrder = \(ws:_:t:_) -> [ws]
+  -- a primeira cor é a do nome a segunda é o fundo, os outros dois delimitam a ws ativas
+    { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange "<fc>") (xmobarColor faded_orange light4 "\xe0b0")
+      --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
+    , ppHidden = xmobarColor dark0 light4 . wrap "" "<fc=#282828,#a89984>\xe0b1</fc>"
+    , ppOrder = \(ws:l:wn:_) -> map (\x -> "<fc=" ++ dark0 ++ "," ++ light4 ++">"++x ++ " "  ++ "</fc>") [ws,l] --  [xmobarColor "" "" l]
+    , ppSep = xmobarColor faded_orange light1 ""
+    , ppWsSep = xmobarColor light4 light4 " "
+--    , ppUrgent =
+    , ppTitle = xmobarColor "#A6BBBB" "" . shorten 50
+--    , ppOutput = hPutStrLn xmproc
     }
 
+--gruvbox light
+dark0_hard  = "#1d2021"
+dark0       = "#282828"
+dark0_soft  = "#32302f"
+dark1       = "#3c3836"
+dark2       = "#504945"
+dark3       = "#665c54"
+dark4       = "#7c6f64"
+dark4_256   = "#7c6f64"
+
+gray_245    = "#928374"
+gray_244    = "#928374"
+
+light0_hard = "#f9f5d7"
+light0      = "#fbf1c7"
+light0_soft = "#f2e5bc"
+light1      = "#ebdbb2"
+light2      = "#d5c4a1"
+light3      = "#bdae93"
+light4      = "#a89984"
+light4_256  = "#a89984"
+
+bright_red     = "#fb4934"
+bright_green   = "#b8bb26"
+bright_yellow  = "#fabd2f"
+bright_blue    = "#83a598"
+bright_purple  = "#d3869b"
+bright_aqua    = "#8ec07c"
+bright_orange  = "#fe8019"
+
+neutral_red    = "#cc241d"
+neutral_green  = "#98971a"
+neutral_yellow = "#d79921"
+neutral_blue   = "#458588"
+neutral_purple = "#b16286"
+neutral_aqua   = "#689d6a"
+neutral_orange = "#d65d0e"
+
+faded_red      = "#9d0006"
+faded_green    = "#79740e"
+faded_yellow   = "#b57614"
+faded_blue     = "#076678"
+faded_purple   = "#8f3f71"
+faded_aqua     = "#427b58"
+faded_orange   = "#af3a03"
 
 -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
@@ -48,25 +108,32 @@ myConfig =
   ewmh
     defaultConfig
       { modMask = mod4Mask -- Use Super instead of Alt
-      , focusedBorderColor = "#F6AA29" --"#004cff",
+      , focusedBorderColor = neutral_orange --"#004cff",
       , normalBorderColor = "#000000" --"#a3beff",
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
---      , handleEventHook = fullscreenEventHook -- fullscreen handle
       , manageHook = myManageHook <+> manageHook defaultConfig
       , keys = myKeys
       , startupHook = myStartupHook
       , terminal = myTerminal
       } `additionalKeys`
   [((mod4Mask, xK_p), spawn "rofi -show combi")]
-
-
+-- tamanho das bordas das janelas
+border = 2
 nobordersLayout = noBorders $ Full
 
-myLayout = onWorkspace ws9 Grid $ tiled ||| nobordersLayout
+
+-- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
+
+myLayout = onWorkspace (myWorkspaces !! 8) Grid $
+           FixedColumn 1 20 90 10 |||
+           tiled
+
+
       -- default tiling algorithm partitions the screen into two panes
   where
+--    tabs = addTabs shrinkText myTabConfig $ Simplest
     tiled = Tall nmaster delta ratio
       -- The default number of windows in the master pane
     nmaster = 1
@@ -74,17 +141,21 @@ myLayout = onWorkspace ws9 Grid $ tiled ||| nobordersLayout
     ratio = 2 / 3 - 5 / 100
       -- Percent of screen to increment by when resizing panes
     delta = 5 / 100-- configurações
+    myTabConfig = def { inactiveBorderColor = "#FF0000"
+                      , activeTextColor = "#00FF00"
+                      , fontName = "xft:DroidSansMono Nerd Font:size=10"
+                      , decoHeight = 0}
 
 myTerminal = "urxvtc"
 
--- tamanho das bordas das janelas
-border = 2
+
+
 
 -- workspaces's numes
 ws1 = "\xf109 "
 ws2 = "\xf03a "
 ws3 = "\xf268 "
-ws4 = "\xf02d "
+ws4 = "\xf5bc "
 ws5 = "\xf07b "
 ws6 = "\xf058 "
 ws7 = "\xf09b "
@@ -92,13 +163,20 @@ ws8 = "\xf076 "
 ws9 = "\xf0ad"
 
 -- TODO adicionar um esquema pra mexer nas cores dos ícones das workspaces
-
-myWorkspaces = zipWith (++) kanji [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 ]
+cor = "4682B4"
+myWorkspaces = zipWith (++) index [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 ]
   where
-    cor = "4682B4"
-    kanji = map colorize [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
+    index = map show [1..9]
+    --index = map (colorize "00aaff") $ map show [1..9]
+      --map (colorize cor) $ map show [1..9]
+    -- [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
+    -- Argumentos: Cor em hex sem #, nome do workspace
     -- função que adiciona as cores
-    colorize x = "<fc=#" ++ cor ++ ">" ++ x ++ "</fc>"
+    colorize :: String -> String -> String
+    colorize cor1 head =
+      "<fc=#" ++ cor1 ++ ">" ++ head ++ "</fc>" 
+
+
 
 
 
@@ -106,14 +184,14 @@ myWorkspaces = zipWith (++) kanji [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 
 projects :: [Project]
 projects =
   [ Project
-    { projectName = ws1
+    { projectName = "desktop"
     , projectDirectory = "~/Desktop"
     , projectStartHook =
         Just $ do
         spawn "urxvtc"
     }
   , Project
-    { projectName = ws3
+    { projectName = "aqweda"
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
@@ -134,7 +212,7 @@ projects =
           spawn "transmission-qt"
     }
   , Project
-    { projectName = ws9
+    { projectName = myWorkspaces !! 8
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
@@ -149,10 +227,10 @@ projects =
     , projectDirectory = "~/"
     , projectStartHook =
       Just $ do
-        spawn "emacsclient -c -n ~/vest/vestibular.org -e '(switch-to-buffer nil)'"
-        spawn "emacsclient ~/Desktop/newgtd.org"
-        spawn "emacsclient ~/ossu/ossu.org"
-        spawn "emacsclient ~/semana.org"
+        spawn "emacsclient -c -n -e '(filesets-open org)'"
+        --spawn "emacsclient ~/Desktop/newgtd.org"
+        --spawn "emacsclient ~/ossu/ossu.org"
+        --spawn "emacsclient ~/semana.org"
     }
   ]
 
@@ -188,8 +266,13 @@ scratchpads =
   ]
 
 keysToAdd x =
-  [ ((mod4Mask, xK_c), kill)
-  , ((mod4Mask, xK_o), switchProjectPrompt warmPromptTheme)
+  [((mod4Mask, xK_c), kill)
+ , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
+                         { gs_navigate   = navNSearch
+                         , gs_rearranger = searchStringRearrangerGenerator id
+                         , gs_font = "xft:DroidSansMono Nerd Font:size=15"
+                         }
+                     addWorkspace)--switchProjectPrompt warmPromptTheme)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
@@ -199,7 +282,7 @@ keysToAdd x =
         myTreeConf
         [ Node
             (TSNode
-               "Desligar/Reiniciar"
+               "\xf011 "
                "Desligar/Reiniciar/Hibernar"
                (return ()))
             [ Node
@@ -264,7 +347,7 @@ keysToAdd x =
               []
             ]
         , Node
-            (TSNode "Orgmode" "Arquivos de agenda, diário e afins" (return ()))
+            (TSNode "\x03be Orgmode" "Arquivos de agenda, diário e afins" (return ()))
             [ Node
                 (TSNode
                    "learn"
@@ -301,16 +384,20 @@ keysToAdd x =
   , ((mod4Mask, xK_d), spawn "rofi -show combi") -- goToSelected defaultGSConfig)
   , ((mod4Mask, xK_s)
     , spawnSelected'
-        [ ("Firefox", "firefox")
+        [ ("qutebrowser", "qutebrowser")
         , ("Emacs", "emacsclient -c")
         , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
         , ("Anki", "anki")
-        , ("PCManFM", "pcmanfm")
+        , ("Thunar", "thunar")
+        , ("SMplayer", "smplayer")
+        , ("Clementine", "clementine")
+        , ("Recoll", "recoll")
+        , ("Libre Office", "libreoffice")
+        , ("Zotero", "zotero")
         ])
-  , ((mod4Mask, xK_z), spawn "urxvtc")
+  , ((mod4Mask, xK_n), spawn "urxvtc")
   , ((mod4Mask, xK_f), spawn "scrot -s $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
-  , ((0, xK_Print)
-    , spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
+  , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   ]
   where
     toggleCopyToAll =
@@ -350,7 +437,7 @@ myTreeConf =
   TSConfig
     { ts_hidechildren = True
     , ts_background = 0x70707070--0xc0c0c0c0
-    , ts_font = "xft:Sans-16"
+    , ts_font = "xft:DroidSansMono Nerd Font:size=16"
     , ts_node = (0xff000000, 0xff50d0db)
     , ts_nodealt = (0xff000000, 0xff10b8d6)
     , ts_highlight = (0xffffffff, 0xffff0000)

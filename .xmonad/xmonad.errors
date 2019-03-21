@@ -1,0 +1,48 @@
+
+xmonad.hs:109:5: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+109 |     defaultConfig
+    |     ^^^^^^^^^^^^^
+
+xmonad.hs:116:50: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+116 |       , manageHook = myManageHook <+> manageHook defaultConfig
+    |                                                  ^^^^^^^^^^^^^
+
+xmonad.hs:252:12: warning: [-Wdeprecations]
+    In the use of ‘defaultGSConfig’
+    (imported from XMonad.Actions.GridSelect):
+    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
+    |
+252 |     conf = defaultGSConfig
+    |            ^^^^^^^^^^^^^^^
+
+xmonad.hs:270:44: warning: [-Wdeprecations]
+    In the use of ‘defaultGSConfig’
+    (imported from XMonad.Actions.GridSelect):
+    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
+    |
+270 |  , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
+    |                                            ^^^^^^^^^^^^^^^
+
+xmonad.hs:383:38: warning: [-Wdeprecations]
+    In the use of ‘defaultGSConfig’
+    (imported from XMonad.Actions.GridSelect):
+    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
+    |
+383 |   , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
+    |                                      ^^^^^^^^^^^^^^^
+
+xmonad.hs:412:27: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+412 | newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
+    |                           ^^^^^^^^^^^^^

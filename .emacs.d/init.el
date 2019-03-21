@@ -133,11 +133,38 @@
 
 ;; haskell
 
-(add-to-list 'company-backends 'company-dabbrev-code)
-(add-to-list 'company-backends 'company-yasnippet)
-(add-to-list 'company-backends 'company-files)
+(eval-after-load "company"
+  '(add-to-list 'company-backends 'company-dabbrev-code))
+(eval-after-load "company"
+ '(add-to-list 'company-backends 'company-yasnippet))
+(eval-after-load "company"
+  '(add-to-list 'company-backends 'company-files))
 (eval-after-load "company"
   '(add-to-list 'company-backends 'company-anaconda))
 
+;;ocaml TODO não está funcionando
+
+(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+  (when (and opam-share (file-directory-p opam-share))
+    ;; Register Merlin
+    (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+    (autoload 'merlin-mode "merlin" nil t nil)
+    ;; Automatically start it in OCaml buffers
+    (add-hook 'tuareg-mode-hook 'merlin-mode t)
+    (add-hook 'caml-mode-hook 'merlin-mode t)
+    ;; Use opam switch to lookup ocamlmerlin binary
+    (setq merlin-command 'opam)))
+
+
+;;file sets pra abrir mais de um arquivo de uma vez
+(filesets-init)
+
 ;; custom keys
 ;; TODO
+
+(global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+(global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+

@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     javascript
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -41,13 +42,15 @@ values."
      auto-completion
      better-defaults
      emacs-lisp
-     ;; git
+     git
+     github
      markdown
      org
      c-c++
      ;;javascript
      sql
      sml
+     ocaml
      ;; smex
      scheme
      racket
@@ -65,7 +68,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(frames-only-mode nov org-noter org-journal writeroom-mode mozc fcitx atomic-chrome try djvu yasnippet-snippets ob-sml ob-racket)
+   dotspacemacs-additional-packages '(frames-only-mode nov org-noter org-journal writeroom-mode mozc fcitx atomic-chrome try djvu yasnippet-snippets ob-sml gruvbox-theme)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -143,7 +146,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro for Powerline"
+   dotspacemacs-default-font '("DroidSansMono Nerd Font" ;;"Source Code Pro for Powerline"
                                :size 13
                                :weight normal
                                :width normal
@@ -338,12 +341,18 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
+ '(filesets-data
+   '(("org"
+      (:files "/home/sean/semana.org" "/home/sean/ossu/ossu.org" "/home/sean/vest/vestibular.org" "/home/sean/Desktop/newgtd.org"))))
  '(org-babel-load-languages
    '((ruby . t)
      (haskell . t)
      (C . t)
      (python . t)
-     (emacs-lisp . t)))
+     (emacs-lisp . t)
+     (js . t)
+     (latex . t)
+     (perl . t)))
  '(org-clock-sound "/home/sean/.cache/sounds/clock-chimes.wav")
  '(org-confirm-babel-evaluate nil)
  '(org-modules
@@ -351,7 +360,7 @@ you should place your code here."
  '(org-noter-always-create-frame nil)
  '(org-noter-auto-save-last-location t)
  '(package-selected-packages
-   '(web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data racket-mode yasnippet-snippets ob-sml sml-mode djvu try atomic-chrome websocket edit-server fcitx mozc org-alert writeroom-mode visual-fill-column org-journal smex mmm-mode markdown-toc markdown-mode gh-md git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl geiser sql-indent web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode org-noter flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell auto-dictionary yapfify pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet fuzzy company-statistics company-cabal company-c-headers auto-yasnippet ac-ispell auto-complete unfill org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download nov esxml mwim intero flycheck htmlize hlint-refactor hindent helm-hoogle haskell-snippets yasnippet gnuplot frames-only-mode disaster company-ghci company-ghc ghc company haskell-mode cmm-mode cmake-mode clang-format ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
+   '(gruvbox-theme autothemer utop tuareg caml smeargle orgit ocp-indent merlin magit-gitflow magit-popup magit-gh-pulls helm-gitignore gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht exwm xelb evil-magit magit transient web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data racket-mode yasnippet-snippets ob-sml sml-mode djvu try atomic-chrome websocket edit-server fcitx mozc org-alert writeroom-mode visual-fill-column org-journal smex mmm-mode markdown-toc markdown-mode gh-md git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl geiser sql-indent web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode org-noter flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell auto-dictionary yapfify pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist live-py-mode hy-mode dash-functional helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet fuzzy company-statistics company-cabal company-c-headers auto-yasnippet ac-ispell auto-complete unfill org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download nov esxml mwim intero flycheck htmlize hlint-refactor hindent helm-hoogle haskell-snippets yasnippet gnuplot frames-only-mode disaster company-ghci company-ghc ghc company haskell-mode cmm-mode cmake-mode clang-format ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
  '(tab-width 4)
  '(yas-snippet-dirs
    '("/home/sean/.emacs.d/private/snippets/" yas-installed-snippets-dir "/home/sean/.emacs.d/layers/+completion/auto-completion/local/snippets" "/home/sean/.emacs.d/elpa/yasnippet-snippets-20190309.1839/snippets/")))
