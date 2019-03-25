@@ -11,7 +11,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%StdinReader%<fc=#000000,#bdae93>%battery% %multicpu% %coretemp%</fc><fc=#000000,#d5c4a1> %memory% %swap%</fc><fc=#000000,#ebdbb2>%dynnetwork%</fc>  <fc=#9d0006>%todo_pipe% </fc>}{ %date%" -- | %kbd% %bright%"
+   , template = "%StdinReader%<fc=#000000,#bdae93>%battery% %multicpu% %coretemp%</fc><fc=#000000,#d5c4a1> %memory% %swap%</fc><fc=#000000,#ebdbb2>%dynnetwork%</fc>  <fc=#9d0006>%todo_pipe% </fc>}{ %date%" -- | %kbd% %bright% "
       -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
@@ -88,16 +88,16 @@ Config {
 
                              , "--" -- battery specific options
                                        -- discharging status
-                                       , "-o"	, "(<timeleft>)"
+                                       , "-o"	, "\xf241 <timeleft>"
                                        -- AC "on" status
-                                       , "-O"	, "<fc=#FD971F,#dbae93>\xf241</fc>" --Carregando</fc>"
+                                       , "-O"	, "<fc=#FD971F,#bdae93>\xf241</fc>" --Carregando</fc>"
                                        -- charged status
-                                       , "-i"	, "<fc=#b8bb26,#bdae93>\xf240</fc>" -- "<fc=#A6E22E>Cheia</fc>"
+                                       , "-i"	, "<fc=#98971a,#bdae93>\xf240</fc>" -- "<fc=#A6E22E>Cheia</fc>"
                              ] 50
 
         -- time and date indicator
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#076678,#fbf1c7>\xe0b2</fc><fc=#ffffff,#076678><fc=#F2e5bc,#076678> \xf133</fc> %F <fc=#66D9EF,#076678>%a</fc> <fc=#F2e5bc,#076678>\xf017</fc> %T</fc>" "date" 10
+        , Run Date           "<fc=#076678,#fbf1c7>\xe0b2</fc><fc=#ffffff,#076678><fc=#F2e5bc,#076678> \xf133</fc> %F <fc=#66D9EF,#076678>%a</fc> <fc=#F2e5bc,#076678>\xf017</fc> %T </fc>" "date" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")

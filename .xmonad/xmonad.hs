@@ -2,17 +2,19 @@ import XMonad
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import XMonad.Actions.GridSelect
+import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.DynamicLog
 -- pedaço que faz o wmctrl funcionar
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Grid
+import XMonad.Layout.Tabbed
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
-import XMonad.Layout.Tabbed
+
 import XMonad.Layout.FixedColumn
 import XMonad.Prompt
-
+import XMonad.Hooks.ManageHelpers
 
 import XMonad.Util.EZConfig
 -- scratchpads :D
@@ -43,13 +45,13 @@ myBar = "xmobar"
 myPP =
   xmobarPP
   -- a primeira cor é a do nome a segunda é o fundo, os outros dois delimitam a ws ativas
-    { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange "") (xmobarColor faded_orange light4 "\xe0b0")
+    { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange " ") (xmobarColor faded_orange light4 "\xe0b0")
       --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
     , ppHidden = xmobarColor dark0 light4 . wrap "" "<fc=#282828,#a89984>\xe0b1</fc>"
     , ppOrder = \(ws:l:wn:_) -> map (\x -> "<fc=" ++ dark0 ++ "," ++ light4 ++">"++x ++ " "  ++ "</fc>") [ws,l] --  [xmobarColor "" "" l]
     , ppSep = xmobarColor faded_orange light1 ""
     , ppWsSep = xmobarColor light4 light4 " "
---    , ppUrgent =
+    , ppUrgent = xmobarColor bright_red light4
     , ppTitle = xmobarColor "#A6BBBB" "" . shorten 50
 --    , ppOutput = hPutStrLn xmproc
     }
@@ -105,7 +107,8 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 myConfig =
   dynamicProjects projects $
-  ewmh
+  ewmh $
+  withUrgencyHook NoUrgencyHook
     defaultConfig
       { modMask = mod4Mask -- Use Super instead of Alt
       , focusedBorderColor = neutral_orange --"#004cff",
@@ -128,7 +131,9 @@ nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            FixedColumn 1 20 90 10 |||
-           tiled
+           tiled |||
+           nobordersLayout
+
 
 
       -- default tiling algorithm partitions the screen into two panes
@@ -242,28 +247,38 @@ myStartupHook = do
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-  [ className =? "smplayer" --> doFloat ]
---  , className =? "Emacs" --> doFloat ]
+  [ className =? "smplayer" --> doFloat
+--  , isDialog -?> doFloat
+  , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]
 
 spawnSelected' :: [(String, String)] -> X ()
+-- TODO acho que entendi o pulo do gato, não entendi direitinho esse operador >>=
+  -- dá pra fazer alguma coisa parecida pra pintar o número dos ws e não mostrar o código das cores em outros programas externos
 spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
   where
-    conf = defaultGSConfig
+    conf = defaultGSConfig { gs_navigate = navNSearch
+                           , gs_cellheight = 40
+                           , gs_cellwidth = 130
+                           , gs_cellpadding = 30
+                           , gs_originFractX = 0.01
+                           , gs_rearranger = searchStringRearrangerGenerator id
+                           }
 
 scratchpads =
   [ (NS
       "notes"
-      "LC_CTYPE=jp_JP.utf-8 emacsclient -c -n -e"
-      (className =? "Emacs")
-      defaultFloating)
+      emacs1   -- "LC_CTYPE=jp_JP.utf-8 emacsclient -c -n -e"
+      (stringProperty "WM_NAME" =? "scratchemacs-frame")
+      (doRectFloat $ W.RationalRect 0 0 1 1))
   , (NS
       "smplayer"
       "smplayer"
       (className =? "smplayer")
       -- TODO não está funcionando
-      (customFloating $ W.RationalRect (1 / 6) (1 / 6) (2 / 3) (2 / 3)))
-  ]
+      (doRectFloat $ W.RationalRect 0 0 1 1)) -- (1.0 / 6) (1.0 / 6) (2.0 / 3) (2.0 / 3)))
+  ] where
+  emacs1 = "emacsclient --alternate-editor='' --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
 keysToAdd x =
   [((mod4Mask, xK_c), kill)
@@ -380,8 +395,8 @@ keysToAdd x =
   , ((mod4Mask, xK_v), toggleCopyToAll)
   , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "notes")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -n -e '(switch-to-buffer nil)'")
-  , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
-  , ((mod4Mask, xK_d), spawn "rofi -show combi") -- goToSelected defaultGSConfig)
+  , ((mod4Mask, xK_a), bringSelected defaultGSConfig) 
+  , ((mod4Mask, xK_d), spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
   , ((mod4Mask, xK_s)
     , spawnSelected'
         [ ("qutebrowser", "qutebrowser")
@@ -396,7 +411,8 @@ keysToAdd x =
         , ("Zotero", "zotero")
         ])
   , ((mod4Mask, xK_n), spawn "urxvtc")
-  , ((mod4Mask, xK_f), spawn "scrot -s $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
+  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
+      -- "sleep 0.2; scrot -s $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   ]
   where
@@ -437,7 +453,7 @@ myTreeConf =
   TSConfig
     { ts_hidechildren = True
     , ts_background = 0x70707070--0xc0c0c0c0
-    , ts_font = "xft:DroidSansMono Nerd Font:size=16"
+    , ts_font = "xft:DroidSansMono Nerd Font:size=14"
     , ts_node = (0xff000000, 0xff50d0db)
     , ts_nodealt = (0xff000000, 0xff10b8d6)
     , ts_highlight = (0xffffffff, 0xffff0000)

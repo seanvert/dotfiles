@@ -61,7 +61,7 @@
 
 
 ;; org refiling pra mandar as tarefas de um arquivo pra outro
-(setq org-refile-targets (quote (("~/Desktop/newgtd.org" :level . 1)
+(setq org-refile-targets (quote (
 				 ("~/semana.org" :maxlevel . 1)
 				 ("~/notes_accomplished.org" :maxlevel . 1)
 				 ("/vest/vestibular.org" :maxlevel . 1)
@@ -75,6 +75,7 @@
                          "~/ossu/ossu.org"
                          "~/semana.org"))
 
+
 ;; org-capture templates
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Desktop/newgtd.org" "Tarefas")
@@ -85,7 +86,7 @@
        "* TODO %^{Descrição breve} %^g \n %? \n link: %a \n Adicionado em: %U")
       ("i" "Info" entry (file+headline "~/Desktop/learn.org" "emacs")
        "* %^{Descrição} \n %? \n link: %a \n %:node")
-      ("l" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
+      ("Ll" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
        "* %^{Descrição} \n [%x] \n %")))
 
 ;; disable linum mode in pdf mode
