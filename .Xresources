@@ -53,7 +53,8 @@ XTerm*selectToClipboard: true
 
 !!URxvt.font: xft:Roboto Mono Light for Powerline:size=9:antialias=true
 URxvt.depth: 32
-URxvt*font:xft:DejaVu\ Sans\ Mono:bold:pixelsize=14:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+URxvt*font:xft:DroidSansMono Nerd Font:pixelsize=14
+!! URxvt*font:xft:DejaVu\ Sans\ Mono:bold:pixelsize=14:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
 !!URxvt.font: xft:Consolas:size=13, xft:Source Code Pro for Powerline
 !! BACKGROUND TRANSPARENT
 URxvt.background: [80]#06060a

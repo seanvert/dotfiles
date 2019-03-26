@@ -25,6 +25,8 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Actions.CopyWindow --copia as janelas para várias áreas de trabalho
 -- Isso daqui que faz o mod + G funcionar com o emacs, smplayer e afins
 import XMonad.Actions.SpawnOn --faz os programas aparecerem em determinadas áreas de trabalho
+-- meus imports
+import XMonad.Workspaces.WSConfig
 
 -- tree select
 import Data.Tree
@@ -122,10 +124,10 @@ myConfig =
       , terminal = myTerminal
       } `additionalKeys`
   [((mod4Mask, xK_p), spawn "rofi -show combi")]
+
 -- tamanho das bordas das janelas
 border = 2
 nobordersLayout = noBorders $ Full
-
 
 -- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
 
@@ -133,9 +135,6 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            FixedColumn 1 20 90 10 |||
            tiled |||
            nobordersLayout
-
-
-
       -- default tiling algorithm partitions the screen into two panes
   where
 --    tabs = addTabs shrinkText myTabConfig $ Simplest
@@ -153,37 +152,30 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
 
 myTerminal = "urxvtc"
 
-
-
-
 -- workspaces's numes
-ws1 = "\xf109 "
-ws2 = "\xf03a "
-ws3 = "\xf268 "
-ws4 = "\xf5bc "
-ws5 = "\xf07b "
-ws6 = "\xf058 "
-ws7 = "\xf09b "
-ws8 = "\xf076 "
-ws9 = "\xf0ad"
+-- ws1 = "\xf109 "
+-- ws2 = "\xf03a "
+-- ws3 = "\xf268 "
+-- ws4 = "\xf5bc "
+-- ws5 = "\xf07b "
+-- ws6 = "\xf058 "
+-- ws7 = "\xf09b "
+-- ws8 = "\xf076 "
+-- ws9 = "\xf0ad"
 
 -- TODO adicionar um esquema pra mexer nas cores dos ícones das workspaces
-cor = "4682B4"
-myWorkspaces = zipWith (++) index [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 ]
-  where
-    index = map show [1..9]
-    --index = map (colorize "00aaff") $ map show [1..9]
-      --map (colorize cor) $ map show [1..9]
-    -- [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
-    -- Argumentos: Cor em hex sem #, nome do workspace
-    -- função que adiciona as cores
-    colorize :: String -> String -> String
-    colorize cor1 head =
-      "<fc=#" ++ cor1 ++ ">" ++ head ++ "</fc>" 
-
-
-
-
+-- cor = "4682B4"
+-- myWorkspaces = zipWith (++) index [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 ]
+--   where
+--     index = map show [1..9]
+--     --index = map (colorize "00aaff") $ map show [1..9]
+--       --map (colorize cor) $ map show [1..9]
+--     -- [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
+--     -- Argumentos: Cor em hex sem #, nome do workspace
+--     -- função que adiciona as cores
+--     colorize :: String -> String -> String
+--     colorize cor1 head =
+--       "<fc=#" ++ cor1 ++ ">" ++ head ++ "</fc>"
 
 -- FUNCIONANDO! :D TODO arrumar as cores dos temas pq elas estão horríveis
 projects :: [Project]
@@ -280,6 +272,10 @@ scratchpads =
   ] where
   emacs1 = "emacsclient --alternate-editor='' --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
+-- TODO tá saindo
+-- mkTree str cdr = Node str TSNode "a" "b" (return ()) [(Node cdr)]
+test a b trs = Node (TSNode a b (trs)) []
+
 keysToAdd x =
   [((mod4Mask, xK_c), kill)
  , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
@@ -295,6 +291,7 @@ keysToAdd x =
   , ((mod4Mask, xK_y)
     , treeselectAction
         myTreeConf
+        -- TODO gerar um menu desses com um arquivo xml ou um arquivo do org mode, sei lá json  tanto faz
         [ Node
             (TSNode
                "\xf011 "
@@ -318,17 +315,9 @@ keysToAdd x =
                "Brilho"
                "Muda o brilho da tela com o xbacklight"
                (return ()))
-            [ Node
-                (TSNode
-                   "Máximo"
-                   "Meus olhos!11!!1!"
-                   (spawn "xbacklight -set 100"))
-                []
+            [ Node (TSNode "Máximo" "Meus olhos!11!!1!" (spawn "xbacklight -set 100")) []
             , Node (TSNode "Normal" "50%" (spawn "xbacklight -set 50")) []
-            , Node
-                (TSNode "Fraquinho" "Bem escuro" (spawn "xbacklight -set 10"))
-                []
-            ]
+            , Node (TSNode "Fraquinho" "Bem escuro" (spawn "xbacklight -set 10")) []]
                                     -- TODO colocar uma opçao pra desativar o wifi
         , Node
             (TSNode
@@ -354,11 +343,7 @@ keysToAdd x =
               "Resolução do monitor do notebook"
               (spawn "xrandr --output LVDS1 --primary --mode 1280x720"))
               []
-            , Node
-              (TSNode
-              "1280x720 VGA1"
-              "Monitor externo ou projetor"
-              (spawn "xrandr --output VGA1 --primary --mode 1280x720"))
+            , Node (TSNode "1280x720 VGA1" "Monitor externo ou projetor" (spawn "xrandr --output VGA1 --primary --mode 1280x720"))
               []
             ]
         , Node
@@ -373,8 +358,7 @@ keysToAdd x =
                 (TSNode
                    "tarefas"
                    "1 tarefas"
-                   (spawn
-                      "emacsclient -c /home/sean/emacs/org/agenda/tarefas.org"))
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/tarefas.org"))
                 []
             , Node
                 (TSNode
@@ -386,8 +370,7 @@ keysToAdd x =
                 (TSNode
                    "accomplished"
                    "descrição"
-                   (spawn
-                      "emacsclient -c /home/sean/emacs/org/agenda/notes_accomplished.org"))
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes_accomplished.org"))
                 []
             ]
         ])
@@ -395,8 +378,8 @@ keysToAdd x =
   , ((mod4Mask, xK_v), toggleCopyToAll)
   , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "notes")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -n -e '(switch-to-buffer nil)'")
-  , ((mod4Mask, xK_a), bringSelected defaultGSConfig) 
-  , ((mod4Mask, xK_d), spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
+  , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
+  , ((mod4Mask, xK_d), treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
   , ((mod4Mask, xK_s)
     , spawnSelected'
         [ ("qutebrowser", "qutebrowser")
@@ -412,7 +395,6 @@ keysToAdd x =
         ])
   , ((mod4Mask, xK_n), spawn "urxvtc")
   , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
-      -- "sleep 0.2; scrot -s $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   ]
   where
@@ -468,7 +450,7 @@ myTreeConf =
 
 myPromptTheme =
   def
-    { font = "xft:Sans-10"
+    { font = "xft:DroidSansMono Nerd Font:size=10"
     , bgColor = base03
     , fgColor = active
     , fgHLight = base03
@@ -479,5 +461,4 @@ myPromptTheme =
     , position = Top
     }
 
-warmPromptTheme =
-  myPromptTheme {bgColor = yellow, fgColor = base03, position = Top}
+warmPromptTheme = myPromptTheme {bgColor = yellow, fgColor = base03, position = Top}
