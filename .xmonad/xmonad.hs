@@ -11,10 +11,13 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Tabbed
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
+import XMonad.Layout.Master
+import XMonad.Layout.StateFull (focusTracking)
 
 import XMonad.Layout.FixedColumn
 import XMonad.Prompt
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.ManageDocks (checkDock)
 
 import XMonad.Util.EZConfig
 -- scratchpads :D
@@ -25,27 +28,27 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Actions.CopyWindow --copia as janelas para várias áreas de trabalho
 -- Isso daqui que faz o mod + G funcionar com o emacs, smplayer e afins
 import XMonad.Actions.SpawnOn --faz os programas aparecerem em determinadas áreas de trabalho
+
 -- meus imports
 import XMonad.Workspaces.WSConfig
-
+import XMonad.Colors.Colors
 -- tree select
 import Data.Tree
 import XMonad.Actions.TreeSelect
 -- dynamic workspaces
--- TODO acho que dá pra fazer alguma coisa que "conserta" o nome das minhas workspaces
--- depois vou olhar um jeito, acho que envolve regexp ou alguma coisa com as strins
--- depois penso com mais calma
 import XMonad.Actions.DynamicWorkspaces (addWorkspace)
 
 -- Função main
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
+-- TODO ver um jeito de lançar as duas barras sem ficar uma merda
 -- Comando que vai lançar a barra
-myBar = "xmobar"
+myBar = "xmobar /home/sean/.xmobar/xmobarrc1"
+--myBar = "/home/sean/.xmobar/xmobarc.sh"
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
 myPP =
-  xmobarPP
+  namedScratchpadFilterOutWorkspacePP xmobarPP
   -- a primeira cor é a do nome a segunda é o fundo, os outros dois delimitam a ws ativas
     { ppCurrent = xmobarColor light0_hard faded_orange . wrap (xmobarColor faded_orange faded_orange " ") (xmobarColor faded_orange light4 "\xe0b0")
       --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
@@ -58,51 +61,8 @@ myPP =
 --    , ppOutput = hPutStrLn xmproc
     }
 
---gruvbox light
-dark0_hard  = "#1d2021"
-dark0       = "#282828"
-dark0_soft  = "#32302f"
-dark1       = "#3c3836"
-dark2       = "#504945"
-dark3       = "#665c54"
-dark4       = "#7c6f64"
-dark4_256   = "#7c6f64"
 
-gray_245    = "#928374"
-gray_244    = "#928374"
 
-light0_hard = "#f9f5d7"
-light0      = "#fbf1c7"
-light0_soft = "#f2e5bc"
-light1      = "#ebdbb2"
-light2      = "#d5c4a1"
-light3      = "#bdae93"
-light4      = "#a89984"
-light4_256  = "#a89984"
-
-bright_red     = "#fb4934"
-bright_green   = "#b8bb26"
-bright_yellow  = "#fabd2f"
-bright_blue    = "#83a598"
-bright_purple  = "#d3869b"
-bright_aqua    = "#8ec07c"
-bright_orange  = "#fe8019"
-
-neutral_red    = "#cc241d"
-neutral_green  = "#98971a"
-neutral_yellow = "#d79921"
-neutral_blue   = "#458588"
-neutral_purple = "#b16286"
-neutral_aqua   = "#689d6a"
-neutral_orange = "#d65d0e"
-
-faded_red      = "#9d0006"
-faded_green    = "#79740e"
-faded_yellow   = "#b57614"
-faded_blue     = "#076678"
-faded_purple   = "#8f3f71"
-faded_aqua     = "#427b58"
-faded_orange   = "#af3a03"
 
 -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
@@ -134,10 +94,11 @@ nobordersLayout = noBorders $ Full
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            FixedColumn 1 20 90 10 |||
            tiled |||
-           nobordersLayout
+           nobordersLayout |||
+           mastered (3/100) (5/8) (focusTracking tabs)
       -- default tiling algorithm partitions the screen into two panes
   where
---    tabs = addTabs shrinkText myTabConfig $ Simplest
+    tabs = tabbed shrinkText myTabConfig
     tiled = Tall nmaster delta ratio
       -- The default number of windows in the master pane
     nmaster = 1
@@ -148,34 +109,9 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
     myTabConfig = def { inactiveBorderColor = "#FF0000"
                       , activeTextColor = "#00FF00"
                       , fontName = "xft:DroidSansMono Nerd Font:size=10"
-                      , decoHeight = 0}
+                      , decoHeight = 20}
 
 myTerminal = "urxvtc"
-
--- workspaces's numes
--- ws1 = "\xf109 "
--- ws2 = "\xf03a "
--- ws3 = "\xf268 "
--- ws4 = "\xf5bc "
--- ws5 = "\xf07b "
--- ws6 = "\xf058 "
--- ws7 = "\xf09b "
--- ws8 = "\xf076 "
--- ws9 = "\xf0ad"
-
--- TODO adicionar um esquema pra mexer nas cores dos ícones das workspaces
--- cor = "4682B4"
--- myWorkspaces = zipWith (++) index [ ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9 ]
---   where
---     index = map show [1..9]
---     --index = map (colorize "00aaff") $ map show [1..9]
---       --map (colorize cor) $ map show [1..9]
---     -- [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
---     -- Argumentos: Cor em hex sem #, nome do workspace
---     -- função que adiciona as cores
---     colorize :: String -> String -> String
---     colorize cor1 head =
---       "<fc=#" ++ cor1 ++ ">" ++ head ++ "</fc>"
 
 -- FUNCIONANDO! :D TODO arrumar as cores dos temas pq elas estão horríveis
 projects :: [Project]
@@ -235,22 +171,33 @@ projects =
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
   setWMName "LG3D"
+--  spawn "/home/sean/.xmobar/xmobarc.sh"
 
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-  [ className =? "smplayer" --> doFloat
---  , isDialog -?> doFloat
+  [-- checkDock -?> doIgnore
+  isDialog  --> doFloat
+  , className =? "vlc" --> doFloat
   , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]
 
 spawnSelected' :: [(String, String)] -> X ()
--- TODO acho que entendi o pulo do gato, não entendi direitinho esse operador >>=
-  -- dá pra fazer alguma coisa parecida pra pintar o número dos ws e não mostrar o código das cores em outros programas externos
+
 spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
   where
     conf = defaultGSConfig { gs_navigate = navNSearch
                            , gs_cellheight = 40
+                           , gs_cellwidth = 130
+                           , gs_cellpadding = 30
+                           , gs_originFractX = 0.01
+                           , gs_rearranger = searchStringRearrangerGenerator id
+                           }
+
+spawnSelected'' lst = gridselect conf lst >>= flip whenJust spawn
+  where
+    conf = defaultGSConfig { -- gs_navigate = defaultNavigation
+                           gs_cellheight = 40
                            , gs_cellwidth = 130
                            , gs_cellpadding = 30
                            , gs_originFractX = 0.01
@@ -264,11 +211,17 @@ scratchpads =
       (stringProperty "WM_NAME" =? "scratchemacs-frame")
       (doRectFloat $ W.RationalRect 0 0 1 1))
   , (NS
-      "smplayer"
-      "smplayer"
-      (className =? "smplayer")
+      "vlc"
+      "vlc"
+      (className =? "vlc")
       -- TODO não está funcionando
       (doRectFloat $ W.RationalRect 0 0 1 1)) -- (1.0 / 6) (1.0 / 6) (2.0 / 3) (2.0 / 3)))
+  -- , (NS
+  --     "qutebrowser"
+  --     "qutebrowser"
+  --     (className =? "qutebrowser")
+  --     --(stringProperty "WM_NAME" =? "qutebrowser")
+  --     (doRectFloat $ W.RationalRect 0 0 1 1))
   ] where
   emacs1 = "emacsclient --alternate-editor='' --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
@@ -276,9 +229,10 @@ scratchpads =
 -- mkTree str cdr = Node str TSNode "a" "b" (return ()) [(Node cdr)]
 test a b trs = Node (TSNode a b (trs)) []
 
+
 keysToAdd x =
   [((mod4Mask, xK_c), kill)
- , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
+  , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
                          { gs_navigate   = navNSearch
                          , gs_rearranger = searchStringRearrangerGenerator id
                          , gs_font = "xft:DroidSansMono Nerd Font:size=15"
@@ -374,12 +328,14 @@ keysToAdd x =
                 []
             ]
         ])
-  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer")
+  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "vlc")
   , ((mod4Mask, xK_v), toggleCopyToAll)
   , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "notes")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -n -e '(switch-to-buffer nil)'")
   , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
-  , ((mod4Mask, xK_d), treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
+  --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
+     -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
+     -- gerar esses menus proceduralmente a partir delistas
   , ((mod4Mask, xK_s)
     , spawnSelected'
         [ ("qutebrowser", "qutebrowser")
@@ -387,15 +343,24 @@ keysToAdd x =
         , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
         , ("Anki", "anki")
         , ("Thunar", "thunar")
-        , ("SMplayer", "smplayer")
+        , ("VLC", "vlc")
         , ("Clementine", "clementine")
         , ("Recoll", "recoll")
         , ("Libre Office", "libreoffice")
         , ("Zotero", "zotero")
         ])
-  , ((mod4Mask, xK_n), spawn "urxvtc")
-  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
+  , ((mod4Mask, xK_d)
+    , spawnSelected''
+      [ ("Português", "fcitx-remote -s fcitx-keyboard-br")
+      , ("Alemão", "fcitx-remote -s fcitx-keyboard-gr")
+      , ("Russo", "fcitx-remote -s fcitx-keyboard-ru")
+      , ("Japonês", "fcitx-remote -s mozc")
+      , ("Coreano", "fcitx-remote -s hangul")])
+--  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
+  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
+  , ((mod4Mask, xK_f), XMonad.windows W.focusDown)
+  , ((mod4Mask, xK_n), XMonad.windows W.focusUp)
   ]
   where
     toggleCopyToAll =
@@ -404,12 +369,14 @@ keysToAdd x =
           [] -> windows copyToAll
           _ -> killAllOtherCopies
 
-keysToDel x = [((mod4Mask .|. shiftMask), xK_c)]
+keysToDel x = [((mod4Mask .|. shiftMask), xK_c),
+               ((mod4Mask, xK_n))]
               --((mod4Mask, xK_p))]
 
 newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
 
 myKeys x = foldr M.delete (newKeys x) (keysToDel x) -- to delete the unused keys
+
 
 -- cores
 base03  = "#002b36"

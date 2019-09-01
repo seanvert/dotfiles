@@ -1,0 +1,2 @@
+;;; -*- no-byte-compile: t -*-
+(define-package "org-noter" "20190807.1809" "A synchronized, Org-mode, document annotator" '((emacs "24.4") (cl-lib "0.6") (org "9.0")) :commit "d3df267a7432ecf0fb287a645e06dee7e7b80671" :keywords '("lisp" "pdf" "interleave" "annotate" "external" "sync" "notes" "documents" "org-mode") :authors '((nil . "Gonçalo Santos (aka. weirdNox@GitHub)")) :maintainer '(nil . "Gonçalo Santos (aka. weirdNox@GitHub)") :url "https://github.com/weirdNox/org-noter")
