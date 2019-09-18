@@ -2,186 +2,678 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Sun Sep  1 06:46:19 2019
+;; Created Wed Sep 18 07:29:40 2019
 ;; Desktop file format version 208
 ;; Emacs version 26.3
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (23915 37739 382293 291000) (desktop . "208") "sean@kiwi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:21611" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=08c99a0149a646aa897af4b4cf697c40" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "DC61-FD63-0276-CC36") (frameset--mini t) (frameset--text-pixel-width . 684) (frameset--text-pixel-height . 1057) (height . 61) (width . 85) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 716) (pixel-height . 1020) (total-width . 89) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "20190819" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 5104) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:21611" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=08c99a0149a646aa897af4b4cf697c40" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "6F6D-2254-0DF4-B32F") (frameset--mini t) (frameset--text-pixel-width . 972) (frameset--text-pixel-height . 1057) (height . 62) (width . 121) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1004) (pixel-height . 1040) (total-width . 125) (total-height . 61) (normal-height . 1.0) (normal-width . 1.0) (buffer "Notes of Biologia. Unidade E Diversidade Da Vida - Volume 1" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 2412) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "9C07-75BF-4DA7-B743") (frameset--mini t) (frameset--text-pixel-width . 876) (frameset--text-pixel-height . 1057) (height . 62) (width . 109) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name . t)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 908) (pixel-height . 1040) (total-width . 113) (total-height . 61) (normal-height . 1.0) (normal-width . 1.0) (buffer "Biologia. Unidade E Diversidade Da Vida - Volume 1" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 1) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:21611" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=08c99a0149a646aa897af4b4cf697c40" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "9565-9F24-DB39-3BBC") (frameset--mini t) (frameset--text-pixel-width . 684) (frameset--text-pixel-height . 745) (height . 61) (width . 85) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 716) (pixel-height . 1020) (total-width . 89) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "config.org" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 884) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:21611" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=08c99a0149a646aa897af4b4cf697c40" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "9326-6124-057E-573C") (frameset--mini t) (height . 35) (width . 79) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name . t)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 664) (pixel-height . 578) (total-width . 83) (total-height . 34) (normal-height . 1.0) (normal-width . 1.0) (buffer "20190901" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 4850) (start . 3415))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (environment) (frameset--id . "97E4-3905-53DB-4123") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (frameset--text-pixel-width . 684) (frameset--text-pixel-height . 1057) (height . 61) (width . 85)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 716) (pixel-height . 1020) (total-width . 89) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "xmonad.hs" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 13047) (start . 11510))))])
+(setq desktop-saved-frameset [frameset 1 (23938 1812 964113 38000) (desktop . "208") "sean@kiwi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "512C-D218-4AD6-3E57") (frameset--mini t) (frameset--text-pixel-height . 1038) (height . 61) (width . 91) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 760) (pixel-height . 1021) (total-width . 95) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "magit: sean" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 881467) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:20241" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=94fb0dd46da7495cb5b0da420413356a" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "FE27-259F-94D8-F9E8") (frameset--mini t) (frameset--text-pixel-height . 517) (height . 30) (width . 140) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1152) (pixel-height . 500) (total-width . 144) (total-height . 29) (normal-height . 1.0) (normal-width . 1.0) (buffer ".gitignore" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 113) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "5C54-50EB-E259-A6E3") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (frameset--text-pixel-width . 700) (frameset--text-pixel-height . 1018) (height . 59) (width . 87) (left . 1184) (top . 39)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 732) (pixel-height . 1001) (total-width . 91) (total-height . 58) (normal-height . 1.0) (normal-width . 1.0) (buffer "Biologia. Unidade E Diversidade Da Vida - Volume 1.org" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 1) (start . 1))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "2328-A081-B146-D252") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (frameset--text-pixel-width . 700) (frameset--text-pixel-height . 1018) (height . 59) (width . 87)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 9) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 72) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 732) (pixel-height . 1001) (total-width . 91) (total-height . 58) (normal-height . 1.0) (normal-width . 1.0) (buffer "xmonad.hs" (selected) (hscroll . 0) (fringes 8 8 nil) (margins 3) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 3646) (start . 3387))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (frameset--id . "407F-AA54-EFF8-8F1C") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (frameset--text-pixel-width . 700) (frameset--text-pixel-height . 343) (height . 20) (width . 87)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 732) (pixel-height . 326) (total-width . 91) (total-height . 19) (normal-height . 1.0) (normal-width . 1.0) (buffer "config.org" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 6496) (start . 6313))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-ADBO-Source Code Pro-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1") (font-parameter . "Source Code Pro 10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#F8F8F2") (background-color . "#272822") (mouse-color . "#F8F8F2") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground . "#d1d1d1") (scroll-bar-background . "#d1d1d1") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . icon) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#F8F8F2") (sticky) (environment "_=/usr/bin/emacsclient" "MAIL=/var/spool/mail/sean" "HG=/usr/bin/hg" "OPAMNOENVNOTICE=true" "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus" "PATH=/home/sean/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/smlnj/bin" "SMLNJ_HOME=/usr/lib/smlnj" "JOURNAL_STREAM=9:20241" "XDG_RUNTIME_DIR=/run/user/1000" "MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins" "XDG_SESSION_ID=1" "XDG_VTNR=1" "QT_IM_MODULE=fcitx" "SHLVL=2" "DISPLAY=:0" "USER=sean" "TERM=linux" "XDG_SESSION_CLASS=user" "INVOCATION_ID=94fb0dd46da7495cb5b0da420413356a" "LANG=pt_BR.UTF-8" "HOME=/home/sean" "WINDOWPATH=1" "OPAM_SWITCH_PREFIX=/home/sean/.opam/default" "XAUTHORITY=/home/sean/.Xauthority" "MANPATH=:/home/sean/.opam/default/man" "XDG_SESSION_TYPE=tty" "LOGNAME=sean" "PWD=/home/sean" "XDG_SEAT=seat0" "XMODIFIERS=@im=fcitx" "GTK_IM_MODULE=fcitx" "OCAML_TOPLEVEL_PATH=/home/sean/.opam/default/lib/toplevel" "CAML_LD_LIBRARY_PATH=/home/sean/.opam/default/lib/stublibs:/usr/lib/ocaml/stublibs:/usr/lib/ocaml" "SHELL=/bin/bash") (powerline-cache) (frameset--id . "7EC1-2451-C150-01D5") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (frameset--text-pixel-width . 1884) (frameset--text-pixel-height . 1038) (height . 61) (width . 235)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 68) (min-pixel-width . 80) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1916) (pixel-height . 1021) (total-width . 239) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "config.org" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 6585) (start . 5953))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
 (setq search-ring nil)
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/Documents/journal/20190819" "~/.xmonad/xmonad.hs" "~/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf" "~/Documents/emacs.org" "~/lang/lang.org" "~/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org" "~/livros/bio/Biologia. Unidade E Diversidade Da Vida - Volume 1.org" "~/ossu/machine learning coursera/semana8/machine-learning-ex8/ex8/cofiCostFunc.m" "~/ossu/machine learning coursera/semana8/machine-learning-ex8/ex8/selectThreshold.m" "~/ossu/machine learning coursera/semana8/machine-learning-ex8/ex8/estimateGaussian.m" "~/ossu/machine learning coursera/semana8/machine-learning-ex8/ex8/ex8.m" "~/.emacs.d/config.org" "~/ossu/machine learning coursera/semana8/machine-learning-ex8/ex8.pdf" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/recoverData.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/ex7_pca.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/ex7.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/projectData.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/pca.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/kMeansInitCentroids.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/computeCentroids.m" "~/ossu/machine learning coursera/semana7/machine-learning-ex7/ex7/findClosestCentroids.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/emailFeatures.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/processEmail.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/ex6_spam.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/ex6.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/dataset3Params.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/gaussianKernel.m" "~/ossu/machine learning coursera/semana6/machine-learning-ex6/ex6/svmTrain.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/trainLinearReg.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/validationCurve.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/polyFeatures.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/linearRegCostFunction.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/learningCurve.m" "~/ossu/machine learning coursera/semana5/machine-learning-ex5/ex5/ex5.m" "~/ossu/machine learning coursera/machinelarning.org" "~/ossu/machine learning coursera/semana4/machine-learning-ex4/ex4/computeNumericalGradient.m" "~/ossu/machine learning coursera/semana4/machine-learning-ex4/ex4/nnCostFunction.m" "~/ossu/machine learning coursera/semana4/machine-learning-ex4/ex4/ex4.m"))
+(setq file-name-history '("~/.gitignore" "~/.xmonad/xmonad.hs" "~/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org" "~/vest/Ceci Starr-Biologia _ unidade e diversidade da vida, volume 2-Cengage Learning (2012).pdf" "~/vest/Sociologia Hoje - Volume Å˙nico.pdf" "~/projetos/tutorgnoter.org" "~/emacs.org" "~/Documents/futureauthoring.org" "/home/sean/Downloads/BiFE2fUX.txt" "/home/sean/Documents/boleto.pdf" "~/Downloads/[2] AurÅÈlien GÅÈron - Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow_ Concepts, Tools, and Techniques to Build Intelligent Systems (2019, OÜ¢Reilly Media).pdf" "/home/sean/Downloads/Tolkien, J R R - The Story of Kullervo.epub" "~/vest/gabarito.org" "~/vest/fuvest_2019_primeira_fase.pdf" "/ubuntu/home/sean/coisas/enem vest/ENEM-2016/1Å¶ Aplica Å∆o/2Åß DIA/PROVA_ENEM_2016_DIA_2_07_AZUL.pdf" "~/ossu/fastai/courses/ml1/lesson1-rf.ipynb" "/home/sean/Downloads/[SÅÈrie Educando] Severino AntÅÙnio M. Barbosa_ EmÅÌlia Amaral - RedaÅÁÅ„o_ Escrever ÅÈ desvendar o mundo 1(2005, Papirus).epub" "/ubuntu/home/sean/Bureau/CHOSES QUI VOUs DOIS FAIRE/gebara pro trabalho/visionhowitworks.org" "/ubuntu/home/sean/notes.org" "~/.emacs.d/config.org"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
-(desktop-create-buffer 208
-  "/home/sean/Documents/journal/20190819"
-  "20190819"
-  'org-journal-mode
-  '(visual-line-mode override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  5104
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23915 37664 73176 659000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
-  '((mark-ring nil)))
-
 (desktop-create-buffer 208
   "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org"
   "Biologia. Unidade E Diversidade Da Vida - Volume 1.org"
   'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  2412
-  '(2412 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23915 32500 428588 353000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
-  "Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
-  'pdf-view-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode pdf-view-printer-minor-mode which-key-mode helm-mode)
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
   1
-  '(1 nil)
-  t
+  '(nil nil)
   nil
-  '((buffer-display-time 23915 37643 337682 103000) (buffer-file-coding-system . no-conversion))
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23937 37559 215160 279000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
   "/home/sean/.xmonad/xmonad.hs"
   "xmonad.hs"
   'haskell-mode
-  '(eldoc-mode override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode)
-  13047
-  '(1 nil)
+  '(eldoc-mode company-mode override-global-mode auto-compile-on-load-mode smartparens-mode linum-mode linum-relative-mode rainbow-delimiters-mode which-key-mode helm-mode auto-revert-mode magit-file-mode)
+  3646
+  '(nil nil)
   nil
   nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 23915 37617 542726 856000) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring (13044))))
+  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 23938 1573 807498 91000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  '(company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode)
+  113
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 23938 1734 367468 6000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
 
 (desktop-create-buffer 208
   "/home/sean/.emacs.d/config.org"
   "config.org"
   'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  884
-  '(687 nil)
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode auto-revert-mode magit-file-mode org-indent-mode)
+  6585
+  '(3318 nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-display-time 23915 32261 470627 538000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (9084 4882 4885 1198 1088 884 1088 5054 2943 2943 4763 4883 4884))))
+  '((indent-tabs-mode) (buffer-display-time 23938 1568 250402 515000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (3318 6496 1009 1886 5906 12092 6788 5810 9982 5808 11344 853 5866 14248 11323 1262))))
 
 (desktop-create-buffer 208
-  "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
-  "Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
-  'pdf-view-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode)
-  1
-  '(1 nil)
-  t
+  "/home/sean/semana.org"
+  "semana.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  6749
+  '(5904 nil)
   nil
-  '((buffer-display-time 23915 32037 169369 790000) (buffer-file-coding-system . no-conversion))
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23937 37416 970927 512000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (5694 1))))
+
+(desktop-create-buffer 208
+  "/home/sean/vest/vestibular.org"
+  "vestibular.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  13
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23937 32417 536146 555000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/home/sean/Documents/journal/20190901"
-  "20190901"
+  "/home/sean/Downloads/[2] AurÅÈlien GÅÈron - Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow_ Concepts, Tools, and Techniques to Build Intelligent Systems (2019, OÜ¢Reilly Media).org"
+  "[2] AurÅÈlien GÅÈron - Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow_ Concepts, Tools, and Techniques to Build Intelligent Systems (2019, OÜ¢Reilly Media).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23937 30313 370830 262000) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Desktop/jp.org"
+  "jp.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  621
+  '(266 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 62947 679550 73000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (45 923))))
+
+(desktop-create-buffer 208
+  "/home/sean/projetos/tutorgnoter.org"
+  "tutorgnoter.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  20
+  '(138 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20137 629275 486000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (138))))
+
+(desktop-create-buffer 208
+  nil
+  "sean"
+  'dired-mode
+  '(company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode)
+  2330
+  '(2950 nil)
+  t
+  '("/home/sean/")
+  '((buffer-display-time 23935 15203 331558 628000))
+  '((mark-ring (2950 5966))))
+
+(desktop-create-buffer 208
+  nil
+  "workspaces"
+  'dired-mode
+  '(company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode)
+  165
+  '(nil nil)
+  t
+  '("/home/sean/workspaces/")
+  '((buffer-display-time 23935 14944 426495 335000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/20190915"
+  "20190915"
   'org-journal-mode
-  '(auto-fill-mode visual-line-mode override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  4850
-  '(2450 nil)
+  '(auto-fill-mode visual-line-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  414
+  '(nil nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-display-time 23915 29886 408745 47000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
+  '((indent-tabs-mode) (buffer-display-time 23934 56081 616574 603000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Downloads/[SÅÈrie Educando] Severino AntÅÙnio M. Barbosa_ EmÅÌlia Amaral - RedaÅÁÅ„o_ Escrever ÅÈ desvendar o mundo 1(2005, Papirus).org"
+  "[SÅÈrie Educando] Severino AntÅÙnio M. Barbosa_ EmÅÌlia Amaral - RedaÅÁÅ„o_ Escrever ÅÈ desvendar o mundo 1(2005, Papirus).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  119
+  '(7670 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23933 41810 264557 671000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/livros.org"
+  "livros.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23933 4410 494176 435000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/ossu/ossu.org"
+  "ossu.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23932 53403 343662 623000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
   "/home/sean/lang/lang.org"
   "lang.org"
   'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  87940
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23913 39008 690919 329000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/sean/ossu/machine learning coursera/machinelarning.org"
-  "machinelarning.org"
-  'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  94566
-  '(101138 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23913 38922 516553 888000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (99777 99340 98426 44368 97871 97347 97041 96122 95476 95119 94258 93692 89854 92460 91935 27375))))
-
-(desktop-create-buffer 208
-  "/home/sean/Documents/emacs.org"
-  "emacs.org"
-  'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  42128
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23913 38883 425201 128000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/sean/Documents/journal/20190829"
-  "20190829"
-  'org-journal-mode
-  '(auto-fill-mode visual-line-mode override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  1
-  '(1901 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23913 2838 335369 35000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org"
-  "Biologia. Unidade E Diversidade Da Vida - Volume 1.org"
-  'org-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
-  1
-  '(2412 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-display-time 23915 32026 810457 866000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/sean/Documents/journal/20190825"
-  "20190825"
-  'org-journal-mode
-  '(visual-line-mode override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode org-indent-mode)
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
   1
   '(nil nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-display-time 23913 39034 893957 493000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
+  '((indent-tabs-mode) (buffer-display-time 23932 53404 136217 676000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
+  "/home/sean/Documents/30-Days-to-a-More-Powerful-Memory.org"
+  "30-Days-to-a-More-Powerful-Memory.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
   nil
-  "*info*"
-  'Info-mode
-  '(override-global-mode auto-compile-on-load-mode company-mode which-key-mode helm-mode)
-  777208
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20120 117272 259000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/A Semente de Mostarda - Osho.org"
+  "A Semente de Mostarda - Osho.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20120 325072 28000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Anatomy-and-Physiology-1467236554.org"
+  "Anatomy-and-Physiology-1467236554.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20120 483589 654000) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Ernest Hemingway-The Old Man and The Sea-Scribner Paperback Fiction (1995).org"
+  "Ernest Hemingway-The Old Man and The Sea-Scribner Paperback Fiction (1995).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20120 738321 287000) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Hal Abelson_ Gerald Jay Sussman-Structure and Interpretation of Computer Programs-MIT Press (2002).org"
+  "Hal Abelson_ Gerald Jay Sussman-Structure and Interpretation of Computer Programs-MIT Press (2002).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20121 78018 54000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/James W. Pennebaker, John E. Evans - Expressive Writing_ Words that Heal-Idyll Arbor (2014).org"
+  "James W. Pennebaker, John E. Evans - Expressive Writing_ Words that Heal-Idyll Arbor (2014).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20121 286281 707000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Karl C. Sandberg, John R. Wendel - German for Reading - 1973.org"
+  "Karl C. Sandberg, John R. Wendel - German for Reading - 1973.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20121 491590 772000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/L-etranger.org"
+  "L-etranger.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20121 778254 87000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Marijn Haverbeke - Eloquent Javascript_ A Modern Introduction to Programming-No Starch Press (2018).org"
+  "Marijn Haverbeke - Eloquent Javascript_ A Modern Introduction to Programming-No Starch Press (2018).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20121 971456 276000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Max Jammer - The Philosophy Of Quantum Mechanics The Interpretations Of Quantum Mechanics In Historical Perspective (1974, John Wiley & Sons, Inc.).org"
+  "Max Jammer - The Philosophy Of Quantum Mechanics The Interpretations Of Quantum Mechanics In Historical Perspective (1974, John Wiley & Sons, Inc.).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20122 172039 893000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/Robert S. Feldman-IntroduÅÁÅ„o Å‡ Psicologia-Artmed (2015).org"
+  "Robert S. Feldman-IntroduÅÁÅ„o Å‡ Psicologia-Artmed (2015).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20122 709919 542000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/flow.org"
+  "flow.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20123 17965 385000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/gramaticapelapratica.org"
+  "gramaticapelapratica.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20123 305106 491000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/hiit.org"
+  "hiit.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20123 621210 140000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/nortonpsychologyreader.org"
+  "nortonpsychologyreader.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20123 806586 355000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/unicamp.org"
+  "unicamp.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20124 56749 723000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/ëΩïÎﬁëÀ¬ by ë»˝ï’µë”…ï“˘ë∑Ú(The Temple of the Golden Pavilion by Yukio Mishima).org"
+  "ëΩïÎﬁëÀ¬ by ë»˝ï’µë”…ï“˘ë∑Ú(The Temple of the Golden Pavilion by Yukio Mishima).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20124 251621 564000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/vest/EdiÅÁÅ„o Iniciacao a Filosofia - Volume Å⁄nico.org"
+  "EdiÅÁÅ„o Iniciacao a Filosofia - Volume Å⁄nico.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20124 511342 946000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/vest/gabarito.org"
+  "gabarito.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 20124 976800 642000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/futureauthoring.org"
+  "futureauthoring.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9223 150359 18000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/01-05-2018.org"
+  "01-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9223 348014 679000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/02-05-2018.org"
+  "02-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9223 535237 850000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/03-05-2018.org"
+  "03-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9223 736699 736000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/04-05-2018.org"
+  "04-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9223 985852 4000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/05-05-2018.org"
+  "05-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9224 121422 327000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/06-05-2018.org"
+  "06-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9224 296883 64000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/07-05-2018.org"
+  "07-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9224 434965 139000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/13-05-2018.org"
+  "13-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9224 628059 690000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/14-05-2018.org"
+  "14-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9224 817459 415000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/20-05-2018.org"
+  "20-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9225 42016 389000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/23-05-2018.org"
+  "23-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9225 279237 364000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/24-05-2018.org"
+  "24-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9225 435031 774000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/26-05-2018.org"
+  "26-05-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9225 799207 839000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/29-04-2018.org"
+  "29-04-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9226 36545 192000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/Documents/journal/30-04-2018.org"
+  "30-04-2018.org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23936 9226 175794 975000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/vest/Ceci Starr-Biologia _ unidade e diversidade da vida, volume 2-Cengage Learning (2012).org"
+  "Ceci Starr-Biologia _ unidade e diversidade da vida, volume 2-Cengage Learning (2012).org"
+  'org-mode
+  '(auto-fill-mode eldoc-mode company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode org-indent-mode)
+  2018
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 23935 62983 757252 702000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/.emacs.d/elpa/org-20190916/org-loaddefs.el"
+  "org-loaddefs.el"
+  'emacs-lisp-mode
+  '(eldoc-mode company-mode override-global-mode auto-compile-on-load-mode smartparens-mode linum-mode linum-relative-mode rainbow-delimiters-mode which-key-mode helm-mode magit-file-mode)
+  110034
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 23936 9227 931239 57000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/.emacs.d/elpa/org-plus-contrib-20190916/org-loaddefs.el"
+  "org-loaddefs.el"
+  'emacs-lisp-mode
+  '(eldoc-mode company-mode override-global-mode auto-compile-on-load-mode smartparens-mode linum-mode linum-relative-mode rainbow-delimiters-mode which-key-mode helm-mode magit-file-mode)
+  138790
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 23937 30843 487298 349000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
+  "Biologia. Unidade E Diversidade Da Vida - Volume 1.pdf"
+  'pdf-view-mode
+  '(company-mode override-global-mode auto-compile-on-load-mode which-key-mode helm-mode magit-file-mode)
+  1
   '(nil nil)
   t
-  '("/usr/share/info/elisp" "Custom Themes" nil)
-  '((tab-width . 8) (buffer-display-time 23913 38588 842640 653000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  nil
+  '((buffer-display-time 23937 37557 898867 707000) (buffer-file-coding-system . no-conversion))
   '((mark-ring nil)))
 

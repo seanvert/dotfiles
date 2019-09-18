@@ -4,7 +4,7 @@ module XMonad.Workspaces.WSConfig where
 -- nomes das workspaces
 ws1 = "\xf109 "
 ws2 = "\xf03a "
-ws3 = "\xf268 "
+ws3 = "\xfa9e "
 ws4 = "\xf5bc "
 ws5 = "\xf07b "
 ws6 = "\xf058 "

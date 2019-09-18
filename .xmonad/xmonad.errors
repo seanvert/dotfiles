@@ -15,42 +15,42 @@ xmonad.hs:81:50: warning: [-Wdeprecations]
 81 |       , manageHook = myManageHook <+> manageHook defaultConfig
    |                                                  ^^^^^^^^^^^^^
 
-xmonad.hs:189:12: warning: [-Wdeprecations]
+xmonad.hs:191:12: warning: [-Wdeprecations]
     In the use of ‘defaultGSConfig’
     (imported from XMonad.Actions.GridSelect):
     Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
     |
-189 |     conf = defaultGSConfig { gs_navigate = navNSearch
+191 |     conf = defaultGSConfig { gs_navigate = navNSearch
     |            ^^^^^^^^^^^^^^^
 
-xmonad.hs:199:12: warning: [-Wdeprecations]
+xmonad.hs:201:12: warning: [-Wdeprecations]
     In the use of ‘defaultGSConfig’
     (imported from XMonad.Actions.GridSelect):
     Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
     |
-199 |     conf = defaultGSConfig { -- gs_navigate = defaultNavigation
+201 |     conf = defaultGSConfig { -- gs_navigate = defaultNavigation
     |            ^^^^^^^^^^^^^^^
 
-xmonad.hs:235:45: warning: [-Wdeprecations]
+xmonad.hs:237:45: warning: [-Wdeprecations]
     In the use of ‘defaultGSConfig’
     (imported from XMonad.Actions.GridSelect):
     Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
     |
-235 |   , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
+237 |   , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
     |                                             ^^^^^^^^^^^^^^^
 
-xmonad.hs:335:38: warning: [-Wdeprecations]
+xmonad.hs:337:38: warning: [-Wdeprecations]
     In the use of ‘defaultGSConfig’
     (imported from XMonad.Actions.GridSelect):
     Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
     |
-335 |   , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
+337 |   , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
     |                                      ^^^^^^^^^^^^^^^
 
-xmonad.hs:376:27: warning: [-Wdeprecations]
+xmonad.hs:380:27: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
     |
-376 | newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
+380 | newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
     |                           ^^^^^^^^^^^^^

@@ -17,9 +17,10 @@ nitrogen --restore &
 udiskie --no-notify --use-udisks2 &
 #feh --bg-scale /home/sean/Images/wallpaper/wallpaper\ da\ sua\ vida.jpg
 numlockx &
-_todo_pipe=/tmp/.todo-pipe
-[[ -S $_todo_pipe ]] || mkfifo $_todo_pipe
+#_todo_pipe=/tmp/.todo-pipe
+#[[ -S $_todo_pipe ]] || mkfifo $_todo_pipe
 urxvtd &
+redshift &
 #compton &
 #dropbox &
 exec xmonad

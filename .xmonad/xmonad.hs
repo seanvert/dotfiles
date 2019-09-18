@@ -83,7 +83,7 @@ myConfig =
       , startupHook = myStartupHook
       , terminal = myTerminal
       } `additionalKeys`
-  [((mod4Mask, xK_p), spawn "rofi -show combi")]
+      [ ((mod4Mask, xK_p), spawn "rofi -show combi"), ((mod4Mask, xK_z), spawn "sleep 0.3; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")]
 
 -- tamanho das bordas das janelas
 border = 2
@@ -94,8 +94,8 @@ nobordersLayout = noBorders $ Full
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            FixedColumn 1 20 90 10 |||
            tiled |||
-           nobordersLayout |||
-           mastered (3/100) (5/8) (focusTracking tabs)
+--           nobordersLayout |||
+           mastered (5/100) (2/3 - 5/100) (focusTracking tabs)
       -- default tiling algorithm partitions the screen into two panes
   where
     tabs = tabbed shrinkText myTabConfig
@@ -124,25 +124,25 @@ projects =
         spawn "urxvtc"
     }
   , Project
-    { projectName = "aqweda"
+    { projectName = "chrome"
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
           spawn "google-chrome-stable" --"firefox"
     }
   , Project
-    { projectName = ws5
+    { projectName = myWorkspaces !! 4
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
-          spawn "thunar"
+          spawn "pcmanfm"
     }
   , Project
-    { projectName = "Torrent"
+    { projectName = myWorkspaces !! 7
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
-          spawn "transmission-qt"
+          spawn "qbittorrent"
     }
   , Project
     { projectName = myWorkspaces !! 8
@@ -163,7 +163,7 @@ projects =
         spawn "emacsclient -c -n -e '(filesets-open org)'"
         --spawn "emacsclient ~/Desktop/newgtd.org"
         --spawn "emacsclient ~/ossu/ossu.org"
-        --spawn "emacsclient ~/semana.org"
+        spawn "emacsclient ~/semana.org"
     }
   ]
 
@@ -171,6 +171,7 @@ projects =
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
   setWMName "LG3D"
+  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"
 
 
@@ -178,6 +179,7 @@ myManageHook :: ManageHook
 myManageHook = composeAll
   [-- checkDock -?> doIgnore
   isDialog  --> doFloat
+  , isFullscreen --> doFullFloat
   , className =? "vlc" --> doFloat
   , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]
@@ -336,28 +338,28 @@ keysToAdd x =
   --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
      -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
      -- gerar esses menus proceduralmente a partir delistas
-  , ((mod4Mask, xK_s)
-    , spawnSelected'
-        [ ("qutebrowser", "qutebrowser")
-        , ("Emacs", "emacsclient -c")
-        , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
-        , ("Anki", "anki")
-        , ("Thunar", "thunar")
-        , ("VLC", "vlc")
-        , ("Clementine", "clementine")
-        , ("Recoll", "recoll")
-        , ("Libre Office", "libreoffice")
-        , ("Zotero", "zotero")
-        ])
-  , ((mod4Mask, xK_d)
-    , spawnSelected''
-      [ ("Português", "fcitx-remote -s fcitx-keyboard-br")
-      , ("Alemão", "fcitx-remote -s fcitx-keyboard-gr")
-      , ("Russo", "fcitx-remote -s fcitx-keyboard-ru")
-      , ("Japonês", "fcitx-remote -s mozc")
-      , ("Coreano", "fcitx-remote -s hangul")])
+  , ((mod4Mask, xK_s), spawn "rofi -show windowcd")
+  -- , ((mod4Mask, xK_p), spawn "rofi -show combi")
+    -- , spawnSelected'
+    --     [ ("qutebrowser", "qutebrowser")
+    --     , ("Emacs", "emacsclient -c")
+    --     , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
+    --     , ("Anki", "anki")
+    --     , ("Thunar", "thunar")
+    --     , ("VLC", "vlc")
+    --     , ("Clementine", "clementine")
+    --     , ("Recoll", "recoll")
+    --     , ("Libre Office", "libreoffice")
+    --     , ("Zotero", "zotero")
+    --     ])
+  , ((mod4Mask, xK_d), spawn "rofi -show window")
+    -- , spawnSelected''
+    --   [ ("Português", "fcitx-remote -s fcitx-keyboard-br")
+    --   , ("Alemão", "fcitx-remote -s fcitx-keyboard-gr")
+    --   , ("Russo", "fcitx-remote -s fcitx-keyboard-ru")
+    --   , ("Japonês", "fcitx-remote -s mozc")
+    --   , ("Coreano", "fcitx-remote -s hangul")])
 --  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
-  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   , ((mod4Mask, xK_f), XMonad.windows W.focusDown)
   , ((mod4Mask, xK_n), XMonad.windows W.focusUp)
@@ -369,8 +371,10 @@ keysToAdd x =
           [] -> windows copyToAll
           _ -> killAllOtherCopies
 
-keysToDel x = [((mod4Mask .|. shiftMask), xK_c),
-               ((mod4Mask, xK_n))]
+
+
+keysToDel x = [ ((mod4Mask .|. shiftMask), xK_c)
+              , ((mod4Mask, xK_n))]
               --((mod4Mask, xK_p))]
 
 newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
