@@ -15,12 +15,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+	("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" default)))
+ '(idle-org-agenda-interval 300)
+ '(idle-org-agenda-key "n")
+ '(idle-org-agenda-mode t nil (idle-org-agenda))
  '(package-selected-packages
    (quote
-	(org-plus-contrib org-drill ox-reveal atomic-chrome howdoyou ess-smart-underscore ess company-ghci haskell-snippets ein company-anaconda company-irony helm-dash projectile yasnippet-snippets yasnippet-classic-snippets yasnippet company-quickhelp company-math magit flycheck-cask flycheck-plantuml flycheck-pycheckers flycheck-haskell flycheck-irony flycheck ob-sml org-bullets auto-org-md ox-epub ox-jekyll-md html-to-markdown org-download org-pomodoro org-ref org-pretty-tags org-noter org-journal helm-company helm-bibtex which-key frames-only-mode undo-tree keycast gif-screencast rainbow-delimiters linum-relative leetcode smartparens nov try org-pdfview nyan-mode all-the-icons use-package monokai-theme auto-compile))))
+	(spaceline ewal-evil-cursors ewal-spacemacs-themes ewal arduino-mode cider yasnippet-snippets yasnippet-classic-snippets writeroom-mode which-key use-package undo-tree try spacemacs-theme smartparens rainbow-delimiters projectile posframe poet-theme pandoc-mode pandoc ox-reveal ox-jekyll-md ox-epub org-ref org-pretty-tags org-pomodoro org-plus-contrib org-pdfview org-noter org-journal org-drill org-download org-bullets ob-sml nyan-mode nov monokai-theme magit linum-relative leuven-theme leetcode keycast idle-org-agenda html-to-markdown howdoyou helm-dash helm-company haskell-snippets gif-screencast frames-only-mode flycheck-pycheckers flycheck-plantuml flycheck-irony flycheck-haskell flycheck-cask ess-smart-underscore ein company-quickhelp company-math company-irony company-ghci company-anaconda auto-org-md auto-compile atomic-chrome all-the-icons))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background "#e1d9c2" :foreground "#444444")))))

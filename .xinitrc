@@ -7,7 +7,6 @@ export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx
 #xflux -l 23.9 -g 47.5
 fcitx -d &
-#compton &
 #emacs --daemon &
 #powerline-daemon -q &
 #/home/sean/test.sh &
@@ -17,14 +16,13 @@ nitrogen --restore &
 udiskie --no-notify --use-udisks2 &
 #feh --bg-scale /home/sean/Images/wallpaper/wallpaper\ da\ sua\ vida.jpg
 numlockx &
-#_todo_pipe=/tmp/.todo-pipe
-#[[ -S $_todo_pipe ]] || mkfifo $_todo_pipe
 urxvtd &
+xmobar /home/sean/.xmobar/xmobarrc2 &
+wal -R &
+dunst -config /home/sean/.config/dunst/dunstrc &
 redshift &
 #compton &
-#dropbox &
 exec xmonad
-#urxvtc &
 #exec xfce
 #exec qtile
 

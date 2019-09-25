@@ -1,56 +1,23 @@
 
-xmonad.hs:74:5: warning: [-Wdeprecations]
+xmonad.hs:79:5: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
    |
-74 |     defaultConfig
+79 |     defaultConfig
    |     ^^^^^^^^^^^^^
 
-xmonad.hs:81:50: warning: [-Wdeprecations]
+xmonad.hs:86:50: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
    |
-81 |       , manageHook = myManageHook <+> manageHook defaultConfig
+86 |       , manageHook = myManageHook <+> manageHook defaultConfig
    |                                                  ^^^^^^^^^^^^^
 
-xmonad.hs:191:12: warning: [-Wdeprecations]
-    In the use of ‘defaultGSConfig’
-    (imported from XMonad.Actions.GridSelect):
-    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
+xmonad.hs:108:13: warning: [-Wdeprecations]
+    In the use of ‘spacing’ (imported from XMonad.Layout.Spacing):
+    Deprecated: "Use spacingRaw instead."
     |
-191 |     conf = defaultGSConfig { gs_navigate = navNSearch
-    |            ^^^^^^^^^^^^^^^
-
-xmonad.hs:201:12: warning: [-Wdeprecations]
-    In the use of ‘defaultGSConfig’
-    (imported from XMonad.Actions.GridSelect):
-    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
-    |
-201 |     conf = defaultGSConfig { -- gs_navigate = defaultNavigation
-    |            ^^^^^^^^^^^^^^^
-
-xmonad.hs:237:45: warning: [-Wdeprecations]
-    In the use of ‘defaultGSConfig’
-    (imported from XMonad.Actions.GridSelect):
-    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
-    |
-237 |   , ((mod4Mask, xK_o), gridselectWorkspace' defaultGSConfig
-    |                                             ^^^^^^^^^^^^^^^
-
-xmonad.hs:337:38: warning: [-Wdeprecations]
-    In the use of ‘defaultGSConfig’
-    (imported from XMonad.Actions.GridSelect):
-    Deprecated: "Use def (from Data.Default, and re-exported from XMonad.Actions.GridSelect) instead."
-    |
-337 |   , ((mod4Mask, xK_a), bringSelected defaultGSConfig)
-    |                                      ^^^^^^^^^^^^^^^
-
-xmonad.hs:380:27: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-    |
-380 | newKeys x = M.union (keys defaultConfig x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
-    |                           ^^^^^^^^^^^^^
+108 |     tiled = spacing 20 $ Tall nmaster delta ratio
+    |             ^^^^^^^

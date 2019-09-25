@@ -16,11 +16,48 @@
 
 (server-start)
 
-(use-package monokai-theme)
+;;(use-package monokai-theme)
+;;(use-package leuven-theme)
+;;(use-package poet-theme)
+(set-face-attribute 'default nil :family "Iosevka" :height 130)
+(set-face-attribute 'fixed-pitch nil :family "Iosevka")
+(set-face-attribute 'variable-pitch nil :family "Baskerville")
+
+(use-package ewal
+  :init (setq ewal-use-built-in-always-p nil
+              ewal-use-built-in-on-failure-p t
+              ewal-built-in-palette "sexy-material"))
+(use-package ewal-spacemacs-themes
+  :init (progn
+          (setq spacemacs-theme-underline-parens t
+                my:rice:font (font-spec
+                              :family "Source Code Pro"
+                              :weight 'semi-bold
+                              :size 11.0))
+          (show-paren-mode +1)
+          (global-hl-line-mode)
+          (set-frame-font my:rice:font nil t)
+          (add-to-list  'default-frame-alist
+                        `(font . ,(font-xlfd-name my:rice:font))))
+  :config (progn
+            (load-theme 'ewal-spacemacs-modern t)
+            (enable-theme 'ewal-spacemacs-modern)))
+(use-package ewal-evil-cursors
+  :after (ewal-spacemacs-themes)
+  :config (ewal-evil-cursors-get-colors
+           :apply t :spaceline t))
+(use-package spaceline
+  :after (ewal-evil-cursors winum)
+  :init (setq powerline-default-separator nil)
+  :config (spaceline-spacemacs-theme))
+
+(use-package writeroom-mode)
+(setq writeroom-width 90)
 
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
+(blink-cursor-mode -1)
 
 (global-prettify-symbols-mode 1)
 
@@ -80,10 +117,15 @@
 (use-package gif-screencast)
 (use-package keycast)
 ;;(setq keycast-insert-after "%e")
-
+(with-eval-after-load 'gif-screencast
+  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
+  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
 ;;(setq mode-line-format mode-line-keycast)
 
 (use-package undo-tree)
+
+(use-package pandoc-mode)
+(use-package pandoc)
 
 (use-package frames-only-mode)
 (frames-only-mode 1)
@@ -98,7 +140,8 @@
 ;;(ido-mode 1)
 
 (use-package helm-bibtex)
-(use-package helm-company)
+(use-package helm-company
+  :after company)
 (use-package helm
   :diminish helm-mode
   :init
@@ -144,19 +187,16 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-
-(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
-(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
-
 (setq org-enable-org-journal-support t)
 (add-to-list 'org-modules 'org-tempo t)
 ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+(require 'org-habit)
 (require 'org-tempo)
 (use-package org-journal)
-(use-package org-noter)
+
 (use-package org-pretty-tags)
 (use-package org-ref)
-(use-package org-pomodoro)
+
 (use-package org-download)
 (use-package html-to-markdown)
 (use-package ox-jekyll-md)
@@ -164,9 +204,30 @@
 (use-package auto-org-md)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 
+(use-package org-noter)
 
+(setq org-noter-auto-save-last-location t)
+
+;; This will try to find the respective notes file automatically. It
+;; will search in all parent folders and some specific folders set
+;; by you. See org-noter-default-notes-file-names and
+;; org-noter-notes-search-path for more information.
+
+(setq org-noter-notes-window-behavior '(start scroll))
+
+(setq org-noter-notes-window-location 'other-frame)
 
 ;; org-agenda load na pasta do emacs
+(use-package idle-org-agenda
+  :after org-agenda
+  :ensure t
+  :config (idle-org-agenda-mode))
+
+(custom-set-variables
+ '(idle-org-agenda-interval 300)
+ '(idle-org-agenda-key "n")
+ '(idle-org-agenda-mode t))
+
 ;; TODO colocar os arquivos direitinho nesse negócio
 (setq org-agenda-files '("~/Desktop/"
 						 "~/vest/vestibular.org"
@@ -175,8 +236,7 @@
 						 "~/lang/lang.org"
 						 "~/Documents/livros.org"
 						 "~/Documents/"
-						 "~/vest/"
-						 "~/Documents/journal"))
+						 "~/vest/"))
 
 ;; org refiling pra mandar as tarefas de um arquivo pra outro
 (setq org-refile-targets (quote (("~/semana.org" :maxlevel . 1)
@@ -187,6 +247,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
 
 ;; todo states
 (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✓ PRONTO(p)")
@@ -198,7 +259,8 @@
 (use-package org-bullets)
 
 (setq org-startup-indented t
-      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十");; no bullets, needs org-bullets package
+	  ;; depende do pacote org-bullets
+      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
 	  ;;      org-ellipsis " ⤵" ;; folding symbol
       org-pretty-entities t
       org-hide-emphasis-markers t
@@ -209,8 +271,16 @@
       org-fontify-quote-and-verse-blocks t
       org-special-ctrl-a/e t)
 
-(shell-command "mkfifo /tmp/.todo-pipe") 
-
+(use-package org-pomodoro)
+;; duração
+(setq org-pomodoro-length 50)
+;; duração dos intervalos curtos
+(setq org-pomodoro-short-break-length 10)
+;;duração dos intervalos longos
+(setq org-pomodoro-long-break-length 20)
+;; frequência dos intervalos longos
+(setq org-pomodoro-long-break-frequency 3)
+;;(shell-command "mkfifo /tmp/.todo-pipe") 
 (defun write-todo-pipe-esperando ()
   "writes down esperando message in the todo pipe"
   (write-region "Esperando <fc=#af3a03,#f9f5d7>\xe0b0</fc>\n" 
@@ -219,8 +289,7 @@
 				nil 
 				'quiet))
 
-(write-todo-pipe-esperando)
-
+;;(write-todo-pipe-esperando)
 (defun write-todo-pipe ()
   "adds a pipe file with the pomodoro modeline, also reads the current task
        from org-clock."
@@ -233,19 +302,16 @@
            "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
    nil "/tmp/.todo-pipe"
    nil 'quiet))
-
 (defun speak-pomodoro ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
-
-(setq org-pomodoro-started-hook 'speak-pomodoro)
-
-;; hook que adiciona a modeline no tick do pomodoro
-(setq org-pomodoro-tick-hook 'write-todo-pipe)
-;; hook que tira o que estava anteriormente e coloca o esperando
-(setq org-pomodoro-finished-hook 'write-todo-pipe-esperando)
-;; hook pra tirar a atividade se eu cancelar o pomodoro
-(setq org-pomodoro-killed-hook 'write-todo-pipe-esperando)
+;; (setq org-pomodoro-started-hook 'speak-pomodoro)
+;; ;; hook que adiciona a modeline no tick do pomodoro
+;; (setq org-pomodoro-tick-hook 'write-todo-pipe)
+;; ;; hook que tira o que estava anteriormente e coloca o esperando
+;; (setq org-pomodoro-finished-hook 'write-todo-pipe-esperando)
+;; ;; hook pra tirar a atividade se eu cancelar o pomodoro
+;; (setq org-pomodoro-killed-hook 'write-todo-pipe-esperando)
 
 ;; o comando que cria o pipe está no org pomodoro
 (defun write-clock-todo-pipe ()
@@ -256,9 +322,28 @@
                  "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
                 nil "/tmp/.todo-pipe"
                 nil 'quiet))
+(shell-command "touch /tmp/clocking")
+;;(setq org-clock-out-hook 'write-todo-pipe-esperando)
 
-(setq org-clock-out-hook 'write-todo-pipe-esperando)
-(setq org-clock-in-prepare-hook 'write-clock-todo-pipe)
+
+
+(display-time)
+(defun esf/org-clocking-info-to-file ()
+  (with-temp-file "/tmp/clocking"
+    ;; (message (org-clock-get-clock-string))
+    (if (org-clock-is-active)
+        (insert (format "\ue003 %s: %d (%d/%d) min <fc=#af3a03,#f9f5d7>\xe0b0</fc>"
+						org-clock-heading
+                        (- (org-clock-get-clocked-time) org-clock-total-time)
+                        org-clock-total-time
+                        (org-clock-get-clocked-time)) ;; all time total
+
+                )
+      ) ;;(org-clock-get-clock-string)
+    )
+  )
+(add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
+(add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 
 (setq org-capture-templates
       '(("t" "☛ TODO" entry (file+headline "~/semana.org" "Tarefas")
@@ -280,7 +365,8 @@
         ("l" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
          "* %^{Descrição} \n [%x] \n %")
         ("a" "livros/artigos" entry (file+headline "~/Documents/livros.org" "livros")
-         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \n :END: \n %i \n Descrição:\n %?"
+         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \
+ \n :END: \n %i \n Descrição:\n %?"
          :prepend t
          :empty-lines 1
          :created t)))
@@ -324,6 +410,10 @@
 											(smartparens-mode 1)
 											(rainbow-delimiters-mode 1))))
 
+(use-package cider)
+
+(use-package arduino-mode)
+
 (use-package flycheck)
 (use-package flycheck-irony)
 (use-package flycheck-haskell)
@@ -342,6 +432,10 @@
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 
 (setq company-quickhelp-delay 1)
 
@@ -377,3 +471,7 @@
 (use-package ess-smart-underscore)
 
 (use-package howdoyou)
+
+(with-eval-after-load "helm-net"
+  (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
+        helm-google-suggest-actions))

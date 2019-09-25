@@ -23,34 +23,88 @@
 (setq load-prefer-newer t)
 
 #+END_SRC
+
 ** server mode
 #+BEGIN_SRC emacs-lisp
 (server-start)
 #+END_SRC
+
 * aparência
 ** tema
 #+BEGIN_SRC emacs-lisp
-(use-package monokai-theme)
+;;(use-package monokai-theme)
+;;(use-package leuven-theme)
+;;(use-package poet-theme)
+(set-face-attribute 'default nil :family "Iosevka" :height 130)
+(set-face-attribute 'fixed-pitch nil :family "Iosevka")
+(set-face-attribute 'variable-pitch nil :family "Baskerville")
 #+END_SRC
+** ewal 
+#+begin_src emacs-lisp
+(use-package ewal
+  :init (setq ewal-use-built-in-always-p nil
+              ewal-use-built-in-on-failure-p t
+              ewal-built-in-palette "sexy-material"))
+(use-package ewal-spacemacs-themes
+  :init (progn
+          (setq spacemacs-theme-underline-parens t
+                my:rice:font (font-spec
+                              :family "Source Code Pro"
+                              :weight 'semi-bold
+                              :size 11.0))
+          (show-paren-mode +1)
+          (global-hl-line-mode)
+          (set-frame-font my:rice:font nil t)
+          (add-to-list  'default-frame-alist
+                        `(font . ,(font-xlfd-name my:rice:font))))
+  :config (progn
+            (load-theme 'ewal-spacemacs-modern t)
+            (enable-theme 'ewal-spacemacs-modern)))
+(use-package ewal-evil-cursors
+  :after (ewal-spacemacs-themes)
+  :config (ewal-evil-cursors-get-colors
+           :apply t :spaceline t))
+(use-package spaceline
+  :after (ewal-evil-cursors winum)
+  :init (setq powerline-default-separator nil)
+  :config (spaceline-spacemacs-theme))
+#+end_src
+
+** ☛ TODO writeroom mode
+ver como que ajusta o tamanho globalmente
+#+BEGIN_SRC emacs-lisp
+(use-package writeroom-mode)
+(setq writeroom-width 90)
+#+END_SRC
+
 ** desliga UI padrão
 #+BEGIN_SRC emacs-lisp
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
+(blink-cursor-mode -1)
 #+END_SRC
+
+
+
 ** pretty printing
 #+BEGIN_SRC emacs-lisp
 (global-prettify-symbols-mode 1)
 #+END_SRC
+
+
 ** all the icons
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons)
 #+END_SRC
+
+
 ** nyan mode
 #+BEGIN_SRC emacs-lisp
 (use-package nyan-mode)
 (nyan-mode 1)
 #+END_SRC
+
 * extensões adicionais
 ** ☛ TODO pdf tools 
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
@@ -85,10 +139,13 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 #+END_SRC
+
 ** try
 #+BEGIN_SRC emacs-lisp
 (use-package try)
 #+END_SRC
+
+
 ** nov mode (epub)
 #+BEGIN_SRC emacs-lisp
 (use-package nov)
@@ -96,39 +153,61 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 
 (setq nov-text-width 80)
 #+END_SRC
+
+
 ** smart parens
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens)
 #+END_SRC
+
+
 ** leet code
 #+BEGIN_SRC emacs-lisp
 (use-package leetcode)
 (setq leetcode-prefer-language "python3")
 (setq leetcode-prefer-sql "mysql")
 #+END_SRC
+
+
 ** relative linum
 
 #+BEGIN_SRC emacs-lisp
 (use-package linum-relative)
 (setq linum-relative-current-symbol "")
 #+END_SRC
+
+
 ** rainbow delimiters
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters)
 #+END_SRC
+
+
 ** ☛ TODO screencast gif / keycast
 arrumar o keycast
 #+BEGIN_SRC emacs-lisp
 (use-package gif-screencast)
 (use-package keycast)
 ;;(setq keycast-insert-after "%e")
-
+(with-eval-after-load 'gif-screencast
+  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
+  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
 ;;(setq mode-line-format mode-line-keycast)
 #+END_SRC
+
+
 ** undo tree
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree)
 #+END_SRC
+
+
+** pandoc
+#+BEGIN_SRC emacs-lisp
+(use-package pandoc-mode)
+(use-package pandoc)
+#+END_SRC
+
 * interface
 ** frames only
 esse daqui só presta se for pra usar os frames separados. Tipo no
@@ -137,25 +216,30 @@ Qtile, i3, xmonad e etc.
 (use-package frames-only-mode)
 (frames-only-mode 1)
 #+END_SRC
+
 ** yes or no para y or n
 #+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+
 ** which key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key)
 (which-key-mode 1)
 #+END_SRC
+
 ** ✘ CANCELADO ido 
 #+BEGIN_SRC emacs-lisp
 ;;(setq ido-enable-flex-matching t)
 ;;(setq ido-everywhere t)
 ;;(ido-mode 1)
 #+END_SRC
+
 ** helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm-bibtex)
-(use-package helm-company)
+(use-package helm-company
+  :after company)
 (use-package helm
   :diminish helm-mode
   :init
@@ -185,10 +269,13 @@ Qtile, i3, xmonad e etc.
          ("C-x c SPC" . helm-all-mark-rings)))
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 #+END_SRC
+
+
 *** atalhos do teclado
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'helm-occur)
 #+END_SRC
+
 ** espeak
 fazer ele não abrir essa janela
 #+BEGIN_SRC emacs-lisp
@@ -201,33 +288,33 @@ fazer ele não abrir essa janela
            (command (format "espeak -a %s -v %s \"%s\"" amplitude voice text)))
       (async-shell-command command "*Messages*" "*Messages*"))))
 #+END_SRC
+
 ** desktop save
 #+BEGIN_SRC emacs-lisp
 (desktop-save-mode 1)
 #+END_SRC
+
 ** key binds
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-
-(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
-(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
 #+END_SRC
-* Org mode
 
+* Org mode
 ** Módulos adicionais
 
 #+BEGIN_SRC emacs-lisp
 (setq org-enable-org-journal-support t)
 (add-to-list 'org-modules 'org-tempo t)
 ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+(require 'org-habit)
 (require 'org-tempo)
 (use-package org-journal)
-(use-package org-noter)
+
 (use-package org-pretty-tags)
 (use-package org-ref)
-(use-package org-pomodoro)
+
 (use-package org-download)
 (use-package html-to-markdown)
 (use-package ox-jekyll-md)
@@ -236,15 +323,42 @@ fazer ele não abrir essa janela
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 #+END_SRC
 
-** ☛ TODO org-noter
-ver se tem jeito de trocar o padrão
-#+begin_src emacs-lisp
+** ✓ PRONTO org-noter
+:LOGBOOK:
+CLOCK: [2019-09-19 qui 12:28]--[2019-09-19 qui 12:43] =>  0:15
+:END:
 
-#+end_src
+#+BEGIN_SRC emacs-lisp
+(use-package org-noter)
+
+(setq org-noter-auto-save-last-location t)
+
+;; This will try to find the respective notes file automatically. It
+;; will search in all parent folders and some specific folders set
+;; by you. See org-noter-default-notes-file-names and
+;; org-noter-notes-search-path for more information.
+
+(setq org-noter-notes-window-behavior '(start scroll))
+
+(setq org-noter-notes-window-location 'other-frame)
+
+#+END_SRC
+
 ** ☛ TODO org-agenda
 ajeitar esse refile seria uma boa
+também preciso arrumar o que vai parar na agenda
 #+BEGIN_SRC emacs-lisp
 ;; org-agenda load na pasta do emacs
+(use-package idle-org-agenda
+  :after org-agenda
+  :ensure t
+  :config (idle-org-agenda-mode))
+
+(custom-set-variables
+ '(idle-org-agenda-interval 300)
+ '(idle-org-agenda-key "n")
+ '(idle-org-agenda-mode t))
+
 ;; TODO colocar os arquivos direitinho nesse negócio
 (setq org-agenda-files '("~/Desktop/"
 						 "~/vest/vestibular.org"
@@ -263,9 +377,11 @@ ajeitar esse refile seria uma boa
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
+
 ** org aparência
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
 
 ;; todo states
 (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✓ PRONTO(p)")
@@ -277,7 +393,8 @@ ajeitar esse refile seria uma boa
 (use-package org-bullets)
 
 (setq org-startup-indented t
-      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十");; no bullets, needs org-bullets package
+	  ;; depende do pacote org-bullets
+      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
 	  ;;      org-ellipsis " ⤵" ;; folding symbol
       org-pretty-entities t
       org-hide-emphasis-markers t
@@ -289,11 +406,20 @@ ajeitar esse refile seria uma boa
       org-special-ctrl-a/e t)
 #+END_SRC
 
-** org pomodoro
+** ☛ TODO org pomodoro
+tem uns bugs no negócio que mostra as coisas no xmobar
 
 #+BEGIN_SRC emacs-lisp
-(shell-command "mkfifo /tmp/.todo-pipe") 
-
+(use-package org-pomodoro)
+;; duração
+(setq org-pomodoro-length 50)
+;; duração dos intervalos curtos
+(setq org-pomodoro-short-break-length 10)
+;;duração dos intervalos longos
+(setq org-pomodoro-long-break-length 20)
+;; frequência dos intervalos longos
+(setq org-pomodoro-long-break-frequency 3)
+;;(shell-command "mkfifo /tmp/.todo-pipe") 
 (defun write-todo-pipe-esperando ()
   "writes down esperando message in the todo pipe"
   (write-region "Esperando <fc=#af3a03,#f9f5d7>\xe0b0</fc>\n" 
@@ -302,8 +428,7 @@ ajeitar esse refile seria uma boa
 				nil 
 				'quiet))
 
-(write-todo-pipe-esperando)
-
+;;(write-todo-pipe-esperando)
 (defun write-todo-pipe ()
   "adds a pipe file with the pomodoro modeline, also reads the current task
        from org-clock."
@@ -316,22 +441,20 @@ ajeitar esse refile seria uma boa
            "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
    nil "/tmp/.todo-pipe"
    nil 'quiet))
-
 (defun speak-pomodoro ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
-
-(setq org-pomodoro-started-hook 'speak-pomodoro)
-
-;; hook que adiciona a modeline no tick do pomodoro
-(setq org-pomodoro-tick-hook 'write-todo-pipe)
-;; hook que tira o que estava anteriormente e coloca o esperando
-(setq org-pomodoro-finished-hook 'write-todo-pipe-esperando)
-;; hook pra tirar a atividade se eu cancelar o pomodoro
-(setq org-pomodoro-killed-hook 'write-todo-pipe-esperando)
-
+;; (setq org-pomodoro-started-hook 'speak-pomodoro)
+;; ;; hook que adiciona a modeline no tick do pomodoro
+;; (setq org-pomodoro-tick-hook 'write-todo-pipe)
+;; ;; hook que tira o que estava anteriormente e coloca o esperando
+;; (setq org-pomodoro-finished-hook 'write-todo-pipe-esperando)
+;; ;; hook pra tirar a atividade se eu cancelar o pomodoro
+;; (setq org-pomodoro-killed-hook 'write-todo-pipe-esperando)
 #+END_SRC
-** org clock 
+
+** ☛ TODO org clock 
+está bugando depois de 14 minutos, preciso ver isso direito
 #+BEGIN_SRC emacs-lisp
 ;; o comando que cria o pipe está no org pomodoro
 (defun write-clock-todo-pipe ()
@@ -342,10 +465,30 @@ ajeitar esse refile seria uma boa
                  "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
                 nil "/tmp/.todo-pipe"
                 nil 'quiet))
+(shell-command "touch /tmp/clocking")
+;;(setq org-clock-out-hook 'write-todo-pipe-esperando)
 
-(setq org-clock-out-hook 'write-todo-pipe-esperando)
-(setq org-clock-in-prepare-hook 'write-clock-todo-pipe)
+
+
+(display-time)
+(defun esf/org-clocking-info-to-file ()
+  (with-temp-file "/tmp/clocking"
+    ;; (message (org-clock-get-clock-string))
+    (if (org-clock-is-active)
+        (insert (format "\ue003 %s: %d (%d/%d) min <fc=#af3a03,#f9f5d7>\xe0b0</fc>"
+						org-clock-heading
+                        (- (org-clock-get-clocked-time) org-clock-total-time)
+                        org-clock-total-time
+                        (org-clock-get-clocked-time)) ;; all time total
+
+                )
+      ) ;;(org-clock-get-clock-string)
+    )
+  )
+(add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
+(add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
+
 ** org capture
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
@@ -368,13 +511,15 @@ ajeitar esse refile seria uma boa
         ("l" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
          "* %^{Descrição} \n [%x] \n %")
         ("a" "livros/artigos" entry (file+headline "~/Documents/livros.org" "livros")
-         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \n :END: \n %i \n Descrição:\n %?"
+         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \
+ \n :END: \n %i \n Descrição:\n %?"
          :prepend t
          :empty-lines 1
          :created t)))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
+
 ** org babel
 
 #+BEGIN_SRC emacs-lisp
@@ -405,18 +550,23 @@ ajeitar esse refile seria uma boa
 	  org-src-preserve-indentation nil
 	  org-edit-src-content-indentation 0)
 #+END_SRC
+
 ** org ref
 #+BEGIN_SRC emacs-lisp
 (use-package org-ref)
 #+END_SRC
+
 ** ox-reveal
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package ox-reveal)
-#+end_src
+#+END_SRC
+
 ** ☛ TODO org-drill
-#+begin_src emacs-lisp
+
+#+BEGIN_SRC emacs-lisp
 (require 'org-drill)
-#+end_src
+#+END_SRC
+
 * prog
 ** hooks
 #+BEGIN_SRC emacs-lisp
@@ -424,6 +574,17 @@ ajeitar esse refile seria uma boa
 											(smartparens-mode 1)
 											(rainbow-delimiters-mode 1))))
 #+END_SRC
+
+** clojure
+#+begin_src emacs-lisp
+(use-package cider)
+#+end_src
+
+** arduino
+#+begin_src emacs-lisp
+(use-package arduino-mode)
+#+end_src
+
 ** flycheck
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck)
@@ -433,30 +594,38 @@ ajeitar esse refile seria uma boa
 (use-package flycheck-plantuml)
 (use-package flycheck-cask)
 #+END_SRC
+
 ** magit git
 #+BEGIN_SRC emacs-lisp
 (use-package magit)
 #+END_SRC
+
 ** auto completion
 #+BEGIN_SRC emacs-lisp
-(use-package company
-  :config (add-hook 'prog-mode-hook 'company-mode))
-;; global company mode
-(global-company-mode 1)
-(use-package company-math)
-(use-package company-quickhelp)
+  (use-package company
+    :config (add-hook 'prog-mode-hook 'company-mode))
+  ;; global company mode
+  (global-company-mode 1)
+  (use-package company-math)
+  (use-package company-quickhelp)
 
-(eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  (eval-after-load 'company
+    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  (eval-after-load 'company
+    '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
+  (eval-after-load 'company
+    '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 
-(setq company-quickhelp-delay 1)
+  (setq company-quickhelp-delay 1)
 
 #+END_SRC
+
 ** outros parametros
 *** tamanho das tabulações
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width 4)
 #+END_SRC
+
 ** smart parens
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
@@ -464,51 +633,67 @@ ajeitar esse refile seria uma boa
 (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
 (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
 #+END_SRC
+
 ** yasnippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet)
 (use-package yasnippet-classic-snippets)
 (use-package yasnippet-snippets)
 #+END_SRC
+
 ** projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile)
 #+END_SRC
+
 ** helm dash
 #+BEGIN_SRC emacs-lisp
 (use-package helm-dash)
 #+END_SRC
+
 ** octave
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 #+END_SRC
+
 ** C
 #+BEGIN_SRC emacs-lisp
 (use-package company-irony)
 #+END_SRC
+
 ** python
 #+BEGIN_SRC emacs-lisp
 (use-package company-anaconda)
 
 (use-package ein)
 #+END_SRC
+
 ** haskell
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-snippets)
 (use-package company-ghci)
 #+END_SRC
+
 ** lisps
 ** sml
 #+BEGIN_SRC emacs-lisp
 (use-package sml-mode)
 #+END_SRC
+
 ** ESS R stats
 #+BEGIN_SRC emacs-lisp
 (use-package ess)
 (use-package ess-smart-underscore)
 #+END_SRC
+
 ** howdoyou stackoverflow consult
 #+BEGIN_SRC emacs-lisp
 (use-package howdoyou)
+
+(with-eval-after-load "helm-net"
+  (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
+        helm-google-suggest-actions))
 #+END_SRC
+
+
 
