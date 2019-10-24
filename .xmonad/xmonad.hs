@@ -59,9 +59,9 @@ myPP =
                   wrap (xmobarColor color2 color4 "\xe0b0 ") (xmobarColor color4 color2 "\xe0b0")
       --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
     , ppHidden = xmobarColor color0 color2 . wrap " " (xmobarColor color0 color2 "\xe0b1")-- "\xe0b1")
-    , ppOrder = \(ws:l:wn:_) ->
+    , ppOrder = \(ws:l:_:_) ->
                   map (\x -> xmobarColor color0 color2 x)
-                  [ws, shorten 20 l ++ " \xe0b1", wn]   -- ws -> workspace, l -> layout, wn -> window name
+                  [ws, shorten 20 l ++ " " ++ xmobarColor color2 "#222222" "\xe0b0"]   -- ws -> workspace, l -> layout, wn -> window name
     , ppSep = xmobarColor color0 color2 " "-- "\xe0b1"
     , ppWsSep = xmobarColor color2 color2 ""
     , ppUrgent = xmobarColor color5 color2
@@ -83,6 +83,7 @@ myConfig =
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
+      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
       , manageHook = myManageHook <+> manageHook defaultConfig
       , keys = myKeys
       , startupHook = myStartupHook
@@ -97,15 +98,15 @@ border = 4
 nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
-           FixedColumn 1 20 90 10 |||
-           tabs |||
+           (tabs |||
+           FixedColumn 1 20 80 10 |||
            tiled |||
 --           nobordersLayout |||
-           mastered (5/100) (2/3 - 5/100) (focusTracking tabs)
+           mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
       -- default tiling algorithm partitions the screen into two panes
   where
     tabs = tabbed shrinkText myTabConfig
-    tiled = spacing 20 $ Tall nmaster delta ratio
+    tiled = spacing 40 $ Tall nmaster delta ratio
       -- The default number of windows in the master pane
     nmaster = 1
       -- Default proportion of screen occupied by master pane
@@ -118,7 +119,7 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
                       , inactiveTextColor = color0
                       , activeBorderColor = color3
                       , fontName = "xft:DroidSansMono Nerd Font:size=10"
-                      , decoHeight = 20}
+                      , decoHeight = 20 }
 
 -- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
 
@@ -189,13 +190,15 @@ myStartupHook = do
 
 
 myManageHook :: ManageHook
-myManageHook = composeAll
+myManageHook = namedScratchpadManageHook scratchpads
+  <+> composeAll
+--  composeAll
   [-- checkDock -?> doIgnore
   isDialog  --> doFloat
   , isFullscreen --> doFullFloat
   , className =? "vlc" --> doFloat
-  , className =? "google-chrome" --> doShift (myWorkspaces !! 2)
-  , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
+  , className =? "google-chrome" --> doShift (myWorkspaces !! 2) ]
+--  , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]
 
 

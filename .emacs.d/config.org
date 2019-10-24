@@ -22,70 +22,66 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 
+(setq desktop-load-locked-desktop t)
 #+END_SRC
 
 ** server mode
 #+BEGIN_SRC emacs-lisp
 (server-start)
+;; (if (and (fboundp 'server-running-p)
+;; 		 (not (server-running-p)))
+;; 	(server-start)
+;;   1)
+
 #+END_SRC
+
+** ☛ TODO conserta o teclado
+essas funções são para o teclado do meu notebook que está com algumas
+teclas quebradas
+#+begin_src emacs-lisp
+(define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
+(define-key key-translation-map (kbd "<f2>") (kbd "("))
+(define-key key-translation-map (kbd "<f5>") (kbd "+"))
+(define-key key-translation-map (kbd "<f6>") (kbd "-"))
+(define-key key-translation-map (kbd "<f7>") (kbd "="))
+(define-key key-translation-map (kbd "<f8>") (kbd "_"))
+(define-key key-translation-map (kbd "<f9>") (kbd "õ"))
+(define-key key-translation-map (kbd "<f11>") (kbd "ã"))
+(define-key key-translation-map (kbd "<C-f1>") (kbd "1"))
+(define-key key-translation-map (kbd "<C-f2>") (kbd "2"))
+(define-key key-translation-map (kbd "<C-f3>") (kbd "3"))
+(define-key key-translation-map (kbd "<C-f4>") (kbd "4"))
+(define-key key-translation-map (kbd "<C-f5>") (kbd "5"))
+(define-key key-translation-map (kbd "<C-f6>") (kbd "6"))
+(define-key key-translation-map (kbd "<C-f7>") (kbd "7"))
+(define-key key-translation-map (kbd "<C-f8>") (kbd "8"))
+(define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
+#+end_src
 
 * aparência
 ** tema
 #+BEGIN_SRC emacs-lisp
 ;;(use-package monokai-theme)
 ;;(use-package leuven-theme)
-;;(use-package poet-theme)
+(use-package poet-theme)
 (set-face-attribute 'default nil :family "Iosevka" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
 #+END_SRC
-** ewal 
+
+** barra de rolagem, menu e modeline
 #+begin_src emacs-lisp
-(use-package ewal
-  :init (setq ewal-use-built-in-always-p nil
-              ewal-use-built-in-on-failure-p t
-              ewal-built-in-palette "sexy-material"))
-(use-package ewal-spacemacs-themes
-  :init (progn
-          (setq spacemacs-theme-underline-parens t
-                my:rice:font (font-spec
-                              :family "Source Code Pro"
-                              :weight 'semi-bold
-                              :size 11.0))
-          (show-paren-mode +1)
-          (global-hl-line-mode)
-          (set-frame-font my:rice:font nil t)
-          (add-to-list  'default-frame-alist
-                        `(font . ,(font-xlfd-name my:rice:font))))
-  :config (progn
-            (load-theme 'ewal-spacemacs-modern t)
-            (enable-theme 'ewal-spacemacs-modern)))
-(use-package ewal-evil-cursors
-  :after (ewal-spacemacs-themes)
-  :config (ewal-evil-cursors-get-colors
-           :apply t :spaceline t))
-(use-package spaceline
-  :after (ewal-evil-cursors winum)
-  :init (setq powerline-default-separator nil)
-  :config (spaceline-spacemacs-theme))
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(display-time-mode -1)
 #+end_src
 
-** ☛ TODO writeroom mode
-ver como que ajusta o tamanho globalmente
-#+BEGIN_SRC emacs-lisp
-(use-package writeroom-mode)
-(setq writeroom-width 90)
-#+END_SRC
-
-** desliga UI padrão
-#+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(blink-cursor-mode -1)
-#+END_SRC
-
-
+** modeline
+#+begin_src emacs-lisp
+;;(powerline-default-theme)
+(setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
+#+end_src
 
 ** pretty printing
 #+BEGIN_SRC emacs-lisp
@@ -109,9 +105,8 @@ ver como que ajusta o tamanho globalmente
 ** ☛ TODO pdf tools 
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+BEGIN_SRC emacs-lisp
-(add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+(add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
 (use-package org-pdfview)
-
 
 (use-package pdf-tools
   :pin manual ;; manually update
@@ -139,12 +134,38 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 #+END_SRC
+*** extensão para estimar o tempo
+#+begin_src emacs-lisp
+;; TODO FAZER O BÁSICO PRIMEIRO
+(setq pdf-time-before 0)
+(setq pdf-time-after 0)
+;; TODO adicionar uma função para chamar isso
+(add-hook 'pdf-view-after-change-page-hook (lambda () (progn (set-pdf-time-after)
+														(message (int-to-string (- pdf-time-after pdf-time-before)))
+														(set-pdf-time-before))))
+
+(defun set-pdf-time-after ()
+  (setq pdf-time-after (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+
+(defun set-pdf-time-before ()
+  (setq pdf-time-before (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+
+;; TODO uma função que checa se avançamos nas páginas
+(defun pdf-check-page-advance ()
+  (interactive)
+  "checks if we are going foward on non-read pages"
+  (if (not (member (pdf-view-current-page) pdf-time-pages))
+	  (setq pdf-time-pages (append (pdf-view-current-page)))))
+;; TODO uma função que conta o tempo numa página
+;; TODO uma outra função que estima o tempo final
+;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
+
+#+end_src
 
 ** try
 #+BEGIN_SRC emacs-lisp
 (use-package try)
 #+END_SRC
-
 
 ** nov mode (epub)
 #+BEGIN_SRC emacs-lisp
@@ -154,12 +175,10 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (setq nov-text-width 80)
 #+END_SRC
 
-
 ** smart parens
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens)
 #+END_SRC
-
 
 ** leet code
 #+BEGIN_SRC emacs-lisp
@@ -173,9 +192,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 
 #+BEGIN_SRC emacs-lisp
 (use-package linum-relative)
+(column-number-mode 1)
 (setq linum-relative-current-symbol "")
 #+END_SRC
-
 
 ** rainbow delimiters
 #+BEGIN_SRC emacs-lisp
@@ -222,17 +241,16 @@ Qtile, i3, xmonad e etc.
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+** multiterm
+#+begin_src emacs-lisp
+(use-package multi-term)
+
+#+end_src
+
 ** which key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key)
 (which-key-mode 1)
-#+END_SRC
-
-** ✘ CANCELADO ido 
-#+BEGIN_SRC emacs-lisp
-;;(setq ido-enable-flex-matching t)
-;;(setq ido-everywhere t)
-;;(ido-mode 1)
 #+END_SRC
 
 ** helm
@@ -251,7 +269,9 @@ Qtile, i3, xmonad e etc.
           helm-input-idle-delay 0.01  ; this actually updates things
                                         ; reeeelatively quickly.
           helm-yas-display-key-on-candidate t
+		  helm-completion-in-region-fuzzy-match t
           helm-quick-update t
+		  helm-mode-fuzzy-match t
           helm-M-x-requires-pattern nil
           helm-ff-skip-boring-files t)
     (helm-mode))
@@ -267,14 +287,28 @@ Qtile, i3, xmonad e etc.
          ("C-x c Y" . helm-yas-create-snippet-on-region)
          ("C-x c b" . my/helm-do-grep-book-notes)
          ("C-x c SPC" . helm-all-mark-rings)))
+
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 #+END_SRC
 
+
+*** pacotes adicionais helm
+#+begin_src emacs-lisp
+(use-package helm-swoop)
+(use-package helm-c-yasnippet)
+(use-package helm-cider)
+(use-package helm-org-rifle)
+#+end_src
 
 *** atalhos do teclado
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'helm-occur)
 #+END_SRC
+
+** hydra
+#+begin_src emacs-lisp
+(use-package hydra)
+#+end_src
 
 ** espeak
 fazer ele não abrir essa janela
@@ -342,6 +376,25 @@ CLOCK: [2019-09-19 qui 12:28]--[2019-09-19 qui 12:43] =>  0:15
 
 (setq org-noter-notes-window-location 'other-frame)
 
+(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
+  (interactive "@e")
+  (setq current-b (buffer-name))
+  (progn  (pdf-view-mouse-set-region-rectangle event)
+		  (pdf-view-extract-region-image pdf-view-active-region
+										 (pdf-view-current-page)
+										 (pdf-view-image-size)
+										 (get-buffer-create "teste")
+										 t)
+		  (set-buffer "teste")
+		  (write-file "/tmp/screenshot.png" nil)
+		  (kill-buffer "screenshot.png")
+		  (set-buffer current-b)
+		  (org-noter-insert-note)
+		  (org-download-screenshot)
+		  (if switch-back			 
+			  (switch-to-buffer-other-frame current-b))))
+
+(define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
 #+END_SRC
 
 ** ☛ TODO org-agenda
@@ -383,6 +436,12 @@ também preciso arrumar o que vai parar na agenda
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
 
+(setq org-startup-with-inline-images t)
+(add-hook
+ 'org-babel-after-execute-hook
+ (lambda ()
+   (when org-inline-image-overlays
+     (org-redisplay-inline-images))))
 ;; todo states
 (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✓ PRONTO(p)")
                           (sequence "⚑ ESPERANDO(e)" "|")
@@ -395,7 +454,7 @@ também preciso arrumar o que vai parar na agenda
 (setq org-startup-indented t
 	  ;; depende do pacote org-bullets
       org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
-	  ;;      org-ellipsis " ⤵" ;; folding symbol
+	  org-ellipsis "";; " ⤵" ;; folding symbol
       org-pretty-entities t
       org-hide-emphasis-markers t
       ;; show actually italicized text instead of /italicized text/
@@ -406,9 +465,7 @@ também preciso arrumar o que vai parar na agenda
       org-special-ctrl-a/e t)
 #+END_SRC
 
-** ☛ TODO org pomodoro
-tem uns bugs no negócio que mostra as coisas no xmobar
-
+** org pomodoro
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro)
 ;; duração
@@ -419,76 +476,110 @@ tem uns bugs no negócio que mostra as coisas no xmobar
 (setq org-pomodoro-long-break-length 20)
 ;; frequência dos intervalos longos
 (setq org-pomodoro-long-break-frequency 3)
-;;(shell-command "mkfifo /tmp/.todo-pipe") 
-(defun write-todo-pipe-esperando ()
-  "writes down esperando message in the todo pipe"
-  (write-region "Esperando <fc=#af3a03,#f9f5d7>\xe0b0</fc>\n" 
-				nil 
-				"/tmp/.todo-pipe" 
-				nil 
-				'quiet))
 
-;;(write-todo-pipe-esperando)
-(defun write-todo-pipe ()
-  "adds a pipe file with the pomodoro modeline, also reads the current task
-       from org-clock."
-  (write-region
-   (concat "\ue003 "
-           (org-pomodoro-format-seconds)
-           " "
-           org-clock-current-task
-           " "
-           "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
-   nil "/tmp/.todo-pipe"
-   nil 'quiet))
-(defun speak-pomodoro ()
-  "function that says the name out loud"
-  (espeak org-clock-current-task))
-;; (setq org-pomodoro-started-hook 'speak-pomodoro)
-;; ;; hook que adiciona a modeline no tick do pomodoro
-;; (setq org-pomodoro-tick-hook 'write-todo-pipe)
-;; ;; hook que tira o que estava anteriormente e coloca o esperando
-;; (setq org-pomodoro-finished-hook 'write-todo-pipe-esperando)
-;; ;; hook pra tirar a atividade se eu cancelar o pomodoro
-;; (setq org-pomodoro-killed-hook 'write-todo-pipe-esperando)
 #+END_SRC
 
-** ☛ TODO org clock 
-está bugando depois de 14 minutos, preciso ver isso direito
+** ⚑ ESPERANDO org clock 
+:LOGBOOK:
+CLOCK: [2019-09-29 dom 18:57]
+:END:
+tem uns bugs, mas acho que é no xmobar
 #+BEGIN_SRC emacs-lisp
-;; o comando que cria o pipe está no org pomodoro
-(defun write-clock-todo-pipe ()
-  "escreve as coisas do org-clock no todo-pipe"
-  (write-region (concat
-                 (car (split-string org-mode-line-string))
-                 " " org-clock-heading " "
-                 "<fc=#af3a03,#f9f5d7>\xe0b0</fc>" "\n")
-                nil "/tmp/.todo-pipe"
-                nil 'quiet))
-(shell-command "touch /tmp/clocking")
-;;(setq org-clock-out-hook 'write-todo-pipe-esperando)
+(defun hhmmtomm (time)
+  "converts hh:mm formated time string to minutes int"
+  (if time
+   (if (= 4 (length time))
+	   (+ (* (string-to-number (substring time 0 1)) 60)
+		  (string-to-number (substring time 2)))
+	   (+ (* (string-to-number (substring time 0 2)) 60)
+		  (string-to-number (substring time 3))))
+   0))
 
-
+(defun speak-current-task ()
+  "function that says the name out loud"
+  (espeak org-clock-current-task))
 
 (display-time)
 (defun esf/org-clocking-info-to-file ()
   (with-temp-file "/tmp/clocking"
     ;; (message (org-clock-get-clock-string))
     (if (org-clock-is-active)
-        (insert (format "\ue003 %s: %d (%d/%d) min <fc=#af3a03,#f9f5d7>\xe0b0</fc>"
+        (insert (format "\ue003 %s: %d (%d->%d) min %d cd <fc=#af3a03,#f9f5d7>\xe0b0</fc>"
 						org-clock-heading
                         (- (org-clock-get-clocked-time) org-clock-total-time)
                         org-clock-total-time
-                        (org-clock-get-clocked-time)) ;; all time total
-
-                )
-      ) ;;(org-clock-get-clock-string)
-    )
-  )
+                        (org-clock-get-clocked-time)  ;; all time total
+						(- (hhmmtomm org-clock-effort)
+						   (- (org-clock-get-clocked-time)
+							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
+;;(esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
 
+** interface speed
+#+begin_src emacs-lisp
+(setq org-use-speed-commands 1)
+#+end_src
+
+** interface
+#+begin_src emacs-lisp
+(defun my/insert-text-after-heading (text)
+  "Insert TEXT after every heading in the file, skipping property drawers."
+  (interactive "sText to insert: ")
+
+  ;; The Org Element API provides functions that allow you to map over all
+  ;; elements of a particular type and perform modifications. However, as
+  ;; as soon as the buffer is modified the parsed data becomes out of date.
+  ;;
+  ;; Instead, we treat the buffer as text and use other org-element-*
+  ;; functions to parse out important data.
+
+  ;; Use save-excursion so the user's point is not disturbed when this code
+  ;; moves it around.
+  (save-excursion
+    ;; Go to the beginning of the buffer.
+    (goto-char (point-min))
+
+    ;; Use save-match-data as the following code uses re-search-forward,
+    ;; will disturb any regexp match data the user already has.
+    (save-match-data
+
+      ;; Search through the buffer looking for headings. The variable
+      ;; org-heading-regexp is defined by org-mode to match anything
+      ;; that looks like a valid Org heading.
+      (while (re-search-forward org-heading-regexp nil t)
+
+        ;; org-element-at-point returns a list of information about
+        ;; the element the point is on. This includes a :contents-begin
+        ;; property which is the buffer location of the first character
+        ;; of the contents after this headline.
+        ;;
+        ;; Jump to that point.
+        (goto-char (org-element-property :contents-begin (org-element-at-point)))
+
+        ;; Point is now on the first character after the headline. Find out
+        ;; what type of element is here using org-element-at-point.
+        (let ((first-element (org-element-at-point)))
+
+          ;; The first item in the list returned by org-element-at-point
+          ;; says what type of element this is.  See
+          ;; https://orgmode.org/worg/dev/org-element-api.html for details of
+          ;; the different types.
+          ;;
+          ;; If this is a property drawer we need to skip over it. It will
+          ;; an :end property containing the buffer location of the first
+          ;; character after the property drawer. Go there if necessary.
+          (when (eq 'property-drawer (car first-element))
+            (goto-char (org-element-property :end first-element))))
+
+      ;; Point is now after the heading, and if there was a property
+      ;; drawer then it's after that too. Insert the requested text.
+      (insert text "\n\n")))))
+#+end_src
+
+** ☛ TODO org refile
+arrumar isso
 ** org capture
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
@@ -542,6 +633,7 @@ está bugando depois de 14 minutos, preciso ver isso direito
    (plantuml   . t)
    (js         . t)
    (octave     . t)
+   (R          . t)
    (ruby       . t)))
 
 (setq org-confirm-babel-evaluate nil
@@ -575,6 +667,103 @@ está bugando depois de 14 minutos, preciso ver isso direito
 											(rainbow-delimiters-mode 1))))
 #+END_SRC
 
+** ☛ TODO lsp
+depois preciso ver isso com mais calma, acho que vale a pena
+configurar pra clojure e pra python. Haskell acho que vai ocupar muito
+espaço no disco.
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :requires lsp-mode flycheck
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t
+		lsp-ui-doc-use-childframe t
+		lsp-ui-doc-position 'top
+		lsp-ui-doc-include-signature t
+		lsp-ui-sideline-enable nil
+		lsp-ui-flycheck-enable t
+		lsp-ui-flycheck-list-position 'right
+		lsp-ui-flycheck-live-reporting t
+		lsp-ui-peek-enable t
+		lsp-ui-peek-list-width 60
+		lsp-ui-peek-peek-height 25))
+
+(use-package company-lsp
+  :requires company
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
+
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
+(use-package helm-lsp
+  :after helm
+  :commands helm-lsp-workspace-symbol
+  :config
+  (defun netrom/helm-lsp-workspace-symbol-at-point ()
+	(interactive)
+    (let ((current-prefix-arg t))
+      (call-interactively #'helm-lsp-workspace-symbol)))
+  
+  (defun netrom/helm-lsp-global-workspace-symbol-at-point ()
+    (interactive)
+    (let ((current-prefix-arg t))
+      (call-interactively #'helm-lsp-global-workspace-symbol))))
+
+
+(use-package dap-mode)
+;;(use-package lsp-python)
+;;(use-package lsp-clangd)
+
+(use-package lsp-mode
+  :requires hydra helm helm-lsp
+  :commands (lsp lsp-deferred)
+  :config
+  ;; Create general hydra.
+  (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
+           ,@(append
+              netrom--general-lsp-hydra-heads
+              netrom--misc-lsp-hydra-heads)))
+
+  (add-hook 'lsp-mode-hook
+            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body)))
+  
+  (setq lsp-prefer-flymake nil
+		netrom--general-lsp-hydra-heads
+        '(;; Xref
+          ("d" xref-find-definitions "Definitions" :column "Xref")
+          ("D" xref-find-definitions-other-window "-> other win")
+          ("r" xref-find-references "References")
+          ("s" netrom/helm-lsp-workspace-symbol-at-point "Helm search")
+          ("S" netrom/helm-lsp-global-workspace-symbol-at-point "Helm global search")
+
+          ;; Peek
+          ("C-d" lsp-ui-peek-find-definitions "Definitions" :column "Peek")
+          ("C-r" lsp-ui-peek-find-references "References")
+          ("C-i" lsp-ui-peek-find-implementation "Implementation")
+
+          ;; LSP
+          ("p" lsp-describe-thing-at-point "Describe at point" :column "LSP")
+          ("C-a" lsp-execute-code-action "Execute code action")
+          ("R" lsp-rename "Rename")
+          ("t" lsp-goto-type-definition "Type definition")
+          ("i" lsp-goto-implementation "Implementation")
+          ("f" helm-imenu "Filter funcs/classes (Helm)")
+          ("C-c" lsp-describe-session "Describe session")
+
+          ;; Flycheck
+          ("l" lsp-ui-flycheck-list "List errs/warns/notes" :column "Flycheck"))
+
+        netrom--misc-lsp-hydra-heads
+        '(;; Misc
+          ("q" nil "Cancel" :column "Misc")
+          ("b" pop-tag-mark "Back"))))
+#+end_src
+
 ** clojure
 #+begin_src emacs-lisp
 (use-package cider)
@@ -602,21 +791,24 @@ está bugando depois de 14 minutos, preciso ver isso direito
 
 ** auto completion
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :config (add-hook 'prog-mode-hook 'company-mode))
-  ;; global company mode
-  (global-company-mode 1)
-  (use-package company-math)
-  (use-package company-quickhelp)
+(use-package company
+  :config
+  (add-hook 'prog-mode-hook 'company-mode)
+  (setq company-idle-delay 0.3))
 
-  (eval-after-load 'company
-    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-  (eval-after-load 'company
-    '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
-  (eval-after-load 'company
-    '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
+;; global company mode
+(global-company-mode 1)
+(use-package company-math)
+(use-package company-quickhelp)
 
-  (setq company-quickhelp-delay 1)
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
+
+(setq company-quickhelp-delay 1)
 
 #+END_SRC
 
@@ -637,13 +829,21 @@ está bugando depois de 14 minutos, preciso ver isso direito
 ** yasnippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet)
-(use-package yasnippet-classic-snippets)
-(use-package yasnippet-snippets)
+(use-package auto-yasnippet
+  :config
+  (global-set-key (kbd "C-,") #'aya-create)
+  (global-set-key (kbd "C-.") #'aya-expand))
+(use-package yasnippet-snippets
+  :config
+  (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets" yasnippet-snippets-dir "/home/sean/.emacs.d/elpa/haskell-snippets-20160919.22/snippets")))
+
 #+END_SRC
 
 ** projectile
 #+BEGIN_SRC emacs-lisp
-(use-package projectile)
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
 
 ** helm dash
@@ -666,15 +866,27 @@ está bugando depois de 14 minutos, preciso ver isso direito
 (use-package company-anaconda)
 
 (use-package ein)
+
+(add-hook 'python-mode-hook
+		  (lambda () (setq indent-tabs-mode nil
+					  tab-width 4
+					  python-indent-offset 4)))
 #+END_SRC
 
 ** haskell
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-snippets)
 (use-package company-ghci)
+(use-package intero)
+
 #+END_SRC
 
-** lisps
+** lisp
+#+begin_src emacs-lisp
+(show-paren-mode 1)
+(setq show-paren-style 'parenthesis)
+#+end_src
+
 ** sml
 #+BEGIN_SRC emacs-lisp
 (use-package sml-mode)
