@@ -40,9 +40,15 @@
 (define-key key-translation-map (kbd "<C-f8>") (kbd "8"))
 (define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
 
-;;(use-package monokai-theme)
+(setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
+(setq exec-path (append exec-path '("~/.local/bin")))
+
+
+
+(use-package monokai-theme)
+;;(use-package gruvbox-theme)
 ;;(use-package leuven-theme)
-(use-package poet-theme)
+
 (set-face-attribute 'default nil :family "Iosevka" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
@@ -59,12 +65,18 @@
 
 (use-package all-the-icons)
 
+;; (use-package mode-icons
+;;   :after all-the-icons
+;;   :config
+;;   (mode-icons-mode))
+
 (use-package nyan-mode)
 (nyan-mode 1)
 
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
 (use-package org-pdfview)
-
+(use-package pdfgrep)
 (use-package pdf-tools
   :pin manual ;; manually update
   :config
@@ -108,7 +120,7 @@
 ;; TODO uma função que checa se avançamos nas páginas
 (defun pdf-check-page-advance ()
   (interactive)
-  "checks if we are going foward on non-read pages"
+  "checks if we are going forward on non-read pages"
   (if (not (member (pdf-view-current-page) pdf-time-pages))
 	  (setq pdf-time-pages (append (pdf-view-current-page)))))
 ;; TODO uma função que conta o tempo numa página
@@ -122,7 +134,13 @@
 
 (setq nov-text-width 80)
 
-(use-package smartparens)
+(use-package smartparens
+  :hook (prog-mode . smartparens-mode)
+  :config
+  (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+  (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+  (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+  (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
 
 (use-package leetcode)
 (setq leetcode-prefer-language "python3")
@@ -143,6 +161,7 @@
 ;;(setq mode-line-format mode-line-keycast)
 
 (use-package undo-tree)
+(global-undo-tree-mode)
 
 (use-package pandoc-mode)
 (use-package pandoc)
@@ -157,9 +176,10 @@
 (use-package which-key)
 (which-key-mode 1)
 
-(use-package helm-bibtex)
-(use-package helm-company
-  :after company)
+(use-package helm-bibtex
+  :custom
+  (bibtex-completion-bibliography '("/home/sean/biblioteca.bib"))
+  (reftex-default-bibliography '("/home/sean/biblioteca.bib")))
 (use-package helm
   :diminish helm-mode
   :init
@@ -223,7 +243,9 @@
 (use-package org-journal)
 
 (use-package org-pretty-tags)
-(use-package org-ref)
+(use-package org-ref
+  :custom
+  (org-ref-default-bibliography "/home/sean/biblioteca.bib"))
 
 (use-package org-download)
 (use-package html-to-markdown)
@@ -231,6 +253,7 @@
 (use-package ox-epub)
 (use-package auto-org-md)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
 
 (use-package org-noter)
 
@@ -286,11 +309,7 @@
 						 "~/Documents/"
 						 "~/vest/"))
 
-;; org refiling pra mandar as tarefas de um arquivo pra outro
-(setq org-refile-targets (quote (("~/semana.org" :maxlevel . 1)
-								 ("~/notes_accomplished.org" :maxlevel . 1)
-								 ("/vest/vestibular.org" :maxlevel . 1)
-								 ("~/ossu/ossu.org" :maxlevel . 1))))
+
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 
@@ -317,8 +336,7 @@
       org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
 	  org-ellipsis "";; " ⤵" ;; folding symbol
       org-pretty-entities t
-      org-hide-emphasis-markers t
-      ;; show actually italicized text instead of /italicized text/
+      org-hide-emphasis-markers t       ;; show actually italicized text instead of /italicized text/
       org-agenda-block-separator ""
       org-fontify-whole-heading-line t
       org-fontify-done-headline t
@@ -362,7 +380,8 @@
 						(- (hhmmtomm org-clock-effort)
 						   (- (org-clock-get-clocked-time)
 							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
-;;(esf/org-clocking-info-to-file)
+(esf/org-clocking-info-to-file)
+(add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 
@@ -420,6 +439,13 @@
       ;; Point is now after the heading, and if there was a property
       ;; drawer then it's after that too. Insert the requested text.
       (insert text "\n\n")))))
+
+;; org refiling pra mandar as tarefas de um arquivo pra outro
+(setq org-refile-targets (quote (;;("~/semana.org" :maxlevel . 1)
+								 ;;("~/notes_accomplished.org" :maxlevel . 1)
+								 ;;("~/vest/vestibular.org" :maxlevel . 1)
+								 ("~/done.org" :maxlevel . 1) 
+								 ("~/ossu/ossu.org" :maxlevel . 1))))
 
 (setq org-capture-templates
       '(("t" "☛ TODO" entry (file+headline "~/semana.org" "Tarefas")
@@ -488,6 +514,7 @@
 											(rainbow-delimiters-mode 1))))
 
 (use-package lsp-ui
+  :ensure t
   :requires lsp-mode flycheck
   :commands lsp-ui-mode
   :config
@@ -537,17 +564,9 @@
 (use-package lsp-mode
   :requires hydra helm helm-lsp
   :commands (lsp lsp-deferred)
+  :hook (haskell-mode . lsp)
   :config
-  ;; Create general hydra.
-  (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
-           ,@(append
-              netrom--general-lsp-hydra-heads
-              netrom--misc-lsp-hydra-heads)))
-
-  (add-hook 'lsp-mode-hook
-            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body)))
-  
-  (setq lsp-prefer-flymake nil
+(setq lsp-prefer-flymake nil
 		netrom--general-lsp-hydra-heads
         '(;; Xref
           ("d" xref-find-definitions "Definitions" :column "Xref")
@@ -576,13 +595,31 @@
         netrom--misc-lsp-hydra-heads
         '(;; Misc
           ("q" nil "Cancel" :column "Misc")
-          ("b" pop-tag-mark "Back"))))
+          ("b" pop-tag-mark "Back")))
+   ;; Create general hydra.
+   (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
+			,@(append
+			   netrom--general-lsp-hydra-heads
+			   netrom--misc-lsp-hydra-heads)))
+
+  (add-hook 'lsp-mode-hook
+            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
 
 (use-package cider)
 
 (use-package arduino-mode)
 
-(use-package flycheck)
+(use-package nand2tetris)
+(use-package nand2tetris-assembler)
+(use-package company-nand2tetris)
+;;(setq nand2tetris-core-base-dir "/home/sean/nand2tetris")
+(add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
+
+(use-package flycheck
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+  ;;(global-flycheck-mode t))
 (use-package flycheck-irony)
 (use-package flycheck-haskell)
 (use-package flycheck-pycheckers)
@@ -592,30 +629,37 @@
 (use-package magit)
 
 (use-package company
+  :ensure t
   :config
   (add-hook 'prog-mode-hook 'company-mode)
-  (setq company-idle-delay 0.3))
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1)
+  (global-company-mode t))
 
 ;; global company mode
-(global-company-mode 1)
-(use-package company-math)
-(use-package company-quickhelp)
 
-(eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+(use-package company-math)
+(use-package company-box
+;;  :hook (company-mode . company-box-mode)
+  :config
+  (add-hook 'prog-mode-hook 'company-box-mode)
+  (setq company-box-doc-delay 0.3))
+
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 
-(setq company-quickhelp-delay 1)
-
 (setq-default tab-width 4)
 
-(global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
-(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+(use-package emmet-mode)
+
+;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+;; (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+
 
 (use-package yasnippet)
 (use-package auto-yasnippet
@@ -647,7 +691,11 @@
 
 (use-package haskell-snippets)
 (use-package company-ghci)
-(use-package intero)
+(use-package lsp-haskell
+  :ensure t
+  :config
+  (setq lsp-haskell-process-path-hie "ghcide")
+  (setq lsp-haskell-process-args-hie '()))
 
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)

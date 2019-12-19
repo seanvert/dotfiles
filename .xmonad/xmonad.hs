@@ -83,7 +83,7 @@ myConfig =
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
-      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
+--      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
       , manageHook = myManageHook <+> manageHook defaultConfig
       , keys = myKeys
       , startupHook = myStartupHook
@@ -91,15 +91,14 @@ myConfig =
       } `additionalKeys`
       [ ((mod4Mask, xK_p), spawn "rofi -show combi")
       , ((mod4Mask, xK_z), spawn "sleep 0.3; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")]
-
-
+                      
 -- tamanho das bordas das janelas
 border = 4
 nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
-           FixedColumn 1 20 80 10 |||
+           FixedColumn 1 20 90 10 |||
            tiled |||
 --           nobordersLayout |||
            mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
@@ -123,8 +122,6 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
 
 -- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
 
-
-
 myTerminal = "urxvtc"
 
 -- FUNCIONANDO! :D TODO arrumar as cores dos temas pq elas estão horríveis
@@ -144,20 +141,20 @@ projects =
         Just $ do
           spawn "google-chrome-stable" --"firefox"
     }
-  , Project
-    { projectName = myWorkspaces !! 4
-    , projectDirectory = "~/"
-    , projectStartHook =
-        Just $ do
-          spawn "pcmanfm"
-    }
-  , Project
-    { projectName = myWorkspaces !! 7
-    , projectDirectory = "~/"
-    , projectStartHook =
-        Just $ do
-          spawn "qbittorrent"
-    }
+  -- , Project
+  --   { projectName = myWorkspaces !! 4
+  --   , projectDirectory = "~/"
+  --   , projectStartHook =
+  --       Just $ do
+  --         spawn "pcmanfm"
+  --   }
+  -- , Project
+  --   { projectName = myWorkspaces !! 7
+  --   , projectDirectory = "~/"
+  --   , projectStartHook =
+  --       Just $ do
+  --         spawn "qbittorrent"
+  --   }
   , Project
     { projectName = myWorkspaces !! 8
     , projectDirectory = "~/"
@@ -184,7 +181,7 @@ projects =
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
-  setWMName "LG3D"
+--  spawn "pcmanfm --desktop &"
 --  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"
 
@@ -195,11 +192,12 @@ myManageHook = namedScratchpadManageHook scratchpads
 --  composeAll
   [-- checkDock -?> doIgnore
   isDialog  --> doFloat
-  , isFullscreen --> doFullFloat
+--  , isFullscreen --> -- doSideFloat NW -- doFullFloat
+  -- TODO tentar fazer o popup do opera não ficar por baixo das outras janelas
+  , stringProperty "WM_WINDOW_ROLE" =? "popup" --> doFloat
   , className =? "vlc" --> doFloat
-  , className =? "google-chrome" --> doShift (myWorkspaces !! 2) ]
---  , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
+  , className =? "smplayer" --> doFloat
+  , className =? "GoldenDict" --> doFloat
+--  , className =? "google-chrome" --> doShift (myWorkspaces !! 2) ]
+  , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]
-
-
-

@@ -15,9 +15,9 @@ xmonad.hs:87:50: warning: [-Wdeprecations]
 87 |       , manageHook = myManageHook <+> manageHook defaultConfig
    |                                                  ^^^^^^^^^^^^^
 
-xmonad.hs:109:13: warning: [-Wdeprecations]
+xmonad.hs:108:13: warning: [-Wdeprecations]
     In the use of ‘spacing’ (imported from XMonad.Layout.Spacing):
     Deprecated: "Use spacingRaw instead."
     |
-109 |     tiled = spacing 40 $ Tall nmaster delta ratio
+108 |     tiled = spacing 40 $ Tall nmaster delta ratio
     |             ^^^^^^^

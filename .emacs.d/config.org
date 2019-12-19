@@ -1,4 +1,5 @@
 * repositórios
+
 #+BEGIN_SRC emacs-lisp
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
@@ -7,11 +8,13 @@
 #+END_SRC
 
 * acentos
+
 #+BEGIN_SRC emacs-lisp
 (require 'iso-transl)
 #+END_SRC
 
 * init
+
 #+BEGIN_SRC emacs-lisp
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
@@ -26,6 +29,7 @@
 #+END_SRC
 
 ** server mode
+
 #+BEGIN_SRC emacs-lisp
 (server-start)
 ;; (if (and (fboundp 'server-running-p)
@@ -58,18 +62,33 @@ teclas quebradas
 (define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
 #+end_src
 
+** exec path
+
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
+(setq exec-path (append exec-path '("~/.local/bin")))
+#+END_SRC
+
+** ⚑ ESPERANDO esup emacs start time
+
+#+begin_src emacs-lisp
+#+end_src
+
 * aparência
 ** tema
+
 #+BEGIN_SRC emacs-lisp
-;;(use-package monokai-theme)
+(use-package monokai-theme)
+;;(use-package gruvbox-theme)
 ;;(use-package leuven-theme)
-(use-package poet-theme)
+
 (set-face-attribute 'default nil :family "Iosevka" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
 #+END_SRC
 
 ** barra de rolagem, menu e modeline
+
 #+begin_src emacs-lisp
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -78,24 +97,35 @@ teclas quebradas
 #+end_src
 
 ** modeline
+
 #+begin_src emacs-lisp
 ;;(powerline-default-theme)
 (setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
 #+end_src
 
 ** pretty printing
+
 #+BEGIN_SRC emacs-lisp
 (global-prettify-symbols-mode 1)
 #+END_SRC
 
-
 ** all the icons
+
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons)
 #+END_SRC
 
+** mode icons
+#+begin_src emacs-lisp
+;; (use-package mode-icons
+;;   :after all-the-icons
+;;   :config
+;;   (mode-icons-mode))
+
+#+end_src
 
 ** nyan mode
+
 #+BEGIN_SRC emacs-lisp
 (use-package nyan-mode)
 (nyan-mode 1)
@@ -106,8 +136,9 @@ teclas quebradas
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+BEGIN_SRC emacs-lisp
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
 (use-package org-pdfview)
-
+(use-package pdfgrep)
 (use-package pdf-tools
   :pin manual ;; manually update
   :config
@@ -134,7 +165,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 #+END_SRC
-*** extensão para estimar o tempo
+
+*** ☛ TODO extensão para estimar o tempo
+
 #+begin_src emacs-lisp
 ;; TODO FAZER O BÁSICO PRIMEIRO
 (setq pdf-time-before 0)
@@ -153,7 +186,7 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 ;; TODO uma função que checa se avançamos nas páginas
 (defun pdf-check-page-advance ()
   (interactive)
-  "checks if we are going foward on non-read pages"
+  "checks if we are going forward on non-read pages"
   (if (not (member (pdf-view-current-page) pdf-time-pages))
 	  (setq pdf-time-pages (append (pdf-view-current-page)))))
 ;; TODO uma função que conta o tempo numa página
@@ -163,11 +196,14 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+end_src
 
 ** try
+
 #+BEGIN_SRC emacs-lisp
 (use-package try)
+
 #+END_SRC
 
 ** nov mode (epub)
+
 #+BEGIN_SRC emacs-lisp
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -176,17 +212,24 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+END_SRC
 
 ** smart parens
+
 #+BEGIN_SRC emacs-lisp
-(use-package smartparens)
+(use-package smartparens
+  :hook (prog-mode . smartparens-mode)
+  :config
+  (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+  (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+  (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+  (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
 #+END_SRC
 
 ** leet code
+
 #+BEGIN_SRC emacs-lisp
 (use-package leetcode)
 (setq leetcode-prefer-language "python3")
 (setq leetcode-prefer-sql "mysql")
 #+END_SRC
-
 
 ** relative linum
 
@@ -197,10 +240,10 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+END_SRC
 
 ** rainbow delimiters
+
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters)
 #+END_SRC
-
 
 ** ☛ TODO screencast gif / keycast
 arrumar o keycast
@@ -214,14 +257,15 @@ arrumar o keycast
 ;;(setq mode-line-format mode-line-keycast)
 #+END_SRC
 
-
 ** undo tree
+
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree)
+(global-undo-tree-mode)
 #+END_SRC
 
-
 ** pandoc
+
 #+BEGIN_SRC emacs-lisp
 (use-package pandoc-mode)
 (use-package pandoc)
@@ -237,27 +281,31 @@ Qtile, i3, xmonad e etc.
 #+END_SRC
 
 ** yes or no para y or n
+
 #+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
 ** multiterm
+
 #+begin_src emacs-lisp
 (use-package multi-term)
-
 #+end_src
 
 ** which key
+
 #+BEGIN_SRC emacs-lisp
 (use-package which-key)
 (which-key-mode 1)
 #+END_SRC
 
 ** helm
+
 #+BEGIN_SRC emacs-lisp
-(use-package helm-bibtex)
-(use-package helm-company
-  :after company)
+(use-package helm-bibtex
+  :custom
+  (bibtex-completion-bibliography '("/home/sean/biblioteca.bib"))
+  (reftex-default-bibliography '("/home/sean/biblioteca.bib")))
 (use-package helm
   :diminish helm-mode
   :init
@@ -291,8 +339,8 @@ Qtile, i3, xmonad e etc.
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 #+END_SRC
 
-
 *** pacotes adicionais helm
+
 #+begin_src emacs-lisp
 (use-package helm-swoop)
 (use-package helm-c-yasnippet)
@@ -301,11 +349,13 @@ Qtile, i3, xmonad e etc.
 #+end_src
 
 *** atalhos do teclado
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'helm-occur)
 #+END_SRC
 
 ** hydra
+
 #+begin_src emacs-lisp
 (use-package hydra)
 #+end_src
@@ -324,15 +374,16 @@ fazer ele não abrir essa janela
 #+END_SRC
 
 ** desktop save
+
 #+BEGIN_SRC emacs-lisp
 (desktop-save-mode 1)
 #+END_SRC
 
 ** key binds
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
 #+END_SRC
 
 * Org mode
@@ -347,7 +398,9 @@ fazer ele não abrir essa janela
 (use-package org-journal)
 
 (use-package org-pretty-tags)
-(use-package org-ref)
+(use-package org-ref
+  :custom
+  (org-ref-default-bibliography "/home/sean/biblioteca.bib"))
 
 (use-package org-download)
 (use-package html-to-markdown)
@@ -355,12 +408,10 @@ fazer ele não abrir essa janela
 (use-package ox-epub)
 (use-package auto-org-md)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
 #+END_SRC
 
-** ✓ PRONTO org-noter
-:LOGBOOK:
-CLOCK: [2019-09-19 qui 12:28]--[2019-09-19 qui 12:43] =>  0:15
-:END:
+** org-noter
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-noter)
@@ -414,7 +465,7 @@ também preciso arrumar o que vai parar na agenda
 
 ;; TODO colocar os arquivos direitinho nesse negócio
 (setq org-agenda-files '("~/Desktop/"
-						 "~/vest/vestibular.org"
+;;						 "~/vest/vestibular.org"
 						 "~/ossu/ossu.org"
 						 "~/semana.org"
 						 "~/lang/lang.org"
@@ -422,16 +473,13 @@ também preciso arrumar o que vai parar na agenda
 						 "~/Documents/"
 						 "~/vest/"))
 
-;; org refiling pra mandar as tarefas de um arquivo pra outro
-(setq org-refile-targets (quote (("~/semana.org" :maxlevel . 1)
-								 ("~/notes_accomplished.org" :maxlevel . 1)
-								 ("/vest/vestibular.org" :maxlevel . 1)
-								 ("~/ossu/ossu.org" :maxlevel . 1))))
+
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
 ** org aparência
+
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
@@ -456,8 +504,7 @@ também preciso arrumar o que vai parar na agenda
       org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
 	  org-ellipsis "";; " ⤵" ;; folding symbol
       org-pretty-entities t
-      org-hide-emphasis-markers t
-      ;; show actually italicized text instead of /italicized text/
+      org-hide-emphasis-markers t       ;; show actually italicized text instead of /italicized text/
       org-agenda-block-separator ""
       org-fontify-whole-heading-line t
       org-fontify-done-headline t
@@ -466,6 +513,7 @@ também preciso arrumar o que vai parar na agenda
 #+END_SRC
 
 ** org pomodoro
+
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro)
 ;; duração
@@ -480,10 +528,8 @@ também preciso arrumar o que vai parar na agenda
 #+END_SRC
 
 ** ⚑ ESPERANDO org clock 
-:LOGBOOK:
-CLOCK: [2019-09-29 dom 18:57]
-:END:
 tem uns bugs, mas acho que é no xmobar
+dar uma detalhada no bug do xmobar
 #+BEGIN_SRC emacs-lisp
 (defun hhmmtomm (time)
   "converts hh:mm formated time string to minutes int"
@@ -512,17 +558,20 @@ tem uns bugs, mas acho que é no xmobar
 						(- (hhmmtomm org-clock-effort)
 						   (- (org-clock-get-clocked-time)
 							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
-;;(esf/org-clocking-info-to-file)
+(esf/org-clocking-info-to-file)
+(add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
 
 ** interface speed
+
 #+begin_src emacs-lisp
 (setq org-use-speed-commands 1)
 #+end_src
 
 ** interface
+
 #+begin_src emacs-lisp
 (defun my/insert-text-after-heading (text)
   "Insert TEXT after every heading in the file, skipping property drawers."
@@ -580,7 +629,17 @@ tem uns bugs, mas acho que é no xmobar
 
 ** ☛ TODO org refile
 arrumar isso
+#+begin_src emacs-lisp
+;; org refiling pra mandar as tarefas de um arquivo pra outro
+(setq org-refile-targets (quote (;;("~/semana.org" :maxlevel . 1)
+								 ;;("~/notes_accomplished.org" :maxlevel . 1)
+								 ;;("~/vest/vestibular.org" :maxlevel . 1)
+								 ("~/done.org" :maxlevel . 1) 
+								 ("~/ossu/ossu.org" :maxlevel . 1))))
+#+end_src
+
 ** org capture
+
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
       '(("t" "☛ TODO" entry (file+headline "~/semana.org" "Tarefas")
@@ -644,11 +703,13 @@ arrumar isso
 #+END_SRC
 
 ** org ref
+
 #+BEGIN_SRC emacs-lisp
 (use-package org-ref)
 #+END_SRC
 
 ** ox-reveal
+
 #+BEGIN_SRC emacs-lisp
 (use-package ox-reveal)
 #+END_SRC
@@ -661,6 +722,7 @@ arrumar isso
 
 * prog
 ** hooks
+
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 											(smartparens-mode 1)
@@ -673,6 +735,7 @@ configurar pra clojure e pra python. Haskell acho que vai ocupar muito
 espaço no disco.
 #+begin_src emacs-lisp
 (use-package lsp-ui
+  :ensure t
   :requires lsp-mode flycheck
   :commands lsp-ui-mode
   :config
@@ -722,17 +785,9 @@ espaço no disco.
 (use-package lsp-mode
   :requires hydra helm helm-lsp
   :commands (lsp lsp-deferred)
+  :hook (haskell-mode . lsp)
   :config
-  ;; Create general hydra.
-  (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
-           ,@(append
-              netrom--general-lsp-hydra-heads
-              netrom--misc-lsp-hydra-heads)))
-
-  (add-hook 'lsp-mode-hook
-            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body)))
-  
-  (setq lsp-prefer-flymake nil
+(setq lsp-prefer-flymake nil
 		netrom--general-lsp-hydra-heads
         '(;; Xref
           ("d" xref-find-definitions "Definitions" :column "Xref")
@@ -761,22 +816,48 @@ espaço no disco.
         netrom--misc-lsp-hydra-heads
         '(;; Misc
           ("q" nil "Cancel" :column "Misc")
-          ("b" pop-tag-mark "Back"))))
+          ("b" pop-tag-mark "Back")))
+   ;; Create general hydra.
+   (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
+			,@(append
+			   netrom--general-lsp-hydra-heads
+			   netrom--misc-lsp-hydra-heads)))
+
+  (add-hook 'lsp-mode-hook
+            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
 #+end_src
 
 ** clojure
+
 #+begin_src emacs-lisp
 (use-package cider)
 #+end_src
 
 ** arduino
+
 #+begin_src emacs-lisp
 (use-package arduino-mode)
 #+end_src
 
+** nand2tetris
+
+#+begin_src emacs-lisp
+(use-package nand2tetris)
+(use-package nand2tetris-assembler)
+(use-package company-nand2tetris)
+;;(setq nand2tetris-core-base-dir "/home/sean/nand2tetris")
+(add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
+
+#+end_src
+
 ** flycheck
+
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck)
+(use-package flycheck
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+  ;;(global-flycheck-mode t))
 (use-package flycheck-irony)
 (use-package flycheck-haskell)
 (use-package flycheck-pycheckers)
@@ -785,48 +866,66 @@ espaço no disco.
 #+END_SRC
 
 ** magit git
+
 #+BEGIN_SRC emacs-lisp
 (use-package magit)
 #+END_SRC
 
-** auto completion
+** ☛ TODO company
+
 #+BEGIN_SRC emacs-lisp
 (use-package company
+  :ensure t
   :config
   (add-hook 'prog-mode-hook 'company-mode)
-  (setq company-idle-delay 0.3))
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1)
+  (global-company-mode t))
 
 ;; global company mode
-(global-company-mode 1)
-(use-package company-math)
-(use-package company-quickhelp)
 
-(eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+(use-package company-math)
+(use-package company-box
+;;  :hook (company-mode . company-box-mode)
+  :config
+  (add-hook 'prog-mode-hook 'company-box-mode)
+  (setq company-box-doc-delay 0.3))
+
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
-
-(setq company-quickhelp-delay 1)
-
 #+END_SRC
 
 ** outros parametros
 *** tamanho das tabulações
+
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width 4)
 #+END_SRC
 
-** smart parens
+** web
+
+#+begin_src emacs-lisp
+(use-package emmet-mode)
+#+end_src
+
+** ✘ CANCELADO smart parens
+
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
-(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+;; (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
 #+END_SRC
 
+** auctex
+
+#+begin_src emacs-lisp
+#+end_src
+
 ** yasnippets
+
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet)
 (use-package auto-yasnippet
@@ -836,10 +935,10 @@ espaço no disco.
 (use-package yasnippet-snippets
   :config
   (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets" yasnippet-snippets-dir "/home/sean/.emacs.d/elpa/haskell-snippets-20160919.22/snippets")))
-
 #+END_SRC
 
 ** projectile
+
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :config
@@ -847,21 +946,25 @@ espaço no disco.
 #+END_SRC
 
 ** helm dash
+
 #+BEGIN_SRC emacs-lisp
 (use-package helm-dash)
 #+END_SRC
 
 ** octave
+
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 #+END_SRC
 
 ** C
+
 #+BEGIN_SRC emacs-lisp
 (use-package company-irony)
 #+END_SRC
 
 ** python
+
 #+BEGIN_SRC emacs-lisp
 (use-package company-anaconda)
 
@@ -874,31 +977,39 @@ espaço no disco.
 #+END_SRC
 
 ** haskell
+
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-snippets)
 (use-package company-ghci)
-(use-package intero)
-
+(use-package lsp-haskell
+  :ensure t
+  :config
+  (setq lsp-haskell-process-path-hie "ghcide")
+  (setq lsp-haskell-process-args-hie '()))
 #+END_SRC
 
 ** lisp
+
 #+begin_src emacs-lisp
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)
 #+end_src
 
 ** sml
+
 #+BEGIN_SRC emacs-lisp
 (use-package sml-mode)
 #+END_SRC
 
 ** ESS R stats
+
 #+BEGIN_SRC emacs-lisp
 (use-package ess)
 (use-package ess-smart-underscore)
 #+END_SRC
 
 ** howdoyou stackoverflow consult
+
 #+BEGIN_SRC emacs-lisp
 (use-package howdoyou)
 

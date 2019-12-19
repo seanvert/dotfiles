@@ -9,6 +9,7 @@ ws6 = "\xf058 "
 ws7 = "\xf09b "
 ws8 = "\xf076 "
 ws9 = "\xf0ad"
+
 colorize :: String -> String -> String
 colorize cor1 head =
   "<fc=" ++ cor1 ++ ">" ++ head ++ "</fc>"
