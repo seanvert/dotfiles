@@ -23,10 +23,10 @@
 (setq desktop-load-locked-desktop t)
 
 ;;(server-start)
-;; (if (and (fboundp 'server-running-p)
-;; 		 (not (server-running-p)))
-;; 	(server-start)
-;;   1)
+(if (and (fboundp 'server-running-p)
+ 		 (not (server-running-p)))
+ 	(server-start)
+  1)
 
 ;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
 ;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
