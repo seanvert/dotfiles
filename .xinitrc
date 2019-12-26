@@ -16,7 +16,8 @@ nitrogen --restore &
 #xfce4-panel --disable-wm-check &
 udiskie --no-notify --use-udisks2 --tray &
 #feh --bg-scale /home/sean/Images/wallpaper/wallpaper\ da\ sua\ vida.jpg
-xrandr --output LVDS1 --scale 1.405x1.405
+#xrandr --output LVDS1 --scale 1.405x1.405
+eval $(ssh-agent) 
 numlockx &
 urxvtd &
 xmobar /home/sean/.xmobar/xmobarrc2 &
