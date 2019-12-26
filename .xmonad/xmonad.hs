@@ -181,6 +181,7 @@ projects =
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
+  spawn "xmodmap ~/.Xmodmap"
 --  spawn "pcmanfm --desktop &"
 --  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"

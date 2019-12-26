@@ -1,10 +1,15 @@
 * repositórios
 
 #+BEGIN_SRC emacs-lisp
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+  ;; (unless (assoc-default "melpa" package-archives)
+  ;;   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+  ;; (unless (assoc-default "org" package-archives)
+  ;;   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+
+  (setq package-archives
+        '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
+          ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
+          ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
 #+END_SRC
 
 * acentos
@@ -17,6 +22,7 @@
 
 #+BEGIN_SRC emacs-lisp
 (unless (package-installed-p 'use-package)
+;;  (package-refresh-contents)
   (package-install 'use-package))
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
@@ -31,35 +37,35 @@
 ** server mode
 
 #+BEGIN_SRC emacs-lisp
-(server-start)
-;; (if (and (fboundp 'server-running-p)
-;; 		 (not (server-running-p)))
-;; 	(server-start)
-;;   1)
+;;(server-start)
+(if (and (fboundp 'server-running-p)
+ 		 (not (server-running-p)))
+ 	(server-start)
+  1)
 
 #+END_SRC
 
-** ☛ TODO conserta o teclado
+** ✓ PRONTO conserta o teclado
 essas funções são para o teclado do meu notebook que está com algumas
-teclas quebradas
+teclas quebradas. Arrumei com o xmodmap.
 #+begin_src emacs-lisp
-(define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
-(define-key key-translation-map (kbd "<f2>") (kbd "("))
-(define-key key-translation-map (kbd "<f5>") (kbd "+"))
-(define-key key-translation-map (kbd "<f6>") (kbd "-"))
-(define-key key-translation-map (kbd "<f7>") (kbd "="))
-(define-key key-translation-map (kbd "<f8>") (kbd "_"))
-(define-key key-translation-map (kbd "<f9>") (kbd "õ"))
-(define-key key-translation-map (kbd "<f11>") (kbd "ã"))
-(define-key key-translation-map (kbd "<C-f1>") (kbd "1"))
-(define-key key-translation-map (kbd "<C-f2>") (kbd "2"))
-(define-key key-translation-map (kbd "<C-f3>") (kbd "3"))
-(define-key key-translation-map (kbd "<C-f4>") (kbd "4"))
-(define-key key-translation-map (kbd "<C-f5>") (kbd "5"))
-(define-key key-translation-map (kbd "<C-f6>") (kbd "6"))
-(define-key key-translation-map (kbd "<C-f7>") (kbd "7"))
-(define-key key-translation-map (kbd "<C-f8>") (kbd "8"))
-(define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
+;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
+;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
+;; (define-key key-translation-map (kbd "<f5>") (kbd "+"))
+;; (define-key key-translation-map (kbd "<f6>") (kbd "-"))
+;; (define-key key-translation-map (kbd "<f7>") (kbd "="))
+;; (define-key key-translation-map (kbd "<f8>") (kbd "_"))
+;; (define-key key-translation-map (kbd "<f9>") (kbd "õ"))
+;; (define-key key-translation-map (kbd "<f11>") (kbd "ã"))
+;; (define-key key-translation-map (kbd "<C-f1>") (kbd "1"))
+;; (define-key key-translation-map (kbd "<C-f2>") (kbd "2"))
+;; (define-key key-translation-map (kbd "<C-f3>") (kbd "3"))
+;; (define-key key-translation-map (kbd "<C-f4>") (kbd "4"))
+;; (define-key key-translation-map (kbd "<C-f5>") (kbd "5"))
+;; (define-key key-translation-map (kbd "<C-f6>") (kbd "6"))
+;; (define-key key-translation-map (kbd "<C-f7>") (kbd "7"))
+;; (define-key key-translation-map (kbd "<C-f8>") (kbd "8"))
+;; (define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
 #+end_src
 
 ** exec path
@@ -87,10 +93,12 @@ teclas quebradas
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
 #+END_SRC
 
-** barra de rolagem, menu e modeline
+** barra de rolagem, menu e modeline. scroll step
 
 #+begin_src emacs-lisp
 (scroll-bar-mode -1)
+(setq scroll-step            1
+      scroll-conservatively  10000)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (display-time-mode -1)
@@ -131,16 +139,32 @@ teclas quebradas
 (nyan-mode 1)
 #+END_SRC
 
+* configurações
+
+** ⚑ ESPERANDO autosave
+para não encher o de arquivos com autosave, enfia tudo numa pasta só
+tá junto com o tramp
+#+begin_src emacs-lisp
+(defvar user-temporary-file-directory "~/.emacs-autosaves/")
+(make-directory user-temporary-file-directory t)
+(setq backup-by-copying t)
+(setq backup-directory-alist `(("." . ,user-temporary-file-directory) 
+			       (tramp-file-name-regexp nil)))
+(setq auto-save-list-file-prefix (concat user-temporary-file-directory ".auto-saves-"))
+(setq auto-save-file-name-transforms `((".*" ,user-temporary-file-directory t)))
+#+end_src
+
 * extensões adicionais
 ** ☛ TODO pdf tools 
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+BEGIN_SRC emacs-lisp
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
+(use-package pdf-view-restore)
 (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
-(use-package org-pdfview)
 (use-package pdfgrep)
 (use-package pdf-tools
-  :pin manual ;; manually update
+:ensure t
+  ;; :pin manual ;; manually update
   :config
   ;; initialise
   (pdf-tools-install)
@@ -153,7 +177,7 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (setq-default pdf-view-display-size 'fit-page)
   ;; automatically annotate highlights
   (setq pdf-annot-activate-created-annotations t)
-  ;;
+  ;; 
   ;; use normal isearch
   ;; (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   ;; turn off cua so copy works
@@ -192,6 +216,12 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 ;; TODO uma função que conta o tempo numa página
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
+
+#+end_src
+*** aparência
+#+begin_src emacs-lisp
+(setq pdf-view-midnight-colors (cons "#839496" "#002b36"))
+;; ("#839496" . "#002b36")
 
 #+end_src
 
@@ -272,12 +302,12 @@ arrumar o keycast
 #+END_SRC
 
 * interface
-** frames only
+** ⚑ ESPERANDO frames only
 esse daqui só presta se for pra usar os frames separados. Tipo no
 Qtile, i3, xmonad e etc.
 #+BEGIN_SRC emacs-lisp
-(use-package frames-only-mode)
-(frames-only-mode 1)
+;; (use-package frames-only-mode)
+;; (frames-only-mode 1)
 #+END_SRC
 
 ** yes or no para y or n
@@ -318,6 +348,7 @@ Qtile, i3, xmonad e etc.
                                         ; reeeelatively quickly.
           helm-yas-display-key-on-candidate t
 		  helm-completion-in-region-fuzzy-match t
+		  helm-split-window-inside-p t
           helm-quick-update t
 		  helm-mode-fuzzy-match t
           helm-M-x-requires-pattern nil
@@ -412,7 +443,6 @@ fazer ele não abrir essa janela
 #+END_SRC
 
 ** org-noter
-
 #+BEGIN_SRC emacs-lisp
 (use-package org-noter)
 
@@ -479,7 +509,6 @@ também preciso arrumar o que vai parar na agenda
 #+END_SRC
 
 ** org aparência
-
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
@@ -527,7 +556,7 @@ também preciso arrumar o que vai parar na agenda
 
 #+END_SRC
 
-** ⚑ ESPERANDO org clock 
+** org clock 
 tem uns bugs, mas acho que é no xmobar
 dar uma detalhada no bug do xmobar
 #+BEGIN_SRC emacs-lisp
@@ -565,7 +594,6 @@ dar uma detalhada no bug do xmobar
 #+END_SRC
 
 ** interface speed
-
 #+begin_src emacs-lisp
 (setq org-use-speed-commands 1)
 #+end_src
@@ -627,7 +655,7 @@ dar uma detalhada no bug do xmobar
       (insert text "\n\n")))))
 #+end_src
 
-** ☛ TODO org refile
+** org refile
 arrumar isso
 #+begin_src emacs-lisp
 ;; org refiling pra mandar as tarefas de um arquivo pra outro
@@ -714,7 +742,7 @@ arrumar isso
 (use-package ox-reveal)
 #+END_SRC
 
-** ☛ TODO org-drill
+** org-drill
 
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
@@ -839,13 +867,27 @@ espaço no disco.
 (use-package arduino-mode)
 #+end_src
 
+** markdown
+#+begin_src emacs-lisp
+(use-package 
+  markdown-mode 
+  :commands (markdown-mode gfm-mode)
+  ;; github flavor markdown
+  :mode (("README\\.md\\'" . gfm-mode) 
+	 ("\\.md\\'" . markdown-mode) 
+	 ("\\.markdown\\'" . markdown-mode)) 
+  :init (setq markdown-command "multimarkdown"))
+#+end_src
+
 ** nand2tetris
 
 #+begin_src emacs-lisp
-(use-package nand2tetris)
+(use-package nand2tetris
+  :config
+  (setq nand2tetris-core-base-dir "/home/sean/nand2tetris"))
 (use-package nand2tetris-assembler)
 (use-package company-nand2tetris)
-;;(setq nand2tetris-core-base-dir "/home/sean/nand2tetris")
+
 (add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
 
 #+end_src
@@ -879,17 +921,18 @@ espaço no disco.
   :config
   (add-hook 'prog-mode-hook 'company-mode)
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (global-company-mode t))
+  (setq company-minimum-prefix-length 1))
 
 ;; global company mode
+(setq company-dabbrev-other-buffers t)
 
 (use-package company-math)
 (use-package company-box
 ;;  :hook (company-mode . company-box-mode)
   :config
   (add-hook 'prog-mode-hook 'company-box-mode)
-  (setq company-box-doc-delay 0.3))
+  (setq company-box-doc-delay 0.3)
+  (setq company-box-enable-icon nil))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
@@ -948,7 +991,9 @@ espaço no disco.
 ** helm dash
 
 #+BEGIN_SRC emacs-lisp
-(use-package helm-dash)
+(use-package helm-dash
+  :config
+   (setq helm-dash-common-docsets '("Python_3" "Standard ML")))
 #+END_SRC
 
 ** octave
