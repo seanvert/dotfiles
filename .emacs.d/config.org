@@ -444,19 +444,20 @@ fazer ele não abrir essa janela
 
 ** org-noter
 #+BEGIN_SRC emacs-lisp
-(use-package org-noter)
+(use-package org-noter
+  :config
+  (setq org-noter-auto-save-last-location t
+		org-noter-notes-window-behavior '(start scroll)
+		org-noter-notes-window-location 'other-frame
+		org-noter-separate-notes-from-heading t)
 
-(setq org-noter-auto-save-last-location t)
+  (defun org-noter-init-pdf-view ()
+	(pdf-view-fit-page-to-window)
+	(pdf-view-auto-slice-minor-mode)
+	(run-at-time "0.5 sec" nil #'org-noter))
 
-;; This will try to find the respective notes file automatically. It
-;; will search in all parent folders and some specific folders set
-;; by you. See org-noter-default-notes-file-names and
-;; org-noter-notes-search-path for more information.
-
-(setq org-noter-notes-window-behavior '(start scroll))
-
-(setq org-noter-notes-window-location 'other-frame)
-
+  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
+  
 (defun org-noter-insert-pdf-slice-note (event &optional switch-back)
   (interactive "@e")
   (setq current-b (buffer-name))
