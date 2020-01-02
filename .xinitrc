@@ -25,7 +25,7 @@ wal -R &
 dunst -config /home/sean/.config/dunst/dunstrc &
 redshift -l -23:-47 &
 #compton &
-exec /home/sean/.xmonad/xmonad-x86_64-linux
+exec dbus-launch /home/sean/.xmonad/xmonad-x86_64-linux
 #exec xfce
 #exec qtile
 

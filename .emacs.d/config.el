@@ -1,12 +1,7 @@
-;; (unless (assoc-default "melpa" package-archives)
-;;   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-;; (unless (assoc-default "org" package-archives)
-;;   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
-
-(setq package-archives
-      '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
-        ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
-        ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
 (require 'iso-transl)
 
@@ -51,10 +46,12 @@
 
 
 
-(use-package monokai-theme)
-;;(use-package gruvbox-theme)
-;;(use-package leuven-theme)
-
+(use-package cyberpunk-theme)
+;;(use-package monokai-theme)
+;; (use-package gruvbox-theme
+;;   :config
+;;   (load-theme 'gruvb-light-hard t))
+;; 
 (set-face-attribute 'default nil :family "Iosevka" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
@@ -144,7 +141,7 @@
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
-(setq pdf-view-midnight-colors (cons "#839496" "#002b36"))
+(setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
 ;; ("#839496" . "#002b36")
 
 (use-package try)
@@ -195,6 +192,8 @@
 
 (use-package which-key)
 (which-key-mode 1)
+
+(edit-server-start)
 
 (use-package helm-bibtex
   :custom
@@ -268,7 +267,9 @@
   :custom
   (org-ref-default-bibliography "/home/sean/biblioteca.bib"))
 
-(use-package org-download)
+(use-package org-download
+  :custom
+  (org-download-screenshot-method "gnome-screenshot"))
 (use-package html-to-markdown)
 (use-package ox-jekyll-md)
 (use-package ox-epub)
@@ -276,19 +277,20 @@
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 (setq plantuml-default-exec-mode 'jar)
 
-(use-package org-noter)
+(use-package org-noter
+  :config
+  (setq org-noter-auto-save-last-location t
+		org-noter-notes-window-behavior '(start scroll)
+		org-noter-notes-window-location 'other-frame
+		org-noter-separate-notes-from-heading t)
 
-(setq org-noter-auto-save-last-location t)
+  (defun org-noter-init-pdf-view ()
+	(pdf-view-fit-page-to-window)
+;;	(pdf-view-auto-slice-minor-mode)
+	(run-at-time "0.5 sec" nil #'org-noter))
 
-;; This will try to find the respective notes file automatically. It
-;; will search in all parent folders and some specific folders set
-;; by you. See org-noter-default-notes-file-names and
-;; org-noter-notes-search-path for more information.
-
-(setq org-noter-notes-window-behavior '(start scroll))
-
-(setq org-noter-notes-window-location 'other-frame)
-
+  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
+  
 (defun org-noter-insert-pdf-slice-note (event &optional switch-back)
   (interactive "@e")
   (setq current-b (buffer-name))
@@ -639,10 +641,7 @@
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 
-(use-package nand2tetris
-  :config
-  (setq nand2tetris-core-base-dir "/home/sean/nand2tetris"))
-(use-package nand2tetris-assembler)
+(use-package nand2tetris)
 (use-package company-nand2tetris)
 
 (add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))

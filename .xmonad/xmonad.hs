@@ -35,7 +35,9 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
 import XMonad.Layout.Master
+import XMonad.Layout.LayoutHints
 import XMonad.Layout.StateFull (focusTracking)
+
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
 
@@ -83,6 +85,7 @@ myConfig =
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
+      , handleEventHook = hintsEventHook
 --      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
       , manageHook = myManageHook <+> manageHook defaultConfig
       , keys = myKeys
@@ -98,10 +101,11 @@ nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
-           FixedColumn 1 20 90 10 |||
-           tiled |||
+           layoutHints (FixedColumn 1 20 90 10) |||
+           layoutHints tiled |||
 --           nobordersLayout |||
            mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
+
       -- default tiling algorithm partitions the screen into two panes
   where
     tabs = tabbed shrinkText myTabConfig
@@ -120,7 +124,6 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
                       , fontName = "xft:DroidSansMono Nerd Font:size=10"
                       , decoHeight = 20 }
 
--- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
 
 myTerminal = "urxvtc"
 

@@ -1,22 +1,24 @@
 * repositórios
 
 #+BEGIN_SRC emacs-lisp
-  ;; (unless (assoc-default "melpa" package-archives)
-  ;;   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-  ;; (unless (assoc-default "org" package-archives)
-  ;;   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
-  (setq package-archives
-        '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
-          ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
-          ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
 #+END_SRC
+
+#+RESULTS:
+: ((melpa . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/) (org . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/) (gnu . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/))
 
 * acentos
 
 #+BEGIN_SRC emacs-lisp
 (require 'iso-transl)
 #+END_SRC
+
+#+RESULTS:
+: iso-transl
 
 * init
 
@@ -34,6 +36,9 @@
 (setq desktop-load-locked-desktop t)
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** server mode
 
 #+BEGIN_SRC emacs-lisp
@@ -44,6 +49,9 @@
   1)
 
 #+END_SRC
+
+#+RESULTS:
+: 1
 
 ** ✓ PRONTO conserta o teclado
 essas funções são para o teclado do meu notebook que está com algumas
@@ -68,6 +76,8 @@ teclas quebradas. Arrumei com o xmodmap.
 ;; (define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
 #+end_src
 
+#+RESULTS:
+
 ** exec path
 
 #+begin_src emacs-lisp
@@ -75,19 +85,26 @@ teclas quebradas. Arrumei com o xmodmap.
 (setq exec-path (append exec-path '("~/.local/bin")))
 #+END_SRC
 
+#+RESULTS:
+| /home/sean/.opam/default/bin | /usr/local/sbin | /usr/local/bin | /usr/bin | /usr/lib/jvm/default/bin | /usr/bin/site_perl | /usr/bin/vendor_perl | /usr/bin/core_perl | /usr/lib/smlnj/bin | /usr/lib/emacs/26.3/x86_64-pc-linux-gnu | ~/.local/bin | ~/.local/bin |
+
 ** ⚑ ESPERANDO esup emacs start time
 
 #+begin_src emacs-lisp
 #+end_src
 
+#+RESULTS:
+
 * aparência
 ** tema
 
 #+BEGIN_SRC emacs-lisp
-(use-package monokai-theme)
-;;(use-package gruvbox-theme)
-;;(use-package leuven-theme)
-
+(use-package cyberpunk-theme)
+;;(use-package monokai-theme)
+;; (use-package gruvbox-theme
+;;   :config
+;;   (load-theme 'gruvb-light-hard t))
+;; 
 (set-face-attribute 'default nil :family "Iosevka" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Baskerville")
@@ -220,7 +237,7 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+end_src
 *** aparência
 #+begin_src emacs-lisp
-(setq pdf-view-midnight-colors (cons "#839496" "#002b36"))
+(setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
 ;; ("#839496" . "#002b36")
 
 #+end_src
@@ -329,6 +346,11 @@ Qtile, i3, xmonad e etc.
 (which-key-mode 1)
 #+END_SRC
 
+** edit with chrome
+#+begin_src emacs-lisp
+(edit-server-start)
+#+end_src
+
 ** helm
 
 #+BEGIN_SRC emacs-lisp
@@ -391,6 +413,22 @@ Qtile, i3, xmonad e etc.
 (use-package hydra)
 #+end_src
 
+** god mode
+#+begin_src emacs-lisp
+(use-package god-mode
+  :config
+  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+  (global-set-key (kbd "<escape>") 'god-local-mode))
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+#+end_src
+
 ** espeak
 fazer ele não abrir essa janela
 #+BEGIN_SRC emacs-lisp
@@ -433,7 +471,9 @@ fazer ele não abrir essa janela
   :custom
   (org-ref-default-bibliography "/home/sean/biblioteca.bib"))
 
-(use-package org-download)
+(use-package org-download
+  :custom
+  (org-download-screenshot-method "gnome-screenshot"))
 (use-package html-to-markdown)
 (use-package ox-jekyll-md)
 (use-package ox-epub)
@@ -453,7 +493,7 @@ fazer ele não abrir essa janela
 
   (defun org-noter-init-pdf-view ()
 	(pdf-view-fit-page-to-window)
-	(pdf-view-auto-slice-minor-mode)
+;;	(pdf-view-auto-slice-minor-mode)
 	(run-at-time "0.5 sec" nil #'org-noter))
 
   (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
@@ -883,13 +923,10 @@ espaço no disco.
 ** nand2tetris
 
 #+begin_src emacs-lisp
-(use-package nand2tetris
-  :config
-  (setq nand2tetris-core-base-dir "/home/sean/nand2tetris"))
-(use-package nand2tetris-assembler)
-(use-package company-nand2tetris)
+  (use-package nand2tetris)
+  (use-package company-nand2tetris)
 
-(add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
+  (add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
 
 #+end_src
 
