@@ -35,11 +35,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
 import XMonad.Layout.Master
-import XMonad.Layout.LayoutHints
 import XMonad.Layout.StateFull (focusTracking)
-import XMonad.Layout.Dishes
-import XMonad.Layout.OneBig
-
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
 
@@ -87,7 +83,6 @@ myConfig =
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
-      , handleEventHook = hintsEventHook
 --      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
       , manageHook = myManageHook <+> manageHook defaultConfig
       , keys = myKeys
@@ -103,13 +98,10 @@ nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
-           Dishes 2 (2/6) |||
-           OneBig (2/3) (3/4) |||
-           layoutHints (FixedColumn 1 20 90 10) |||
-           layoutHints tiled |||
+           FixedColumn 1 20 80 10 |||
+           tiled |||
 --           nobordersLayout |||
            mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
-
       -- default tiling algorithm partitions the screen into two panes
   where
     tabs = tabbed shrinkText myTabConfig
@@ -128,6 +120,7 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
                       , fontName = "xft:DroidSansMono Nerd Font:size=10"
                       , decoHeight = 20 }
 
+-- TODO adicionar tabs dentro dos layouts internos tipo aquele vídeo do yt
 
 myTerminal = "urxvtc"
 
@@ -188,7 +181,6 @@ projects =
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
-  spawn "xmodmap ~/.Xmodmap"
 --  spawn "pcmanfm --desktop &"
 --  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"
@@ -204,10 +196,8 @@ myManageHook = namedScratchpadManageHook scratchpads
   -- TODO tentar fazer o popup do opera não ficar por baixo das outras janelas
   , stringProperty "WM_WINDOW_ROLE" =? "popup" --> doFloat
   , className =? "vlc" --> doFloat
-  , className =? "mpv" --> doFloat
   , className =? "smplayer" --> doFloat
---   , stringProperty "WM_NAME(STRING)" =? "cava" --> doIgnore
---  , className =? "GoldenDict" --> doFloat
+  , className =? "GoldenDict" --> doFloat
 --  , className =? "google-chrome" --> doShift (myWorkspaces !! 2) ]
   , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
 --  , className =? "firefox" --> doShift "www"]

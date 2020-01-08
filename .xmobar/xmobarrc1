@@ -1,0 +1,114 @@
+Config {
+  -- colors
+--  color0 = "#100a04"
+  
+   -- appearance
+   font =         "xft:DroidSansMono Nerd Font:size=9"
+  , bgColor =      "#222222" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
+  , fgColor =      "#ebdbb2"
+    -- TODO fazer um shell script que pegue a resolução e coloque aqui pra n ficar uma merda
+   , position =     Top -- OnScreen { screenNr = , position = Top} -- C 100
+   , border =       FullBM 0 --NoBorder --BottomB
+   , borderColor =  "#222222"-- "#0dd5db"
+   , alpha = 255 -- 0 é transparente
+   -- layout
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+   , template = "%StdinReader% %battery% %multicpu% %coretemp% %memory% %swap% %dynnetwork% %locks% }{ %date%" -- | %kbd% %bright% "
+      -- general behavior \xe0b0
+   , lowerOnStart =     True    -- send to bottom of window stack on start
+   , hideOnStart =      False   -- start with window unmapped (hidden)
+   , allDesktops =      True    -- show on all desktops
+   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , pickBroadest =     True   -- choose widest display (multi-monitor)
+   , persistent =       True    -- enable/disable hiding (True = disabled)
+
+   -- plugins
+   --   Numbers can be automatically colored according to their value. xmobar
+   --   decides color based on a three-tier/two-cutoff system, controlled by
+   --   command options:
+   --     --Low sets the low cutoff
+   --     --High sets the high cutoff
+   --
+   --     --low sets the color below --Low cutoff
+   --     --normal sets the color between --Low and --High cutoffs
+   --     --High sets the color above --High cutoff
+   --
+   --   The --template option controls how the plugin is displayed. Text
+   --   color can be set by enclosing in <fc></fc> tags. For more details
+   --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
+   , commands =
+
+     -- weather monitor
+     --        [ Run Weather "RJTT" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
+     --                             ] 36000
+
+     -- network activity monitor (dynamic interface resolution)
+       [ Run StdinReader
+         , Run DynNetwork     [ "--template" , "<fc=#076678> \xf0aa</fc> <tx>kB/s <fc=#9d0006>\xf0ab</fc> <rx>kB/s  "--  " --<dev> pra mostrar o device
+                             , "--Low"      , "1000"       -- units: B/s
+                             , "--High"     , "5000"       -- units: B/s
+                             , "--low"      , "#79740e"
+                             , "--normal"   , "#b57614"
+                             , "--high"     , "#d65d0e"
+                             ] 10
+
+        -- cpu activity monitor
+        , Run MultiCpu       [ "--template" , "\xf108 <total>%"
+                             , "--Low"      , "50"         -- units: %
+                             , "--High"     , "85"         -- units: %
+                             , "--low"      , "#ebdbb2"--"#3c3836><fc=#79740e>\xf108 </fc"
+                             , "--normal"   , "#ebdbff" -- ><fc=#b57614>\xf108 </fc"
+                             , "--high"     , "#ffdbb2" -- ><fc=#d65d0e>\xf108 </fc"
+                             ] 10
+
+        -- cpu core temperature monitor
+        , Run CoreTemp       [ "--template" , "\xf2ca <core0>ºC "--"\xe0b1 <fc=#3c3836><core0>°C</fc> <fc=#bdae93>\xe0b0</fc>"
+                             , "--Low"      , "70"        -- units: °C
+                             , "--High"     , "80"        -- units: °C
+                             , "--low"      , "#79740e" 
+                             , "--normal"   , "#b57614"
+                             , "--high"     , "#d65d0e"
+                             ] 50
+
+        -- memory usage monitor
+        , Run Memory         [ "--template" ,"<fc=#F92672>\xf2db</fc> <usedratio>%"
+                             , "--Low"      , "20"        -- units: %
+                             , "--High"     , "90"        -- units: %
+                             , "--low"      , "#A6E22E"
+                             , "--normal"   , "#FD971F"
+                             , "--high"     , "#F92672"
+                             ] 10
+        , Run Swap ["--template", "<fc=#F92672>Swap</fc> <usedratio>%"] 10
+
+        -- battery monitor
+        , Run Battery        [ "--template" , "<acstatus>" -- "<fc=#a89984>\xe0b0</fc> <acstatus>" 
+                             , "--Low"      , "10"        -- units: %
+                             , "--High"     , "80"        -- units: %
+                             , "--low"      , "#F92672"
+                             , "--normal"   , "#FD971F"
+                             , "--high"     , "#A6E22E"
+
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                       , "-o"	, "\xf241 <timeleft>"
+                                       -- AC "on" status
+                                       , "-O"	, "\xf241"--"<fc=#FD971F>\xf241</fc>" --Carregando</fc>"
+                                       -- charged status
+                                       , "-i"	, "\xf240"--"<fc=#98971a>\xf240</fc>" -- "<fc=#A6E22E>Cheia</fc>"
+                             ] 50
+
+        -- time and date indicator
+        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
+        , Run Date           "<fc=#ffffff><fc=#F2e5bc> \xf133</fc> %F <fc=#66D9EF>%a</fc> <fc=#F2e5bc>\xf017</fc> %T </fc>" "date" 10
+
+        -- keyboard layout indicator
+        , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
+                             , ("us"         , "<fc=#8B0000>US</fc>")
+                             ]
+        , Run Locks
+        --, Run PipeReader "/tmp/.todo-pipe" "todo_pipe"
+        --, Run CommandReader "./test.sh" "todo_pipe"
+	--, Run Brightness ["-t", "<fc=#66D9EF>\xf185</fc> <percent>%"] 60
+        ]
+   }

@@ -1,23 +1,23 @@
 
-xmonad.hs:81:5: warning: [-Wdeprecations]
+xmonad.hs:83:5: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
    |
-81 |     defaultConfig
+83 |     defaultConfig
    |     ^^^^^^^^^^^^^
 
-xmonad.hs:90:50: warning: [-Wdeprecations]
+xmonad.hs:92:50: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
    |
-90 |       , manageHook = myManageHook <+> manageHook defaultConfig
+92 |       , manageHook = myManageHook <+> manageHook defaultConfig
    |                                                  ^^^^^^^^^^^^^
 
-xmonad.hs:112:13: warning: [-Wdeprecations]
+xmonad.hs:116:13: warning: [-Wdeprecations]
     In the use of ‘spacing’ (imported from XMonad.Layout.Spacing):
     Deprecated: "Use spacingRaw instead."
     |
-112 |     tiled = spacing 40 $ Tall nmaster delta ratio
+116 |     tiled = spacing 40 $ Tall nmaster delta ratio
     |             ^^^^^^^

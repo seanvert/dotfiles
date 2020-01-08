@@ -1,34 +1,16 @@
-* repositórios
-
-#+BEGIN_SRC emacs-lisp
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
-
-#+END_SRC
-
-#+RESULTS:
-: ((melpa . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/) (org . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/) (gnu . https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/))
-
-* acentos
-
-#+BEGIN_SRC emacs-lisp
-(require 'iso-transl)
-#+END_SRC
-
-#+RESULTS:
-: iso-transl
 
 * init
 
 #+BEGIN_SRC emacs-lisp
+
+(require 'use-package)
 (unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
   (package-install 'use-package))
+
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
-(require 'use-package)
+
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
@@ -46,16 +28,18 @@
 (if (and (fboundp 'server-running-p)
  		 (not (server-running-p)))
  	(server-start)
-  1)
+ 1)
 
 #+END_SRC
 
 #+RESULTS:
 : 1
 
-** ✓ PRONTO conserta o teclado
+** ✘ CANCELADO conserta o teclado
 essas funções são para o teclado do meu notebook que está com algumas
-teclas quebradas. Arrumei com o xmodmap.
+teclas quebradas. Arrumei com o xmodmap. Vou deixar isso aqui caso dê
+algum problema nele
+
 #+begin_src emacs-lisp
 ;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
 ;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
@@ -86,7 +70,7 @@ teclas quebradas. Arrumei com o xmodmap.
 #+END_SRC
 
 #+RESULTS:
-| /home/sean/.opam/default/bin | /usr/local/sbin | /usr/local/bin | /usr/bin | /usr/lib/jvm/default/bin | /usr/bin/site_perl | /usr/bin/vendor_perl | /usr/bin/core_perl | /usr/lib/smlnj/bin | /usr/lib/emacs/26.3/x86_64-pc-linux-gnu | ~/.local/bin | ~/.local/bin |
+| /home/sean/.opam/default/bin | /usr/local/sbin | /usr/local/bin | /usr/bin | /usr/lib/jvm/default/bin | /usr/bin/site_perl | /usr/bin/vendor_perl | /usr/bin/core_perl | /usr/lib/smlnj/bin | /usr/lib/emacs/26.3/x86_64-pc-linux-gnu | ~/.local/bin | ~/.local/bin | ~/.local/bin |
 
 ** ⚑ ESPERANDO esup emacs start time
 
@@ -94,21 +78,44 @@ teclas quebradas. Arrumei com o xmodmap.
 #+end_src
 
 #+RESULTS:
+* repositórios
+
+#+BEGIN_SRC emacs-lisp
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+
+#+END_SRC
+
+#+RESULTS:
+
+* acentos
+
+#+BEGIN_SRC emacs-lisp
+(require 'iso-transl)
+#+END_SRC
+
+#+RESULTS:
+: iso-transl
 
 * aparência
 ** tema
 
 #+BEGIN_SRC emacs-lisp
-(use-package cyberpunk-theme)
+;;(use-package cyberpunk-theme)
+(use-package zenburn-theme)
 ;;(use-package monokai-theme)
 ;; (use-package gruvbox-theme
 ;;   :config
 ;;   (load-theme 'gruvb-light-hard t))
 ;; 
-(set-face-attribute 'default nil :family "Iosevka" :height 130)
-(set-face-attribute 'fixed-pitch nil :family "Iosevka")
-(set-face-attribute 'variable-pitch nil :family "Baskerville")
+;; (set-face-attribute 'default nil :family "Iosevka" :height 130)
+;; (set-face-attribute 'fixed-pitch nil :family "Iosevka")
+;; (set-face-attribute 'variable-pitch nil :family "Baskerville")
 #+END_SRC
+
+#+RESULTS:
 
 ** barra de rolagem, menu e modeline. scroll step
 
@@ -121,6 +128,8 @@ teclas quebradas. Arrumei com o xmodmap.
 (display-time-mode -1)
 #+end_src
 
+#+RESULTS:
+
 ** modeline
 
 #+begin_src emacs-lisp
@@ -128,11 +137,17 @@ teclas quebradas. Arrumei com o xmodmap.
 (setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
 #+end_src
 
+#+RESULTS:
+| -40 | (%12b) |
+
 ** pretty printing
 
 #+BEGIN_SRC emacs-lisp
 (global-prettify-symbols-mode 1)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** all the icons
 
@@ -140,21 +155,20 @@ teclas quebradas. Arrumei com o xmodmap.
 (use-package all-the-icons)
 #+END_SRC
 
+#+RESULTS:
+
 ** mode icons
 #+begin_src emacs-lisp
-;; (use-package mode-icons
-;;   :after all-the-icons
-;;   :config
-;;   (mode-icons-mode))
+(use-package mode-icons
+   :after all-the-icons
+   :config
+   (mode-icons-mode))
 
 #+end_src
 
-** nyan mode
+#+RESULTS:
+: t
 
-#+BEGIN_SRC emacs-lisp
-(use-package nyan-mode)
-(nyan-mode 1)
-#+END_SRC
 
 * configurações
 
@@ -171,6 +185,9 @@ tá junto com o tramp
 (setq auto-save-file-name-transforms `((".*" ,user-temporary-file-directory t)))
 #+end_src
 
+#+RESULTS:
+| .* | ~/.emacs-autosaves/ | t |
+
 * extensões adicionais
 ** ☛ TODO pdf tools 
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
@@ -180,7 +197,7 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
 (use-package pdfgrep)
 (use-package pdf-tools
-:ensure t
+  :ensure t
   ;; :pin manual ;; manually update
   :config
   ;; initialise
@@ -206,6 +223,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
 #+END_SRC
+
+#+RESULTS:
+: t
 
 *** ☛ TODO extensão para estimar o tempo
 
@@ -235,12 +255,38 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
 #+end_src
-*** aparência
-#+begin_src emacs-lisp
-(setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
+
+#+RESULTS:
+: pdf-check-page-advance
+
+
+*** match pdf colors with theme colors
+
+y#+begin_src emacs-lisp
+(setq pdf-view-midnight-colors (cons (face-attribute 'default :background) (face-attribute 'default :foreground))
+;; (setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
 ;; ("#839496" . "#002b36")
 
 #+end_src
+
+#+RESULTS:
+: (#282828 . #f9f5d7)
+
+*** testes pdf1
+#+begin_src emacs-lisp
+;; (defun org-noter-insert-selected-text-inside-note-content ()
+;;   (interactive)
+;;   (progn (setq currenb (buffer-name))
+;; 		 (org-noter-insert-precise-note)
+;; 		 (set-buffer currenb)
+;; 		 (org-noter-insert-note)))
+
+
+;; (define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
+
+#+end_src
+
+#+RESULTS:
 
 ** try
 
@@ -248,6 +294,8 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (use-package try)
 
 #+END_SRC
+
+#+RESULTS:
 
 ** nov mode (epub)
 
@@ -257,6 +305,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 
 (setq nov-text-width 80)
 #+END_SRC
+
+#+RESULTS:
+: 80
 
 ** smart parens
 
@@ -270,6 +321,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
 #+END_SRC
 
+#+RESULTS:
+| company-mode | flycheck-mode | (lambda nil (progn (linum-relative-mode 1) (smartparens-mode 1) (rainbow-delimiters-mode 1))) | smartparens-mode |
+
 ** leet code
 
 #+BEGIN_SRC emacs-lisp
@@ -277,6 +331,9 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (setq leetcode-prefer-language "python3")
 (setq leetcode-prefer-sql "mysql")
 #+END_SRC
+
+#+RESULTS:
+: mysql
 
 ** relative linum
 
@@ -286,11 +343,15 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (setq linum-relative-current-symbol "")
 #+END_SRC
 
+#+RESULTS:
+
 ** rainbow delimiters
 
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters)
 #+END_SRC
+
+#+RESULTS:
 
 ** ☛ TODO screencast gif / keycast
 arrumar o keycast
@@ -304,12 +365,18 @@ arrumar o keycast
 ;;(setq mode-line-format mode-line-keycast)
 #+END_SRC
 
+#+RESULTS:
+: gif-screencast-stop
+
 ** undo tree
 
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree)
 (global-undo-tree-mode)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** pandoc
 
@@ -318,8 +385,11 @@ arrumar o keycast
 (use-package pandoc)
 #+END_SRC
 
+#+RESULTS:
+
+
 * interface
-** ⚑ ESPERANDO frames only
+** ✘ CANCELADO frames only
 esse daqui só presta se for pra usar os frames separados. Tipo no
 Qtile, i3, xmonad e etc.
 #+BEGIN_SRC emacs-lisp
@@ -327,17 +397,24 @@ Qtile, i3, xmonad e etc.
 ;; (frames-only-mode 1)
 #+END_SRC
 
+#+RESULTS:
+
 ** yes or no para y or n
 
 #+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+#+RESULTS:
+: y-or-n-p
+
 ** multiterm
 
 #+begin_src emacs-lisp
 (use-package multi-term)
 #+end_src
+
+#+RESULTS:
 
 ** which key
 
@@ -346,10 +423,16 @@ Qtile, i3, xmonad e etc.
 (which-key-mode 1)
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** edit with chrome
 #+begin_src emacs-lisp
 (edit-server-start)
 #+end_src
+
+#+RESULTS:
+: An edit-server process is already running
 
 ** helm
 
@@ -392,6 +475,8 @@ Qtile, i3, xmonad e etc.
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 #+END_SRC
 
+#+RESULTS:
+
 *** pacotes adicionais helm
 
 #+begin_src emacs-lisp
@@ -401,17 +486,24 @@ Qtile, i3, xmonad e etc.
 (use-package helm-org-rifle)
 #+end_src
 
+#+RESULTS:
+
 *** atalhos do teclado
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'helm-occur)
 #+END_SRC
 
+#+RESULTS:
+: helm-occur
+
 ** hydra
 
 #+begin_src emacs-lisp
 (use-package hydra)
 #+end_src
+
+#+RESULTS:
 
 ** god mode
 #+begin_src emacs-lisp
@@ -429,6 +521,9 @@ Qtile, i3, xmonad e etc.
 (add-hook 'god-mode-disabled-hook 'my-update-cursor)
 #+end_src
 
+#+RESULTS:
+| my-update-cursor |
+
 ** espeak
 fazer ele não abrir essa janela
 #+BEGIN_SRC emacs-lisp
@@ -442,11 +537,17 @@ fazer ele não abrir essa janela
       (async-shell-command command "*Messages*" "*Messages*"))))
 #+END_SRC
 
+#+RESULTS:
+: espeak
+
 ** desktop save
 
 #+BEGIN_SRC emacs-lisp
 (desktop-save-mode 1)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** key binds
 
@@ -454,6 +555,9 @@ fazer ele não abrir essa janela
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
+
+#+RESULTS:
+: ibuffer
 
 * Org mode
 ** Módulos adicionais
@@ -481,6 +585,9 @@ fazer ele não abrir essa janela
 (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 (setq plantuml-default-exec-mode 'jar)
 #+END_SRC
+
+#+RESULTS:
+: jar
 
 ** org-noter
 #+BEGIN_SRC emacs-lisp
@@ -519,20 +626,14 @@ fazer ele não abrir essa janela
 (define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
 #+END_SRC
 
+#+RESULTS:
+: org-noter-insert-pdf-slice-note
+
 ** ☛ TODO org-agenda
 ajeitar esse refile seria uma boa
 também preciso arrumar o que vai parar na agenda
 #+BEGIN_SRC emacs-lisp
 ;; org-agenda load na pasta do emacs
-(use-package idle-org-agenda
-  :after org-agenda
-  :ensure t
-  :config (idle-org-agenda-mode))
-
-(custom-set-variables
- '(idle-org-agenda-interval 300)
- '(idle-org-agenda-key "n")
- '(idle-org-agenda-mode t))
 
 ;; TODO colocar os arquivos direitinho nesse negócio
 (setq org-agenda-files '("~/Desktop/"
@@ -548,6 +649,9 @@ também preciso arrumar o que vai parar na agenda
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
+
+#+RESULTS:
+: org-agenda
 
 ** org aparência
 #+BEGIN_SRC emacs-lisp
@@ -582,7 +686,14 @@ também preciso arrumar o que vai parar na agenda
       org-special-ctrl-a/e t)
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** org pomodoro
+:LOGBOOK:
+CLOCK: [2020-01-02 qui 21:08]--[2020-01-02 qui 21:58] =>  0:50
+CLOCK: [2020-01-02 qui 20:07]--[2020-01-02 qui 20:57] =>  0:50
+:END:
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro)
@@ -595,7 +706,16 @@ também preciso arrumar o que vai parar na agenda
 ;; frequência dos intervalos longos
 (setq org-pomodoro-long-break-frequency 3)
 
+(setq org-pomodoro-audio-player "mplayer")
+
+(setq org-pomodoro-finished-sound-args "-volume 0.4")
+(setq org-pomodoro-long-break-sound-args "-volume 0.4")
+(setq org-pomodoro-short-break-sound-args "-volume 0.4")
+
 #+END_SRC
+
+#+RESULTS:
+: -volume 0.4
 
 ** org clock 
 tem uns bugs, mas acho que é no xmobar
@@ -634,10 +754,16 @@ dar uma detalhada no bug do xmobar
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
 
+#+RESULTS:
+| esf/org-clocking-info-to-file |
+
 ** interface speed
 #+begin_src emacs-lisp
 (setq org-use-speed-commands 1)
 #+end_src
+
+#+RESULTS:
+: 1
 
 ** interface
 
@@ -696,6 +822,9 @@ dar uma detalhada no bug do xmobar
       (insert text "\n\n")))))
 #+end_src
 
+#+RESULTS:
+: my/insert-text-after-heading
+
 ** org refile
 arrumar isso
 #+begin_src emacs-lisp
@@ -706,6 +835,9 @@ arrumar isso
 								 ("~/done.org" :maxlevel . 1) 
 								 ("~/ossu/ossu.org" :maxlevel . 1))))
 #+end_src
+
+#+RESULTS:
+: ((~/done.org :maxlevel . 1) (~/ossu/ossu.org :maxlevel . 1))
 
 ** org capture
 
@@ -739,6 +871,9 @@ arrumar isso
 (global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 
+#+RESULTS:
+: org-capture
+
 ** org babel
 
 #+BEGIN_SRC emacs-lisp
@@ -771,11 +906,16 @@ arrumar isso
 	  org-edit-src-content-indentation 0)
 #+END_SRC
 
+#+RESULTS:
+: 0
+
 ** org ref
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-ref)
 #+END_SRC
+
+#+RESULTS:
 
 ** ox-reveal
 
@@ -783,20 +923,28 @@ arrumar isso
 (use-package ox-reveal)
 #+END_SRC
 
+#+RESULTS:
+
 ** org-drill
 
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 #+END_SRC
 
+#+RESULTS:
+: org-drill
+
 * prog
 ** hooks
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-											(smartparens-mode 1)
-											(rainbow-delimiters-mode 1))))
+									   (smartparens-mode 1)
+									   (rainbow-delimiters-mode 1))))
 #+END_SRC
+
+#+RESULTS:
+| company-mode | flycheck-mode | (lambda nil (progn (linum-relative-mode 1) (smartparens-mode 1) (rainbow-delimiters-mode 1))) | smartparens-mode |
 
 ** ☛ TODO lsp
 depois preciso ver isso com mais calma, acho que vale a pena
@@ -896,17 +1044,23 @@ espaço no disco.
             (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
 #+end_src
 
+#+RESULTS:
+
 ** clojure
 
 #+begin_src emacs-lisp
 (use-package cider)
 #+end_src
 
-** arduino
+#+RESULTS:
+
+** ✘ CANCELADO arduino
 
 #+begin_src emacs-lisp
-(use-package arduino-mode)
+;; (use-package arduino-mode)
 #+end_src
+
+#+RESULTS:
 
 ** markdown
 #+begin_src emacs-lisp
@@ -920,15 +1074,8 @@ espaço no disco.
   :init (setq markdown-command "multimarkdown"))
 #+end_src
 
-** nand2tetris
-
-#+begin_src emacs-lisp
-  (use-package nand2tetris)
-  (use-package company-nand2tetris)
-
-  (add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
-
-#+end_src
+#+RESULTS:
+: ((\.m . octave-mode) (README\.md\' . gfm-mode) (\.odc\' . archive-mode) (\.odf\' . archive-mode) (\.odi\' . archive-mode) (\.otp\' . archive-mode) (\.odp\' . archive-mode) (\.otg\' . archive-mode) (\.odg\' . archive-mode) (\.ots\' . archive-mode) (\.ods\' . archive-mode) (\.odm\' . archive-mode) (\.ott\' . archive-mode) (\.odt\' . archive-mode) (/home/sean/Documents/journal/\(?1:[0-9]\{4\}\)\(?2:[0-9][0-9]\)\(?3:[0-9][0-9]\)\(\.gpg\)?\' . org-journal-mode) (\.epub\' . nov-mode) (\.[pP][dD][fF]\' . pdf-view-mode) (\.hva\' . latex-mode) (\.drv\' . latex-mode) (\.ado\' . ess-stata-mode) (\.do\' . ess-stata-mode) (\.[Ss][Aa][Ss]\' . SAS-mode) (\.Sout . S-transcript-mode) (\.[Ss]t\' . S-transcript-mode) (\.Rd\' . Rd-mode) (DESCRIPTION$ . conf-colon-mode) (/Makevars\(\.win\)?$ . makefile-mode) (\.[Rr]out . ess-r-transcript-mode) (CITATION\' . ess-r-mode) (NAMESPACE\' . ess-r-mode) (\.[rR]profile\' . ess-r-mode) (\.[rR]\' . ess-r-mode) (/R/.*\.q\' . ess-r-mode) (\.[Jj][Aa][Gg]\' . ess-jags-mode) (\.[Bb][Mm][Dd]\' . ess-bugs-mode) (\.[Bb][Oo][Gg]\' . ess-bugs-mode) (\.[Bb][Uu][Gg]\' . ess-bugs-mode) (\(?:build\|profile\)\.boot\' . clojure-mode) (\.cljs\' . clojurescript-mode) (\.cljc\' . clojurec-mode) (\.\(clj\|dtm\|edn\)\' . clojure-mode) (\.jl\' . julia-mode) (\.hsc\' . haskell-mode) (\.l[gh]s\' . literate-haskell-mode) (\.hsig\' . haskell-mode) (\.[gh]s\' . haskell-mode) (\.cabal\'\|/cabal\.project\|/\.cabal/config\' . haskell-cabal-mode) (\.chs\' . haskell-c2hs-mode) (\.ghci\' . ghci-script-mode) (\.dump-simpl\' . ghc-core-mode) (\.hcr\' . ghc-core-mode) (/git-rebase-todo\' . git-rebase-mode) (\.md\' . markdown-mode) (\.markdown\' . markdown-mode) (\.\(plantuml\|pum\|plu\)\' . plantuml-mode) (\.grm\' . sml-yacc-mode) (\.cm\' . sml-cm-mode) (\.s\(ml\|ig\)\' . sml-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.\(?:avs\|bmp[23]?\|c\(?:als?\|myka?\|u[rt]\)\|d\(?:c[mx]\|ds\|px\)\|f\(?:ax\|its\)\|gif\(?:87\)?\|hrz\|ic\(?:on\|[bo]\)\|j\(?:\(?:pe\|[np]\)g\)\|m\(?:iff\|ng\|s\(?:l\|vg\)\|tv\)\|otb\|p\(?:bm\|c\(?:ds\|[dltx]\)\|db\|gm\|i\(?:ct\|x\)\|jpeg\|n\(?:g\(?:24\|32\|8\)\|[gm]\)\|pm\|sd\|tif\|wp\)\|r\(?:as\|gb[ao]?\|l[ae]\)\|s\(?:c[rt]\|fw\|gi\|un\|vgz?\)\|t\(?:ga\|i\(?:ff\(?:64\)?\|le\|m\)\|tf\)\|uyvy\|v\(?:da\|i\(?:car\|d\|ff\)\|st\)\|w\(?:bmp\|pg\)\|x\(?:bm\|cf\|pm\|wd\|[cv]\)\|y\(?:cbcra?\|uv\)\)\' . image-mode) (\.elc\' . elisp-byte-code-mode) (\.zst\' nil jka-compr) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.\(?:rbw?\|ru\|rake\|thor\|jbuilder\|rabl\|gemspec\|podspec\)\|/\(?:Gem\|Rake\|Cap\|Thor\|Puppet\|Berks\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (\.py[iw]?\' . python-mode) (\.less\' . less-css-mode) (\.scss\' . scss-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.h\' . c-or-c++-mode) (\.c\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . mhtml-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\.\(scm\|stk\|ss\|sch\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.ad[abs]\' . ada-mode) (\.ad[bs].dg\' . ada-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-gmake-mode) (\.make\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-gmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ckz]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|zshrc\|m?kshrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|cbr\|7z\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|CBR\|7Z\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.jsm?\' . javascript-mode) (\.json\' . javascript-mode) (\.jsx\' . js-jsx-mode) (\.[ds]?vh?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) ([:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|DVI\|OD[FGPST]\|DOCX?\|XLSX?\|PPTX?\|pdf\|djvu\|dvi\|od[fgpst]\|docx?\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.la\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\.toml\' . conf-toml-mode) (\.desktop\' . conf-desktop-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gitconfig\|gnokiirc\|hgrc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.\(?:enigma\|gltron\|gtk\|hxplayer\|net\|neverball\|qt/.+\|realplayer\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/\|\.ad\' . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode) (\.tzst\' . tar-mode))
 
 ** flycheck
 
@@ -945,11 +1092,15 @@ espaço no disco.
 (use-package flycheck-cask)
 #+END_SRC
 
+#+RESULTS:
+
 ** magit git
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit)
 #+END_SRC
+
+#+RESULTS:
 
 ** ☛ TODO company
 
@@ -968,7 +1119,6 @@ espaço no disco.
 (use-package company-box
 ;;  :hook (company-mode . company-box-mode)
   :config
-  (add-hook 'prog-mode-hook 'company-box-mode)
   (setq company-box-doc-delay 0.3)
   (setq company-box-enable-icon nil))
 
@@ -978,6 +1128,9 @@ espaço no disco.
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 #+END_SRC
 
+#+RESULTS:
+: company-select-previous-or-abort
+
 ** outros parametros
 *** tamanho das tabulações
 
@@ -985,11 +1138,16 @@ espaço no disco.
 (setq-default tab-width 4)
 #+END_SRC
 
+#+RESULTS:
+: 4
+
 ** web
 
 #+begin_src emacs-lisp
 (use-package emmet-mode)
 #+end_src
+
+#+RESULTS:
 
 ** ✘ CANCELADO smart parens
 
@@ -998,12 +1156,17 @@ espaço no disco.
 ;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
 ;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
 ;; (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
 #+END_SRC
+
+#+RESULTS:
 
 ** auctex
 
 #+begin_src emacs-lisp
 #+end_src
+
+#+RESULTS:
 
 ** yasnippets
 
@@ -1018,6 +1181,9 @@ espaço no disco.
   (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets" yasnippet-snippets-dir "/home/sean/.emacs.d/elpa/haskell-snippets-20160919.22/snippets")))
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** projectile
 
 #+BEGIN_SRC emacs-lisp
@@ -1025,6 +1191,9 @@ espaço no disco.
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** helm dash
 
@@ -1034,11 +1203,17 @@ espaço no disco.
    (setq helm-dash-common-docsets '("Python_3" "Standard ML")))
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** octave
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 #+END_SRC
+
+#+RESULTS:
+: ((\.m . octave-mode) (README\.md\' . gfm-mode) (\.odc\' . archive-mode) (\.odf\' . archive-mode) (\.odi\' . archive-mode) (\.otp\' . archive-mode) (\.odp\' . archive-mode) (\.otg\' . archive-mode) (\.odg\' . archive-mode) (\.ots\' . archive-mode) (\.ods\' . archive-mode) (\.odm\' . archive-mode) (\.ott\' . archive-mode) (\.odt\' . archive-mode) (/home/sean/Documents/journal/\(?1:[0-9]\{4\}\)\(?2:[0-9][0-9]\)\(?3:[0-9][0-9]\)\(\.gpg\)?\' . org-journal-mode) (\.epub\' . nov-mode) (\.[pP][dD][fF]\' . pdf-view-mode) (\.hva\' . latex-mode) (\.drv\' . latex-mode) (\.ado\' . ess-stata-mode) (\.do\' . ess-stata-mode) (\.[Ss][Aa][Ss]\' . SAS-mode) (\.Sout . S-transcript-mode) (\.[Ss]t\' . S-transcript-mode) (\.Rd\' . Rd-mode) (DESCRIPTION$ . conf-colon-mode) (/Makevars\(\.win\)?$ . makefile-mode) (\.[Rr]out . ess-r-transcript-mode) (CITATION\' . ess-r-mode) (NAMESPACE\' . ess-r-mode) (\.[rR]profile\' . ess-r-mode) (\.[rR]\' . ess-r-mode) (/R/.*\.q\' . ess-r-mode) (\.[Jj][Aa][Gg]\' . ess-jags-mode) (\.[Bb][Mm][Dd]\' . ess-bugs-mode) (\.[Bb][Oo][Gg]\' . ess-bugs-mode) (\.[Bb][Uu][Gg]\' . ess-bugs-mode) (\(?:build\|profile\)\.boot\' . clojure-mode) (\.cljs\' . clojurescript-mode) (\.cljc\' . clojurec-mode) (\.\(clj\|dtm\|edn\)\' . clojure-mode) (\.jl\' . julia-mode) (\.hsc\' . haskell-mode) (\.l[gh]s\' . literate-haskell-mode) (\.hsig\' . haskell-mode) (\.[gh]s\' . haskell-mode) (\.cabal\'\|/cabal\.project\|/\.cabal/config\' . haskell-cabal-mode) (\.chs\' . haskell-c2hs-mode) (\.ghci\' . ghci-script-mode) (\.dump-simpl\' . ghc-core-mode) (\.hcr\' . ghc-core-mode) (/git-rebase-todo\' . git-rebase-mode) (\.md\' . markdown-mode) (\.markdown\' . markdown-mode) (\.\(plantuml\|pum\|plu\)\' . plantuml-mode) (\.grm\' . sml-yacc-mode) (\.cm\' . sml-cm-mode) (\.s\(ml\|ig\)\' . sml-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.\(?:avs\|bmp[23]?\|c\(?:als?\|myka?\|u[rt]\)\|d\(?:c[mx]\|ds\|px\)\|f\(?:ax\|its\)\|gif\(?:87\)?\|hrz\|ic\(?:on\|[bo]\)\|j\(?:\(?:pe\|[np]\)g\)\|m\(?:iff\|ng\|s\(?:l\|vg\)\|tv\)\|otb\|p\(?:bm\|c\(?:ds\|[dltx]\)\|db\|gm\|i\(?:ct\|x\)\|jpeg\|n\(?:g\(?:24\|32\|8\)\|[gm]\)\|pm\|sd\|tif\|wp\)\|r\(?:as\|gb[ao]?\|l[ae]\)\|s\(?:c[rt]\|fw\|gi\|un\|vgz?\)\|t\(?:ga\|i\(?:ff\(?:64\)?\|le\|m\)\|tf\)\|uyvy\|v\(?:da\|i\(?:car\|d\|ff\)\|st\)\|w\(?:bmp\|pg\)\|x\(?:bm\|cf\|pm\|wd\|[cv]\)\|y\(?:cbcra?\|uv\)\)\' . image-mode) (\.elc\' . elisp-byte-code-mode) (\.zst\' nil jka-compr) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.\(?:rbw?\|ru\|rake\|thor\|jbuilder\|rabl\|gemspec\|podspec\)\|/\(?:Gem\|Rake\|Cap\|Thor\|Puppet\|Berks\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (\.py[iw]?\' . python-mode) (\.less\' . less-css-mode) (\.scss\' . scss-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.h\' . c-or-c++-mode) (\.c\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . mhtml-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\.\(scm\|stk\|ss\|sch\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.ad[abs]\' . ada-mode) (\.ad[bs].dg\' . ada-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-gmake-mode) (\.make\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-gmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ckz]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|zshrc\|m?kshrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|cbr\|7z\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|CBR\|7Z\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.jsm?\' . javascript-mode) (\.json\' . javascript-mode) (\.jsx\' . js-jsx-mode) (\.[ds]?vh?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) ([:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|DVI\|OD[FGPST]\|DOCX?\|XLSX?\|PPTX?\|pdf\|djvu\|dvi\|od[fgpst]\|docx?\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.la\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\.toml\' . conf-toml-mode) (\.desktop\' . conf-desktop-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gitconfig\|gnokiirc\|hgrc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.\(?:enigma\|gltron\|gtk\|hxplayer\|net\|neverball\|qt/.+\|realplayer\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/\|\.ad\' . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode) (\.tzst\' . tar-mode))
 
 ** C
 
@@ -1046,18 +1221,20 @@ espaço no disco.
 (use-package company-irony)
 #+END_SRC
 
+#+RESULTS:
+
 ** python
 
 #+BEGIN_SRC emacs-lisp
 (use-package company-anaconda)
 
-(use-package ein)
-
 (add-hook 'python-mode-hook
-		  (lambda () (setq indent-tabs-mode nil
-					  tab-width 4
+		  (lambda () (setq tab-width 4
 					  python-indent-offset 4)))
 #+END_SRC
+
+#+RESULTS:
+| lambda | nil | (setq tab-width 4 python-indent-offset 4) |
 
 ** haskell
 
@@ -1071,6 +1248,9 @@ espaço no disco.
   (setq lsp-haskell-process-args-hie '()))
 #+END_SRC
 
+#+RESULTS:
+: t
+
 ** lisp
 
 #+begin_src emacs-lisp
@@ -1078,11 +1258,16 @@ espaço no disco.
 (setq show-paren-style 'parenthesis)
 #+end_src
 
+#+RESULTS:
+: parenthesis
+
 ** sml
 
 #+BEGIN_SRC emacs-lisp
 (use-package sml-mode)
 #+END_SRC
+
+#+RESULTS:
 
 ** ESS R stats
 
@@ -1090,6 +1275,8 @@ espaço no disco.
 (use-package ess)
 (use-package ess-smart-underscore)
 #+END_SRC
+
+#+RESULTS:
 
 ** howdoyou stackoverflow consult
 
@@ -1100,6 +1287,9 @@ espaço no disco.
   (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
         helm-google-suggest-actions))
 #+END_SRC
+
+#+RESULTS:
+: ((How Do You lambda (candidate) (howdoyou-query candidate)) (How Do You lambda (candidate) (howdoyou-query candidate)) (How Do You lambda (candidate) (howdoyou-query candidate)) (Google Search . helm-google-suggest-action) (Wikipedia lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-wikipedia-url candidate)) (Youtube lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-youtube-url candidate)) (IMDb lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-imdb-url candidate)) (Google Maps lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-google-maps-url candidate)) (Google News lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-google-news-url candidate)))
 
 
 

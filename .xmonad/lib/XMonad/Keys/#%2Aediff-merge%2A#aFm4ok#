@@ -1,0 +1,704 @@
+<<<<<<< variant A
+module XMonad.Keys.Keys where
+import XMonad
+import qualified XMonad.StackSet as W
+import qualified Data.Map as M
+import XMonad.Actions.DynamicWorkspaces (addWorkspace)
+import XMonad.Actions.DynamicProjects
+import XMonad.Actions.TreeSelect
+import XMonad.Actions.GridSelect
+import XMonad.Prompt
+import Data.Tree
+import XMonad.Util.NamedScratchpad
+import XMonad.Scratchpads.Scratchpads
+import XMonad.Actions.CopyWindow
+
+import XMonad.Colors.Colors
+keysToAdd x =
+  [((mod4Mask, xK_c), kill)
+ , ((mod4Mask, xK_o), gridselectWorkspace' def
+                         { gs_navigate   = navNSearch
+                         , gs_rearranger = searchStringRearrangerGenerator id
+                         , gs_font = "xft:DroidSansMono Nerd Font:size=15"
+                         }
+                     addWorkspace)--switchProjectPrompt warmPromptTheme)
+  , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
+               -- TODO pensar numas coisas legais pra colocar nesse menu
+               -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
+               -- nmtui -(
+  , ((mod4Mask, xK_y)
+    , treeselectAction
+        myTreeConf
+        -- TODO gerar um menu desses com um arquivo xml ou um arquivo do org mode, sei lá json  tanto faz
+        [ Node
+            (TSNode
+               "\xf011 "
+               "Desligar/Reiniciar/Hibernar"
+               (return ()))
+            [ Node
+                (TSNode
+                   "Desligar"
+                   "Desligar o computador"
+                   (spawn "shutdown -h now"))
+                []
+            , Node
+                (TSNode
+                  "Reiniciar"
+                  "Reinicia o computador"
+                  (spawn "reboot"))
+                []
+            ]
+        , Node
+            (TSNode
+               "Brilho"
+               "Muda o brilho da tela com o xbacklight"
+               (return ()))
+            [ Node (TSNode "Máximo" "Meus olhos!11!!1!" (spawn "xbacklight -set 100")) []
+            , Node (TSNode "Normal" "50%" (spawn "xbacklight -set 50")) []
+            , Node (TSNode "Fraquinho" "Bem escuro" (spawn "xbacklight -set 10")) []]
+                                    -- TODO colocar uma opçao pra desativar o wifi
+        , Node
+            (TSNode
+               "Redes"
+               "Seleciona redes cabeadas ou sem fio"
+               (spawn "urxvtc -e nmtui"))
+            []
+                                    -- TODO colocar uns atalhos para coisas de arquivos
+        , Node
+            (TSNode
+               "Resolução da tela"
+               "Troca a resolução da tela"
+               (return ()))
+            [ Node
+              (TSNode
+              "1920x1080 VGA1"
+              "Monitor externo ou projetor"
+              (spawn "xrandr --output VGA1 --primary --mode 1920x1080"))
+              []
+            , Node
+              (TSNode
+              "1280x720 LVDS1"
+              "Resolução do monitor do notebook"
+              (spawn "xrandr --output LVDS1 --primary --mode 1280x720"))
+              []
+            , Node (TSNode "1280x720 VGA1" "Monitor externo ou projetor" (spawn "xrandr --output VGA1 --primary --mode 1280x720"))
+              []
+            ]
+        , Node
+            (TSNode "\x03be Orgmode" "Arquivos de agenda, diário e afins" (return ()))
+            [ Node
+                (TSNode
+                   "learn"
+                   "1 learn"
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/learn.org"))
+                []
+            , Node
+                (TSNode
+                   "tarefas"
+                   "1 tarefas"
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/tarefas.org"))
+                []
+            , Node
+                (TSNode
+                   "notes"
+                   "1 notes"
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes.org"))
+                []
+            , Node
+                (TSNode
+                   "accomplished"
+                   "descrição"
+                   (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes_accomplished.org"))
+                []
+            ]
+        ])
+  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "vlc")
+  , ((mod4Mask, xK_v), toggleCopyToAll)
+  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "notes")
+  , ((mod4Mask, xK_u), spawn "emacsclient -c -n -e '(switch-to-buffer nil)'")
+--  , ((mod4Mask, xK_a), bringSelected def)
+  , ((mod4Mask, xK_a), spawn "rofi -show windowcd")
+  --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
+     -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
+     -- gerar esses menus proceduralmente a partir delistas
+  , ((mod4Mask, xK_s), spawn "rofi -show window")
+    -- , spawnSelected'
+    --     [ ("qutebrowser", "qutebrowser")
+    --     , ("Emacs", "emacsclient -c")
+    --     , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
+    --     , ("Anki", "anki")
+    --     , ("Thunar", "thunar")
+    --     , ("SMplayer", "smplayer")
+    --     , ("Clementine", "clementine")
+    --     , ("Recoll", "recoll")
+    --     , ("Libre Office", "libreoffice")
+    --     , ("Zotero", "zotero")
+    --     ])
+  , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
+  , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
+  , ((mod4Mask, xK_f), namedScratchpadAction scratchpads "notes")
+--     XMonad.windows W.focusDown)
+  , ((mod4Mask, xK_d), XMonad.windows W.focusUp)
+  ]
+  where
+    toggleCopyToAll =
+      wsContainingCopies >>= \ws ->
+        case ws of
+          [] -> windows copyToAll
+          _ -> killAllOtherCopies
+
+keysToDel x = [ ((mod4Mask .|. shiftMask), xK_c) ]
+              --((mod4Mask, xK_p))]
+
+newKeys x = M.union (keys def x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
+
+myKeys x = foldr M.delete (newKeys x) (keysToDel x) -- to delete the unused keys
+
+-- configuração da aparência do menu de árvore
+myTreeConf =
+  TSConfig
+    { ts_hidechildren = True
+    , ts_background = 0x70707070--0xc0c0c0c0
+    , ts_font = "xft:DroidSansMono Nerd Font:size=14"
+    , ts_node = (0xff000000, 0xff50d0db)
+    , ts_nodealt = (0xff000000, 0xff10b8d6)
+    , ts_highlight = (0xffffffff, 0xffff0000)
+    , ts_extra = 0xff000000
+    , ts_node_width = 200
+    , ts_node_height = 30
+    , ts_originX = 0
+    , ts_originY = 0
+    , ts_indent = 60
+    , ts_navigate = XMonad.Actions.TreeSelect.defaultNavigation
+    }
+
+myPromptTheme =
+  def
+    { font = "xft:DroidSansMono Nerd Font:size=10"
+    , bgColor = color5
+    , fgColor = color0
+    , fgHLight = color15
+    , bgHLight = color13
+    , borderColor = color3
+    , promptBorderWidth = 0
+    , height = 20
+    , position = Top
+    }
+
+warmPromptTheme = myPromptTheme -- {bgColor = yellow, fgColor = base03, position = Top}
+
+spawnSelected' :: [(String, String)] -> X ()
+
+spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
+  where
+    conf = def { gs_navigate = navNSearch
+               , gs_cellheight = 40
+               , gs_cellwidth = 130
+               , gs_cellpadding = 30
+               , gs_originFractX = 0.01
+               , gs_rearranger = searchStringRearrangerGenerator id
+               }    
+
+-- spawnSelected'' lst = gridselect conf lst >>= flip whenJust spawn
+--   where
+--     conf = defaultGSConfig { -- gs_navigate = defaultNavigation
+--                            gs_cellheight = 40
+--                            , gs_cellwidth = 130
+--                            , gs_cellpadding = 30
+--                            , gs_originFractX = 0.01
+--                            , gs_rearranger = searchStringRearrangerGenerator id
+--                            }
+
+-- -- TODO tá saindo
+-- -- mkTree str cdr = Node str TSNode "a" "b" (return ()) [(Node cdr)]
+-- test a b trs = Node (TSNode a b (trs)) []
+
+
+>>>>>>> variant B
+* lista dos meus arquivos org                                          :org:
+** semana
+** Documents/journal
+** sean
+*** emacs
+** Documents
+*** vestibular
+*** livros
+**** Cognitive Behavior Therapy Basics and Beyond
+:LOGBOOK:
+CLOCK: [2019-09-21 sáb 10:35]--[2019-09-21 sáb 11:06] =>  0:31
+CLOCK: [2019-09-21 sáb 09:16]--[2019-09-21 sáb 09:34] =>  0:18
+CLOCK: [2019-09-19 qui 21:29]--[2019-09-19 qui 21:40] =>  0:11
+CLOCK: [2019-09-19 qui 20:32]--[2019-09-19 qui 21:29] =>  0:57
+:END:
+Judith S. Beck Phd
+The Guilford Press (2011)
+Second Edition
+**** redação ler é desvendar o mundo
+:LOGBOOK:
+:END:
+*** hiit
+** desktop
+*** jp
+** lang
+*** lang
+* enrolando
+:PROPERTIES:
+:Effort:   0:30
+:END:
+:LOGBOOK:
+CLOCK: [2019-09-25 qua 20:53]--[2019-09-25 qua 22:37] =>  1:44
+CLOCK: [2019-09-25 qua 20:24]--[2019-09-25 qua 20:52] =>  0:28
+CLOCK: [2019-09-21 sáb 09:14]--[2019-09-21 sáb 09:15] =>  0:01
+CLOCK: [2019-09-21 sáb 08:54]--[2019-09-21 sáb 09:10] =>  0:16
+CLOCK: [2019-09-20 sex 23:46]--[2019-09-21 sáb 00:39] =>  0:53
+CLOCK: [2019-09-20 sex 21:58]--[2019-09-20 sex 22:28] =>  0:30
+CLOCK: [2019-09-20 sex 13:17]--[2019-09-20 sex 14:35] =>  1:18
+CLOCK: [2019-09-19 qui 21:40]--[2019-09-19 qui 22:28] =>  0:48
+CLOCK: [2019-09-19 qui 20:14]--[2019-09-19 qui 20:28] =>  0:14
+CLOCK: [2019-09-19 qui 18:51]--[2019-09-19 qui 19:11] =>  0:20
+CLOCK: [2019-09-19 qui 15:03]--[2019-09-19 qui 16:16] =>  1:13
+:END:
+* teste
+#+begin_src emacs-lisp
+(setq org-use-speed-commands 1)
+#+end_src
+
+* dormindo
+** eu sempre durmo muito quando fico escutando alguma coisa
+acho que eu devia parar de dormir ouvindo coisas no pc
+* planejando
+:PROPERTIES:
+:Effort:   0:20
+:END:
+:LOGBOOK:
+CLOCK: [2019-09-19 qui 20:03]--[2019-09-19 qui 20:13] =>  0:10
+CLOCK: [2019-09-19 qui 19:28]--[2019-09-19 qui 19:38] =>  0:10
+:END:
+** ver algumas coisas que ainda faltam eu fazer
+ir pensando em mais algumas coisas pra ir refinando essa agenda, sei
+lá. Mas também evitar perder muito tempo planejando as coisas.
+** pensar em algum jeito de planejar o que vou fazer na internet
+** revisar algumas coisas da faculdade
+*** ondas
+*** gravitação
+*** equações diferenciais
+*** integrais múltiplas
+*** cálculo vetorial
+*** integral de linha
+*** eletromagnetismo
+**** capatitor
+**** ondas eletromagnéticas
+** ver algum livro de TCC(CBT) e ver e enfiar na minha vida
+** conseguir sentir os efeitos das práticas de yoga
+*** me esforçar e escutar mais a Pri de um modo geral
+** colocar alguma coisa pra bloquear uns sites
+*** reddit
+*** twitter
+
+* vestibular
+:LOGBOOK:
+CLOCK: [2019-09-19 qui 13:43]--[2019-09-19 qui 13:48] =>  0:05
+:END:
+** ☛ TODO [#A] O que eu mudaria se fosse passar em primeiro lugar? 
+*** ☛ TODO fazer uns simulados dia alternando dias
+SCHEDULED: <2019-09-17 ter .+2d>
+:PROPERTIES:
+:STYLE: habit
+:LAST_REPEAT: [2019-09-15 dom 11:10]
+:END:
+- State "✓ PRONTO"   from "☛ TODO"     [2019-09-15 dom 11:10]
+:LOGBOOK:
+CLOCK: [2019-06-28 sex 11:29]--[2019-06-28 sex 12:04] =>  0:35
+:END:
+
+** me organizar
+*** ✓ PRONTO sq3r
+:LOGBOOK:
+CLOCK: [2019-09-18 qua 08:45]--[2019-09-18 qua 08:57] =>  0:12
+:END:
+
+*** montar uma lista dos conteúdos pra fuvest
+** ☛ TODO [#A] ver uma proposta de intervenção
+** redação plano
+*** interpreta a frase tema
+**** interpreta as palavras chave
+**** procura sinônimos
+*** ler os textos da coletânea
+**** pega ideia chave de cada texto
+**** olha os dados e as estatísticas
+e comenta sobre olhar a próxima parte
+**** não pode copiar
+*** 5-8 min brainstorm
+**** junta a primeira com a segunda parte
+*** levantamento de ideias
+*** pegar ideias ligadas à discussão do tema central
+**** juntar o meu conhecimento de mundo
+**** não é tudo que vai pro texto
+*** 10 min pausa e seleciona as ideias
+**** escolhe os argumentos
+***** proposta de intervenção
+***** tese
+****** primeiro argumento
+******* segundo argumento
+***** introdução
+*** 10 min organizar as ideias
+**** pré-rascunho
+**** clímax de argumentação
+**** ver as referências
+*** 20 min elaboração do texto
+**** rascunho
+*** 15 min pausa e passa a limpo
+**** checa a gramática antes
+* projetos/coisas pra fazer
+** ☛ TODO [#C] aqui vão as ideias de posts pro site
+*** sml algoritmos genéticos
+tem um vídeo no cs50 depois pega o source e tenta implementar depois eu escrevo algo.
+*** tutorial do org-notert
+:LOGBOOK:
+CLOCK: [2019-09-19 qui 16:52]--[2019-09-19 qui 17:39] =>  0:47
+:END:
+fazer um post falando sobre o meu workflow
+duro que as minhas notas ficam uma bagunç
+*** ☛ TODO [#A] falar sobre como eu comecei a ficar mais desenrolado na escrita
+**** fazer uma comparação com como eu também comecei a desenhar
+*** machine learning
+**** um mostrando como uma NN varia conforme o y e os x
+pensar num jeito legal de mostrar a evolução dos parametros
+*** ☛ TODO [#A] fazer um post sobre meu workflow no emacs
+** ☛ TODO [#B] integrar o xmonad com o emacs [2/4]
+*** ☛ TODO [#C] basicamente reconfigurar o org-capture
+*** ✓ PRONTO [#A] ver quantas linhas digitadas aqui no emacs ficam quando eu escrevo no papel
+450 palavras
+*** ☛ TODO [#B] montar um esquema no org-capture pra pegar o link das aulas do yt
+*** ✓ PRONTO [#A] ver um jeito de organizar citações
+CLOSED: [2019-04-12 sex 08:59]
+isso daqui vai me ajudar na hora da redação
+
+acho que vale a pena eu tentar escrever algumas coisas sobre os podcasts que eu
+acabar lendo
+** ☛ TODO aprenter o magit
+https://magit.vc/screenshots/
+coloca naquele negócio do emacs.org
+*** ver se tem necessidade de instalar aquele magithub
+** ✓ PRONTO [#C] reler aquele negócio do JP
+:LOGBOOK:
+CLOCK: [2019-04-19 sex 06:58]--[2019-04-19 sex 06:58] =>  0:00
+:END:
+**** refazer aquela atividade e colocar umas prioridades certinho
+** ☛ TODO [#B] ver alguma recompensa por conseguir manter o hábito de escrever todo dia
+** ☛ TODO [#B] montar um esquema no refile pra colocar as matérias que eu já estudei
+** ☛ TODO [#B] organizar as aulas de psicologia que eu andei vendo no yt
+** ☛ TODO trocar a bomba                                              :casa: 
+:LOGBOOK:
+CLOCK: [2019-04-20 sáb 09:23]--[2019-04-20 sáb 09:24] =>  0:01
+CLOCK: [2019-04-19 sex 11:28]--[2019-04-19 sex 11:53] =>  0:25
+:END:
+*** ver a antena
+*** comprar os arduinos
+*** o rele é de 250v e 3a
+** ☛ TODO [#A] URGENTE fazer backup das coisas no zotero pra um pendrive ou cartão de memória
+* Tarefas
+** diárias
+*** ✓ PRONTO notícias
+SCHEDULED: <2019-05-18 sáb .+1d>
+:PROPERTIES:
+:STYLE:    habit
+:LAST_REPEAT: [2019-05-17 sex 08:08]
+:END:
+- State "✓ PRONTO"   from "☛ TODO"     [2019-05-17 sex 08:08]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-05-16 qui 08:00]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-05-15 qua 10:50]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-04-27 sáb 21:13]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-04-21 dom 18:41]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-04-20 sáb 21:05]
+- State "✓ PRONTO"   from "☛ TODO"     [2019-04-12 sex 08:31]
+:LOGBOOK:
+CLOCK: [2019-05-17 sex 08:08]--[2019-05-17 sex 08:08] =>  0:00
+CLOCK: [2019-05-16 qui 07:48]--[2019-05-16 qui 08:00] =>  0:12
+CLOCK: [2019-04-26 sex 23:52]--[2019-04-27 sáb 21:13] => 21:21
+CLOCK: [2019-03-24 dom 15:07]--[2019-03-24 dom 15:32] =>  0:25
+:END:
+marcar uns podcasts e algumas matérias de jornal pra eu dar uma lida
+**** durma com essa
+**** foro de teresina
+:PROPERTIES:
+:Effort:   1:00
+:END:
+:LOGBOOK:
+CLOCK: [2019-05-15 qua 09:56]--[2019-05-15 qua 10:46] =>  0:50
+:END:
+***** #48
+****** aprovação reforma de previdência
+provavelmente vai durar o ano inteiro
+******* aprovada legalmente
+A área econômica do governo impediu a divulgação dos dados antes de aprovação, o
+que é injustificado num regime democrático. Existe um instituto (IFI [Instituto
+Fiscal Independente]) dentro do senado que faz o levantamento desses dados, que
+embasaram a criação da proposta. 
+
+******* Porque o governo esconderia os dados?
+Para não alterar a proposta original e a economia nos cofres não condiz com o
+dado divulgado.
+
+******* aposentadoria dos militares 
+Os dados das aposentadorias dos militares ainda não foram declarados.
+
+******* IBGE
+Bolsonaro quer cortar verbas e os dados do censo. 
+
+******* Tramitação política lenta
+Comparada com governos anteriores.
+
+******* Tirar o mérito da reforma do Bolsonaro
+Rodrigo Maia é quem está fazendo o andamento político da reforma.
+
+******* Liberação de verba adicional pra quem aprovar
+Pizza
+
+****** crise entre militares e Olavo
+organizada pelo Carluxo
+******* Condenação retórica da política
+******* Olavo de Carvalho xingando os militares explicitamente
+Carluxo publica esse vídeo no YT
+******* Desentendimentos
+Mourão e os filhos doidos do Bolsonaro
+******* Bolsonaro doesn't approves this
+Carluxo ligou o foda-se
+******* Bolsonaro está perdendo popularidade 
+Os evangélicos e os militares estão tirando apoio, o próprio governo está
+criando a sua oposição. Para eliminar a própria oposição, e monopolizar a "voz
+do contraponto".
+****** decisão do STJ de manter a condenação do Lula
+******* vai deixar o regime fechado a partir de setembro
+******* consequências políticas
+
+**** rfi
+***** débat du jour
+**** mamilos
+**** nexo jornal
+:LOGBOOK:
+CLOCK: [2019-05-15 qua 12:14]--[2019-05-15 qua 12:22] =>  0:08
+:END:
+***** entrevista com Oscar Vilhena: 'Juízes e procuradores não têm mandato para salvar o país."
+https://www.nexojornal.com.br/entrevista/2019/03/23/%E2%80%98Ju%C3%ADzes-e-procuradores-n%C3%A3o-t%C3%AAm-mandato-para-salvar-o-pa%C3%ADs%E2%80%99
+***** O que é o método fônico de alfabetização recomendado pelo MEC
+https://www.nexojornal.com.br/expresso/2019/03/23/O-que-%C3%A9-o-m%C3%A9todo-f%C3%B4nico-de-alfabetiza%C3%A7%C3%A3o-recomendado-pelo-MEC
+*** ☛ TODO escrever no diário
+SCHEDULED: <2019-09-20 sex .+1d>
+:PROPERTIES:
+:Effort:   0:20
+:STYLE:    habit
+:END:
+:LOGBOOK:
+CLOCK: [2019-09-25 qua 22:37]--[2019-09-25 qua 23:05] =>  0:28
+CLOCK: [2019-09-20 sex 21:38]--[2019-09-20 sex 21:58] =>  0:20
+:END:
+*** ☛ TODO anki
+SCHEDULED: <2019-09-26 qui 23:00 .+1d>
+:PROPERTIES:
+:STYLE:    habit
+:LAST_REPEAT: [2019-09-25 qua 17:05]
+:END:
+- State "✓ PRONTO"   from "☛ TODO"     [2019-09-25 qua 17:05]
+- State "✓ PRONTO"   from ""           [2019-09-21 sáb 13:21]
+:LOGBOOK:
+CLOCK: [2019-09-21 sáb 13:04]--[2019-09-21 sáb 13:17] =>  0:13
+:END:
+* coisas pra ficar suave
+** ☛ TODO exercícios
+ver um tanto tranquilo pra fazer todos os dias
+*** ✓ PRONTO montar uma rotina de exercícios                        :vida:
+preciso montar uma rotina
+**** montar algo pra ver se estou fazendo todo dia
+usar o org-habit
+*** ☛ TODO yoga
+SCHEDULED: <2019-09-20 sex .+1d/3d>
+:PROPERTIES:
+:STYLE:    habit
+:END:
+*** ☛ TODO flexões
+SCHEDULED: <2019-09-22 dom .+1d/2d>
+:PROPERTIES:
+:STYLE:    habit
+:LAST_REPEAT: [2019-09-21 sáb 10:54]
+:END:
+- State "✓ PRONTO"   from "☛ TODO"     [2019-09-21 sáb 10:54]
+*** abdominais
+*** agachamentos
+*** russian twists
+*** barras
+
+* calendário mestre
+** data dos vestibulares
+*** fuvest
+**** primeira fase da fuvest
+SCHEDULED: <2019-11-24 dom>
+**** segunda fase da fuvest
+SCHEDULED: <2020-01-05 dom>
+dois dias 5 e 6
+**** inscrições
+***** ✓ PRONTO pagar fuvest
+DEADLINE: <2019-09-24 ter>
+:LOGBOOK:
+CLOCK: [2019-09-15 dom 11:11]--[2019-09-15 dom 11:20] =>  0:09
+:END:
+****** boleto
+[[pdfview:/home/sean/Documents/boleto.pdf::1][/home/sean/Documents/boleto.pdf]]
+***** unifesp
+DEADLINE: <2019-10-25 sex>
+***** unesp
+DEADLINE: <2019-10-07 seg>
+***** ✓ PRONTO enem
+
+* atividades
+** programar
+eu vou mesmo ter tempo pra aprender a programar?
+*** python
+*** elisp
+*** haskell
+** línguas
+*** francês
+*** japonês
+*** português
+*** espanhol
+*** inglês
+* colunas das tarefas
+C-c C-x i -> Insert a dynamic block
+C-c C-c -> com o cursor em cima do BEGIN atualiza a tabela
+
+#+BEGIN: columnview :hlines 1 :id global
+| Task                                                                                      | Estimated Effort | CLOCKSUM | TODO        |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| ver os arquivos que eu costumo usar e organizar                                           |                  |          | ⚑ ESPERANDO |
+| semana                                                                                    |                  |          |             |
+| horario                                                                                   |                  |          |             |
+| Documents/journal                                                                         |                  |          |             |
+| Documents                                                                                 |                  |          |             |
+| vestibular                                                                                |                  |          |             |
+| livros                                                                                    |                  |          |             |
+| hiit                                                                                      |                  |          |             |
+| lang                                                                                      |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| coisas normais do dia a dia                                                               |                  |          |             |
+| manhã                                                                                     |                  |          |             |
+| tomar café da manhã                                                                       |                  |          |             |
+| escovar os dentes                                                                         |                  |          |             |
+| dar comida para os cachorros                                                              |                  |          |             |
+| dar comida para os passarinhos                                                            |                  |          |             |
+| tarde                                                                                     |                  |          |             |
+| almoço                                                                                    |                  |          |             |
+| escovar os dentes                                                                         |                  |          |             |
+| noite                                                                                     |                  |          |             |
+| janta                                                                                     |                  |          |             |
+| escovar os dentes                                                                         |                  |          |             |
+| tomar água                                                                                |                  |          | ☛ TODO      |
+| sal 塩 salt sel                                                                           |                  |          | ☛ TODO      |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| Tarefas                                                                                   |                  |     4:09 |             |
+| diárias                                                                                   |                  |     2:55 |             |
+| anki                                                                                      |                  |     1:40 | ☛ TODO      |
+| escrever                                                                                  |                  |     0:50 | ☛ TODO      |
+| escrever no papel                                                                         |                  |     0:25 | ☛ TODO      |
+| hábitos                                                                                   |                  |     0:50 |             |
+| ler as coisas que eu ando escrevendo                                                      |                  |     0:25 | ✓ PRONTO    |
+| começar a ver umas notícias                                                               |                  |     0:25 | ☛ TODO      |
+| ler algo sobre o massacre em Suzano                                                       |                  |          |             |
+| nexo jornal                                                                               |                  |          |             |
+| entrevista com Oscar Vilhena: 'Juízes e procuradores não têm mandato para salvar o país." |                  |          |             |
+| O que é o método fônico de alfabetização recomendado pelo MEC                             |                  |          |             |
+| escolher uma coisa pra ver todo dia e montar no esquema de hábito                         |                  |          | ✓ PRONTO    |
+| não fumar                                                                                 |                  |          | ☛ TODO      |
+| projetos                                                                                  |                  |          |             |
+| montar um site                                                                            |                  |          | ☛ TODO      |
+| aqui vão as ideias de posts                                                               |                  |          | ☛ TODO      |
+| sml algoritmos genéticos                                                                  |                  |          |             |
+| falar sobre como eu comecei a ficar mais desenrolado na escrita                           |                  |          | ☛ TODO      |
+| fazer uma comparação com como eu também comecei a desenhar                                |                  |          |             |
+| fazer um post sobre meu workflow no emacs                                                 |                  |          |             |
+| integrar o xmonad com o emacs                                                             |                  |          | ☛ TODO      |
+| basicamente reconfigurar o org-capture                                                    |                  |          | ☛ TODO      |
+| reler aquele negócio do JP                                                                |                  |          | ☛ TODO      |
+| refazer aquela atividade e colocar umas prioridades certinho                              |                  |          |             |
+| ver quantas linhas digitadas aqui no emacs ficam quando eu escrevo no papel               |                  |          | ☛ TODO      |
+| colocar uma key no xmonad pra chamar o emacs com o capture                                |                  |          | ☛ TODO      |
+| montar um esquema no org-capture pra pegar o link das aulas do yt                         |                  |          | ☛ TODO      |
+| ver um jeito de organizar citações                                                        |                  |          | ☛ TODO      |
+| ver se tem jeito de fazer backup com o zotero                                             |                  |          | ✓ PRONTO    |
+| fazer backup das coisas no zotero pra um pendrive ou cartão de memória                    |                  |          | ☛ TODO      |
+| ver alguma recompensa por conseguir manter o hábito de escrever todo dia                  |                  |          | ☛ TODO      |
+| lidar com fofoca de um jeito suave (ver nota)                                             |                  |          |             |
+| ver uns jeitos de conseguir ganhar uma grana                                              |                  |          |             |
+| configurar o org-drill com o org-capture                                                  |                  |          | ☛ TODO      |
+| pegar algum esquema de redação                                                            |                  |          | ✓ PRONTO    |
+| organizar as minhas tags                                                                  |                  |          |             |
+| ir adicionando aqui o que eu conseguir pensar em como categorizar esse arquivo            |                  |          |             |
+| TODO ver o que fica melhor nesse esquema do site                                          |                  |          |             |
+| organizar as aulas de psicologia que eu andei vendo no yt                                 |                  |          | ☛ TODO      |
+| montar um esquema no refile pra colocar as matérias que eu já estudei                     |                  |          | ☛ TODO      |
+| TODO fazer um jeito que fique como um org file                                            |                  |          |             |
+| essay do learning how to learn                                                            |                  |          | ✓ PRONTO    |
+| corrigir a gramática e enviar na página do coursera                                       |                  |          | ✘ CANCELADO |
+| escrever o email do curso de francês                                                      |                  |     0:24 | ✓ PRONTO    |
+| corrigir a gramática e mandar o email do coursera de francês                              |                  |          | ✘ CANCELADO |
+| livros                                                                                    |                  |          |             |
+| cursos                                                                                    |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| coisas pra ficar suave                                                                    |                  |          |             |
+| exercícios                                                                                |                  |          |             |
+| yoga                                                                                      |                  |          |             |
+| flexões                                                                                   |                  |          |             |
+| abdominais                                                                                |                  |          |             |
+| agachamentos                                                                              |                  |          |             |
+| russian twists                                                                            |                  |          |             |
+| barras                                                                                    |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| metas pra fazer                                                                           |                  |          |             |
+| O que eu mudaria se fosse passar em primeiro lugar?                                       |                  |          | ☛ TODO      |
+| Tomar bastante água TODO DIA                                                              |                  |          |             |
+| Não parar de fazer exercícios                                                             |                  |          | ☛ TODO      |
+| montar algo pra ver se estou fazendo todo dia                                             |                  |          |             |
+| montar um diário das coisas que eu for lembrando                                          |                  |          | ☛ TODO      |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| calendário mestre                                                                         |                  |          |             |
+| data dos vestibulares                                                                     |                  |          |             |
+| fuvest                                                                                    |                  |          |             |
+| horários semanais                                                                         |                  |          |             |
+| diário de coisas pra fazer                                                                |                  |          |             |
+| plano de conteúdos                                                                        |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| atividades                                                                                |                  |          |             |
+| programar                                                                                 |                  |          |             |
+| python                                                                                    |                  |          |             |
+| elisp                                                                                     |                  |          |             |
+| haskell                                                                                   |                  |          |             |
+| línguas                                                                                   |                  |          |             |
+| francês                                                                                   |                  |          |             |
+| japonês                                                                                   |                  |          |             |
+| português                                                                                 |                  |          |             |
+| espanhol                                                                                  |                  |          |             |
+| inglês                                                                                    |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| colunas das tarefas                                                                       |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| colunas dos tempos                                                                        |                  |          |             |
+|-------------------------------------------------------------------------------------------+------------------+----------+-------------|
+| parâmetros                                                                                |                  |          |             |
+#+END:
+* colunas dos tempos
+C-c C-x C-r -> monta a coluna dos relógios
+C-c C-c -> atualiza a coluna dos relógios, com o cursos em cima do BEGIN
+#+BEGIN: clocktable :scope file :maxlevel 2
+#+CAPTION: Clock summary at [2019-04-10 qua 21:38]
+| Headline                                 | Time |      |
+|------------------------------------------+------+------|
+| *Total time*                               | *4:09* |      |
+|------------------------------------------+------+------|
+| Tarefas                                  | 4:09 |      |
+| \_  diárias                              |      | 2:55 |
+| \_  hábitos                              |      | 0:50 |
+| \_  escrever o email do curso de francês |      | 0:24 |
+#+END:
+* parâmetros
+#+PROPERTY: Effort_ALL 0 0:10 0:20 0:30 1:00 1:30 2:00 3:00 4:00 5:00
+#+COLUMNS: %40ITEM(Task) %17Effort(Estimated Effort){:} %CLOCKSUM %TODO
+======= end

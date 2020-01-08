@@ -1,16 +1,11 @@
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
-
-(require 'iso-transl)
-
+(require 'use-package)
 (unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
   (package-install 'use-package))
+
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
-(require 'use-package)
+
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
@@ -21,7 +16,7 @@
 (if (and (fboundp 'server-running-p)
  		 (not (server-running-p)))
  	(server-start)
-  1)
+ 1)
 
 ;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
 ;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
@@ -46,15 +41,23 @@
 
 
 
-(use-package cyberpunk-theme)
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+
+(require 'iso-transl)
+
+;;(use-package cyberpunk-theme)
+(use-package zenburn-theme)
 ;;(use-package monokai-theme)
 ;; (use-package gruvbox-theme
 ;;   :config
 ;;   (load-theme 'gruvb-light-hard t))
 ;; 
-(set-face-attribute 'default nil :family "Iosevka" :height 130)
-(set-face-attribute 'fixed-pitch nil :family "Iosevka")
-(set-face-attribute 'variable-pitch nil :family "Baskerville")
+;; (set-face-attribute 'default nil :family "Iosevka" :height 130)
+;; (set-face-attribute 'fixed-pitch nil :family "Iosevka")
+;; (set-face-attribute 'variable-pitch nil :family "Baskerville")
 
 (scroll-bar-mode -1)
 (setq scroll-step            1
@@ -70,13 +73,10 @@
 
 (use-package all-the-icons)
 
-;; (use-package mode-icons
-;;   :after all-the-icons
-;;   :config
-;;   (mode-icons-mode))
-
-(use-package nyan-mode)
-(nyan-mode 1)
+(use-package mode-icons
+   :after all-the-icons
+   :config
+   (mode-icons-mode))
 
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
 (make-directory user-temporary-file-directory t)
@@ -141,8 +141,15 @@
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
-(setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
-;; ("#839496" . "#002b36")
+;; (defun org-noter-insert-selected-text-inside-note-content ()
+;;   (interactive)
+;;   (progn (setq currenb (buffer-name))
+;; 		 (org-noter-insert-precise-note)
+;; 		 (set-buffer currenb)
+;; 		 (org-noter-insert-note)))
+
+
+;; (define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
 
 (use-package try)
 
@@ -241,6 +248,19 @@
 
 (use-package hydra)
 
+(use-package god-mode
+  :config
+  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+  (global-set-key (kbd "<escape>") 'god-local-mode))
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+
 ;; depende do espeak
 (defun espeak (text)
   "Speaks text by espeak"
@@ -312,15 +332,6 @@
 (define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
 
 ;; org-agenda load na pasta do emacs
-(use-package idle-org-agenda
-  :after org-agenda
-  :ensure t
-  :config (idle-org-agenda-mode))
-
-(custom-set-variables
- '(idle-org-agenda-interval 300)
- '(idle-org-agenda-key "n")
- '(idle-org-agenda-mode t))
 
 ;; TODO colocar os arquivos direitinho nesse negócio
 (setq org-agenda-files '("~/Desktop/"
@@ -375,6 +386,12 @@
 (setq org-pomodoro-long-break-length 20)
 ;; frequência dos intervalos longos
 (setq org-pomodoro-long-break-frequency 3)
+
+(setq org-pomodoro-audio-player "mplayer")
+
+(setq org-pomodoro-finished-sound-args "-volume 0.4")
+(setq org-pomodoro-long-break-sound-args "-volume 0.4")
+(setq org-pomodoro-short-break-sound-args "-volume 0.4")
 
 (defun hhmmtomm (time)
   "converts hh:mm formated time string to minutes int"
@@ -533,8 +550,8 @@
 (require 'org-drill)
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-											(smartparens-mode 1)
-											(rainbow-delimiters-mode 1))))
+									   (smartparens-mode 1)
+									   (rainbow-delimiters-mode 1))))
 
 (use-package lsp-ui
   :ensure t
@@ -630,7 +647,7 @@
 
 (use-package cider)
 
-(use-package arduino-mode)
+;; (use-package arduino-mode)
 
 (use-package 
   markdown-mode 
@@ -640,11 +657,6 @@
 	 ("\\.md\\'" . markdown-mode) 
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
-
-(use-package nand2tetris)
-(use-package company-nand2tetris)
-
-(add-to-list 'auto-mode-alist '("\\.hdl\\'" . nand2tetris-mode))
 
 (use-package flycheck
   :ensure t
@@ -673,7 +685,6 @@
 (use-package company-box
 ;;  :hook (company-mode . company-box-mode)
   :config
-  (add-hook 'prog-mode-hook 'company-box-mode)
   (setq company-box-doc-delay 0.3)
   (setq company-box-enable-icon nil))
 
@@ -716,11 +727,8 @@
 
 (use-package company-anaconda)
 
-(use-package ein)
-
 (add-hook 'python-mode-hook
-		  (lambda () (setq indent-tabs-mode nil
-					  tab-width 4
+		  (lambda () (setq tab-width 4
 					  python-indent-offset 4)))
 
 (use-package haskell-snippets)

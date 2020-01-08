@@ -1,0 +1,39 @@
+hwlp
+search python
+tab_new
+copy
+search T
+search lol
+search swp
+search Té
+set RANGER_LOAD_DEFAULT_RC=FALSE
+shell sxiv -r . -t
+shellq
+shell 
+shell open
+shell sxivwd
+shell S
+
+rename Forensic Analysis of Tattoos and Tattoo Inks.pdf
+rename Electromagnetics for Electrical Machines.pdf
+cut 
+open_with smplayer
+mkdir ufscar notas
+rename margarina vegana1
+rename margarina vegana2
+mkdir blender
+mkdir tutoriais video
+mkdir series
+mkdir blender guru
+Cut
+rename Physical Principles of Wireless Communications
+rename *.pdf
+rename Physical Principles of Wireless Communications.pdf
+cut
+paste
+rename Ebola.pdf
+help
+search linux
+search mage
+open_with 
+delete
