@@ -11,6 +11,7 @@ import Data.Tree
 import XMonad.Util.NamedScratchpad
 import XMonad.Scratchpads.Scratchpads
 import XMonad.Actions.CopyWindow
+import XMonad.Prompt.Shell
 
 import XMonad.Colors.Colors
 keysToAdd x =
@@ -22,10 +23,12 @@ keysToAdd x =
                          }
                      addWorkspace)--switchProjectPrompt warmPromptTheme)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
+  , ((mod4Mask, xK_z), spawn "sleep 0.3; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")
+--  , ((mod4Mask, xK_p), shellPrompt def)
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
                -- nmtui -(
-  , ((mod4Mask, xK_y)--mod4Mask, xK_y) xf86Display 
+ , ((mod4Mask, xK_y)--mod4Mask, xK_y) xf86Display 
     , treeselectAction
         myTreeConf
         -- TODO gerar um menu desses com um arquivo xml ou um arquivo do org mode, sei lá json  tanto faz
@@ -147,7 +150,8 @@ keysToAdd x =
           [] -> windows copyToAll
           _ -> killAllOtherCopies
 
-keysToDel x = [ ((mod4Mask .|. shiftMask), xK_c) ]
+keysToDel x = [ ((mod4Mask .|. shiftMask), xK_c)
+              , ((mod4Mask, xK_p))]
               --((mod4Mask, xK_p))]
 
 newKeys x = M.union (keys def x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys

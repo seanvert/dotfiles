@@ -12,7 +12,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 #powerline-daemon -q &
 #/home/sean/test.sh &
 #/usr/lib/xfce4/notifyd/xfce4-notifyd &
-nitrogen --restore &
+#nitrogen --restore &
 #xfce4-panel --disable-wm-check &
 udiskie --no-notify --use-udisks2 --tray &
 #feh --bg-scale /home/sean/Images/wallpaper/wallpaper\ da\ sua\ vida.jpg
@@ -21,7 +21,7 @@ eval $(ssh-agent)
 numlockx &
 urxvtd &
 xmobar /home/sean/.xmobar/xmobarrc2 &
-wal -R &
+#wal -R &
 dunst -config /home/sean/.config/dunst/dunstrc &
 redshift -l -23:-47 &
 #compton &

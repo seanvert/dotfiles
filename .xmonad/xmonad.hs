@@ -9,7 +9,6 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
 
 import XMonad.Hooks.UrgencyHook
---import XMonad.Prompt
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.ManageDocks (checkDock)
 
@@ -43,33 +42,63 @@ import XMonad.Layout.OneBig
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
 
---import Data.Tree
---import XMonad.Actions.TreeSelect
 -- dynamic workspaces
 --import XMonad.Actions.DynamicWorkspaces (addWorkspace)
 
--- Função main
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
--- TODO ver um jeito de lançar as duas barras sem ficar uma merda
--- Comando que vai lançar a barra
 myBar = "xmobar /home/sean/.xmobar/xmobarrc1"
+
+-- TODO colocar o resto das coisas;
+-- urgent, title.
+-- colors no .xmonad/lib/Colors/Colors.hs
+currentFG = color0
+currentBG = color4
+currentLWrapper = "\xe0d2" --"\xe0b0 "
+currentLWrapperFG = color2
+currentLWrapperBG = color4
+currentRWrapper = "\xe0d4"-- "\xe0b0"
+currentRWrapperFG = color2
+currentRWrapperBG = color4
+hiddenFG = color0
+hiddenBG = color2
+-- TODO colocar o resto das coisas fg e bg
+hiddenLWrapper = ""
+hiddenLWrapperFG = color8
+hiddenLWrapperBG = color2
+hiddenRWrapper = " "--"\xe0b1"
+hiddenRWrapperFG = color8
+hiddenRWrapperBG = color2
+sep = " "
+sepFG = color0
+sepBG = color2
+wsSep = ""
+wsSepFG = color0
+wsSepBG = color2
+layoutFG = color0
+layoutBG = color2
+separatorPPXmobar = "\xe0b0"
+separatorPPXmobarFG = color2
+separatorPPXmobarBG = background
+
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
 myPP =
   namedScratchpadFilterOutWorkspacePP xmobarPP
-  -- a primeira cor é a do nome a segunda é o fundo, os outros dois delimitam a ws ativas
-    { ppCurrent = xmobarColor color0 color4 .
-                  wrap (xmobarColor color2 color4 "\xe0b0 ") (xmobarColor color4 color2 "\xe0b0")
-      --"<fc=#076678> </fc>" "<fc=#076678>\xe0b1</fc>"
-    , ppHidden = xmobarColor color0 color2 . wrap " " (xmobarColor color0 color2 "\xe0b1")-- "\xe0b1")
-    , ppOrder = \(ws:l:_:_) ->
-                  map (\x -> xmobarColor color0 color2 x)
-                  [ws, shorten 20 l ++ " " ++ xmobarColor color2 "#222222" "\xe0b0"]   -- ws -> workspace, l -> layout, wn -> window name
-    , ppSep = xmobarColor color0 color2 " "-- "\xe0b1"
-    , ppWsSep = xmobarColor color2 color2 ""
+    { ppCurrent = xmobarColor currentFG currentBG .
+                  wrap (xmobarColor currentLWrapperFG currentLWrapperBG currentLWrapper)
+                  (xmobarColor currentRWrapperFG currentRWrapperBG currentRWrapper)
+    , ppHidden = xmobarColor hiddenFG hiddenBG .
+                 wrap (xmobarColor hiddenLWrapperFG hiddenLWrapperBG hiddenLWrapper) 
+                 (xmobarColor hiddenRWrapperFG hiddenRWrapperBG hiddenRWrapper)
+      -- ws -> workspace, l -> layout, wn -> window name
+    , ppOrder = \(ws:l:_:_) -> [ws                               
+                               , xmobarColor layoutFG layoutBG $ shorten 20 l ++ " " ++
+                                 xmobarColor separatorPPXmobarFG separatorPPXmobarBG separatorPPXmobar]   
+    , ppSep = xmobarColor sepFG sepBG sep
+    , ppWsSep = xmobarColor wsSepFG wsSepBG wsSep
     , ppUrgent = xmobarColor color5 color2
-    , ppTitle = xmobarColor color0 color2 . shorten 50 -- "#A6BBBB" "" . shorten 50
+    , ppTitle = xmobarColor color0 color2 . shorten 50
 --    , ppOutput = hPutStrLn xmproc
     } 
 
@@ -82,8 +111,8 @@ myConfig =
   withUrgencyHook NoUrgencyHook
     defaultConfig
       { modMask = mod4Mask -- Use Super instead of Alt
-      , focusedBorderColor = color15 --"#004cff",
-      , normalBorderColor = "#000000"-- color12 -- "#000000" --"#a3beff",
+      , focusedBorderColor = color15
+      , normalBorderColor = color11
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
@@ -94,8 +123,7 @@ myConfig =
       , startupHook = myStartupHook
       , terminal = myTerminal
       } `additionalKeys`
-      [ ((mod4Mask, xK_p), spawn "rofi -show combi")
-      , ((mod4Mask, xK_z), spawn "sleep 0.3; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")]
+      [ ((mod4Mask, xK_p), spawn "rofi -show combi") ]
                       
 -- tamanho das bordas das janelas
 border = 4
@@ -103,11 +131,11 @@ nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
-           Dishes 2 (2/6) |||
+--           Dishes 2 (2/6) |||
            OneBig (2/3) (3/4) |||
            layoutHints (FixedColumn 1 20 90 10) |||
            layoutHints tiled |||
---           nobordersLayout |||
+           nobordersLayout |||
            mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
 
       -- default tiling algorithm partitions the screen into two panes
@@ -131,7 +159,11 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
 
 myTerminal = "urxvtc"
 
--- FUNCIONANDO! :D TODO arrumar as cores dos temas pq elas estão horríveis
+-- TODO arrumar as cores dos temas pq elas estão horríveis
+-- TODO adicoinar um projeto pra mexer no xmonad layout onebig
+-- adicionar um outor pra escrever layout mastered tabbed
+-- um pra ler também layout mastered tabbed
+-- adicionar um para programar com o zeal, emacs, interpretador/terminal
 projects :: [Project]
 projects =
   [ Project
@@ -146,31 +178,24 @@ projects =
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
-          spawn "google-chrome-stable" --"firefox"
+          spawn "google-chrome-stable"
     }
-  -- , Project
-  --   { projectName = myWorkspaces !! 4
-  --   , projectDirectory = "~/"
-  --   , projectStartHook =
-  --       Just $ do
-  --         spawn "pcmanfm"
-  --   }
-  -- , Project
-  --   { projectName = myWorkspaces !! 7
-  --   , projectDirectory = "~/"
-  --   , projectStartHook =
-  --       Just $ do
-  --         spawn "qbittorrent"
-  --   }
+  , Project
+    { projectName = "xmonad"
+    , projectDirectory = "~/.xmonad"
+    , projectStartHook =
+        Just $ do
+        spawn "emacs-client -c ~/.xmonad/xmonad.hs"
+    }
   , Project
     { projectName = myWorkspaces !! 8
     , projectDirectory = "~/"
     , projectStartHook =
         Just $ do
-          spawn "urxvtc -e alsamixer"
-          spawn "urxvtc -e htop"
-          spawn "urxvtc -e nmtui"
-          spawn "urxvtc"
+          spawn $ myTerminal ++ " -e alsamixer"
+          spawn $ myTerminal ++ " -e htop"
+          spawn $ myTerminal ++ " -e nmtui"
+          spawn myTerminal
     }
     -- TODO arrumar umjeito de fazer essascoisas funcionarem com o emacs
   , Project
@@ -178,7 +203,7 @@ projects =
     , projectDirectory = "~/"
     , projectStartHook =
       Just $ do
-        spawn "emacsclient -c -n -e '(filesets-open org)'"
+        spawn "emacsclient -c -e '(filesets-open org)'"
         --spawn "emacsclient ~/Desktop/newgtd.org"
         --spawn "emacsclient ~/ossu/ossu.org"
         spawn "emacsclient ~/semana.org"
@@ -188,7 +213,8 @@ projects =
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
-  spawn "xmodmap ~/.Xmodmap"
+  spawn $ "DISPLAY=:0 feh --bg-scale " ++ wallpaper
+--  spawn "xmodmap ~/.Xmodmap"
 --  spawn "pcmanfm --desktop &"
 --  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"

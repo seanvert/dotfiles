@@ -1,14 +1,12 @@
 Config {
-  -- colors
---  color0 = "#100a04"
-  
    -- appearance
-   font =         "xft:DroidSansMono Nerd Font:size=9"
-  , bgColor =      "#222222" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
-  , fgColor =      "#ebdbb2"
+   font = "xft:DroidSansMono Nerd Font:size=10,Hiragino Kaku Gothic Pro:size=10:antialias=true"
+  , bgColor =      "#007c80" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
+  
+  , fgColor =      "#dfeded"
     -- TODO fazer um shell script que pegue a resolução e coloque aqui pra n ficar uma merda
    , position =     Top -- OnScreen { screenNr = , position = Top} -- C 100
-   , border =       FullBM 0 --NoBorder --BottomB
+   , border =       NoBorder --BottomB
    , borderColor =  "#222222"-- "#0dd5db"
    , alpha = 255 -- 0 é transparente
    -- layout
@@ -57,9 +55,9 @@ Config {
         , Run MultiCpu       [ "--template" , "\xf108 <total>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
-                             , "--low"      , "#ebdbb2"--"#3c3836><fc=#79740e>\xf108 </fc"
-                             , "--normal"   , "#ebdbff" -- ><fc=#b57614>\xf108 </fc"
-                             , "--high"     , "#ffdbb2" -- ><fc=#d65d0e>\xf108 </fc"
+                             , "--low"      , "#ebdbb2"
+                             , "--normal"   , "#ebdbff"
+                             , "--high"     , "#ffdbb2"
                              ] 10
 
         -- cpu core temperature monitor
@@ -93,22 +91,20 @@ Config {
                                        -- discharging status
                                        , "-o"	, "\xf241 <timeleft>"
                                        -- AC "on" status
-                                       , "-O"	, "\xf241"--"<fc=#FD971F>\xf241</fc>" --Carregando</fc>"
+                                       , "-O"	, "\xf241"
                                        -- charged status
-                                       , "-i"	, "\xf240"--"<fc=#98971a>\xf240</fc>" -- "<fc=#A6E22E>Cheia</fc>"
+                                       , "-i"	, "\xf240"
                              ] 50
 
         -- time and date indicator
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#ffffff><fc=#F2e5bc> \xf133</fc> %F <fc=#66D9EF>%a</fc> <fc=#F2e5bc>\xf017</fc> %T </fc>" "date" 10
+        , Run Date           "<fc=#F2e5bc> \xf133</fc> %F %a <fc=#F2e5bc>\xf017</fc> %T" "date" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
                              , ("us"         , "<fc=#8B0000>US</fc>")
                              ]
         , Run Locks
-        --, Run PipeReader "/tmp/.todo-pipe" "todo_pipe"
-        --, Run CommandReader "./test.sh" "todo_pipe"
 	--, Run Brightness ["-t", "<fc=#66D9EF>\xf185</fc> <percent>%"] 60
         ]
    }

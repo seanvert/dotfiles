@@ -48,8 +48,36 @@
 
 (require 'iso-transl)
 
+(use-package ewal
+  :init (setq ewal-use-built-in-always-p nil
+              ewal-use-built-in-on-failure-p t
+              ewal-built-in-palette "sexy-material"))
+(use-package ewal-spacemacs-themes
+  :init (progn
+          (setq spacemacs-theme-underline-parens t
+                my:rice:font (font-spec
+                              :family "Source Code Pro"
+                              :weight 'semi-bold
+                              :size 11.0))
+          (show-paren-mode +1)
+          (global-hl-line-mode)
+          (set-frame-font my:rice:font nil t)
+          (add-to-list  'default-frame-alist
+                        `(font . ,(font-xlfd-name my:rice:font))))
+  :config (progn
+            (load-theme 'ewal-spacemacs-modern t)
+            (enable-theme 'ewal-spacemacs-modern)))
+(use-package ewal-evil-cursors
+  :after (ewal-spacemacs-themes)
+  :config (ewal-evil-cursors-get-colors
+           :apply t :spaceline t))
+(use-package spaceline
+  :after (ewal-evil-cursors winum)
+  :init (setq powerline-default-separator nil)
+  :config (spaceline-spacemacs-theme))
+
 ;;(use-package cyberpunk-theme)
-(use-package zenburn-theme)
+;;(use-package zenburn-theme)
 ;;(use-package monokai-theme)
 ;; (use-package gruvbox-theme
 ;;   :config
@@ -62,9 +90,7 @@
 (scroll-bar-mode -1)
 (setq scroll-step            1
       scroll-conservatively  10000)
-(menu-bar-mode -1)
 (tool-bar-mode -1)
-(display-time-mode -1)
 
 ;;(powerline-default-theme)
 (setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
@@ -73,10 +99,10 @@
 
 (use-package all-the-icons)
 
-(use-package mode-icons
-   :after all-the-icons
-   :config
-   (mode-icons-mode))
+;; (use-package mode-icons
+;;    :after all-the-icons
+;;    :config
+;;    (mode-icons-mode))
 
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
 (make-directory user-temporary-file-directory t)
@@ -91,7 +117,7 @@
 (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
 (use-package pdfgrep)
 (use-package pdf-tools
-:ensure t
+  :ensure t
   ;; :pin manual ;; manually update
   :config
   ;; initialise
@@ -190,8 +216,8 @@
 (use-package pandoc-mode)
 (use-package pandoc)
 
-;; (use-package frames-only-mode)
-;; (frames-only-mode 1)
+(use-package frames-only-mode)
+(frames-only-mode 1)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -252,6 +278,8 @@
   :config
   (define-key god-local-mode-map (kbd "i") 'god-local-mode)
   (global-set-key (kbd "<escape>") 'god-local-mode))
+
+(god-mode)
 
 (defun my-update-cursor ()
   (setq cursor-type (if (or god-local-mode buffer-read-only)
@@ -412,7 +440,7 @@
   (with-temp-file "/tmp/clocking"
     ;; (message (org-clock-get-clock-string))
     (if (org-clock-is-active)
-        (insert (format "\ue003 %s: %d (%d->%d) min %d cd <fc=#af3a03,#f9f5d7>\xe0b0</fc>"
+        (insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
                         (- (org-clock-get-clocked-time) org-clock-total-time)
                         org-clock-total-time
@@ -658,10 +686,10 @@
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 
-(use-package flycheck
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook 'flycheck-mode))
+(use-package flycheck)
+  ;; :ensure t)
+  ;; :init
+  ;; (add-hook 'prog-mode-hook 'flycheck-mode))
   ;;(global-flycheck-mode t))
 (use-package flycheck-irony)
 (use-package flycheck-haskell)
