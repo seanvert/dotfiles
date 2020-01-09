@@ -23,7 +23,7 @@ keysToAdd x =
                          }
                      addWorkspace)--switchProjectPrompt warmPromptTheme)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
-  , ((mod4Mask, xK_z), spawn "sleep 0.3; scrot -o -s /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png")
+
 --  , ((mod4Mask, xK_p), shellPrompt def)
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu

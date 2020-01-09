@@ -54,19 +54,18 @@ myBar = "xmobar /home/sean/.xmobar/xmobarrc1"
 -- colors no .xmonad/lib/Colors/Colors.hs
 currentFG = color0
 currentBG = color4
-currentLWrapper = "\xe0d2" --"\xe0b0 "
+currentLWrapper = "\xe0d2"
 currentLWrapperFG = color2
 currentLWrapperBG = color4
-currentRWrapper = "\xe0d4"-- "\xe0b0"
+currentRWrapper = "\xe0d4"
 currentRWrapperFG = color2
 currentRWrapperBG = color4
 hiddenFG = color0
 hiddenBG = color2
--- TODO colocar o resto das coisas fg e bg
 hiddenLWrapper = ""
 hiddenLWrapperFG = color8
 hiddenLWrapperBG = color2
-hiddenRWrapper = " "--"\xe0b1"
+hiddenRWrapper = " "
 hiddenRWrapperFG = color8
 hiddenRWrapperBG = color2
 sep = " "
@@ -118,12 +117,13 @@ myConfig =
       , layoutHook =  myLayout
       , handleEventHook = hintsEventHook
 --      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
-      , manageHook = myManageHook <+> manageHook defaultConfig
+      , manageHook = myManageHook <+> manageHook def
       , keys = myKeys
       , startupHook = myStartupHook
       , terminal = myTerminal
       } `additionalKeys`
-      [ ((mod4Mask, xK_p), spawn "rofi -show combi") ]
+      [ ((mod4Mask, xK_p), spawn "rofi -show combi")
+      , ((mod4Mask, xK_z), spawn "scrot -o -s /tmp/screenshot.png -e 'xclip -selection clipboard -t image/png -i $f'")]
                       
 -- tamanho das bordas das janelas
 border = 4
