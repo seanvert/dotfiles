@@ -123,7 +123,7 @@ myConfig =
       , terminal = myTerminal
       } `additionalKeys`
       [ ((mod4Mask, xK_p), spawn "rofi -show combi")
-      , ((mod4Mask, xK_z), spawn "scrot -o -s /tmp/screenshot.png -e 'xclip -selection clipboard -t image/png -i $f'")]
+      , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -o -s /tmp/screenshot.png -e 'xclip -selection clipboard -t image/png -i $f'")]
                       
 -- tamanho das bordas das janelas
 border = 4
@@ -155,7 +155,6 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
                       , activeBorderColor = color3
                       , fontName = "xft:DroidSansMono Nerd Font:size=10"
                       , decoHeight = 20 }
-
 
 myTerminal = "urxvtc"
 
@@ -214,7 +213,7 @@ projects =
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
   spawn $ "DISPLAY=:0 feh --bg-scale " ++ wallpaper
---  spawn "xmodmap ~/.Xmodmap"
+  spawn "xmodmap ~/.Xmodmap"
 --  spawn "pcmanfm --desktop &"
 --  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
 --  spawn "/home/sean/.xmobar/xmobarc.sh"
@@ -228,8 +227,9 @@ myManageHook = namedScratchpadManageHook scratchpads
   isDialog  --> doFloat
 --  , isFullscreen --> -- doSideFloat NW -- doFullFloat
   -- TODO tentar fazer o popup do opera não ficar por baixo das outras janelas
-  , stringProperty "WM_WINDOW_ROLE" =? "popup" --> doFloat
+  , stringProperty "_NET_WM_NAME" =? "Picture in Picture" --> doFloat
   , className =? "vlc" --> doFloat
+  , className =? "firefox" --> doShift (myWorkspaces !! 2)
   , className =? "mpv" --> doFloat
   , className =? "smplayer" --> doFloat
 --   , stringProperty "WM_NAME(STRING)" =? "cava" --> doIgnore
