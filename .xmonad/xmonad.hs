@@ -36,7 +36,6 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.Master
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.StateFull (focusTracking)
-import XMonad.Layout.Dishes
 import XMonad.Layout.OneBig
 
 import XMonad.Layout.PerWorkspace
@@ -123,7 +122,8 @@ myConfig =
       , terminal = myTerminal
       } `additionalKeys`
       [ ((mod4Mask, xK_p), spawn "rofi -show combi")
-      , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -o -s /tmp/screenshot.png -e 'xclip -selection clipboard -t image/png -i $f'")]
+      , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -o -s /tmp/screenshot.png -e 'xclip -selection clipboard -t image/png -i $f'")
+      , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png") ]
                       
 -- tamanho das bordas das janelas
 border = 4
@@ -132,7 +132,7 @@ nobordersLayout = noBorders $ Full
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
 --           Dishes 2 (2/6) |||
-           OneBig (2/3) (3/4) |||
+--           OneBig (2/3) (3/4) |||
            layoutHints (FixedColumn 1 20 90 10) |||
            layoutHints tiled |||
            nobordersLayout |||
@@ -214,26 +214,17 @@ myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
   spawn $ "DISPLAY=:0 feh --bg-scale " ++ wallpaper
   spawn "xmodmap ~/.Xmodmap"
---  spawn "pcmanfm --desktop &"
---  spawn "sleep 0.3; xmobar ~/.xmobar/xmobarrc2"
---  spawn "/home/sean/.xmobar/xmobarc.sh"
-
 
 myManageHook :: ManageHook
 myManageHook = namedScratchpadManageHook scratchpads
   <+> composeAll
---  composeAll
-  [-- checkDock -?> doIgnore
-  isDialog  --> doFloat
---  , isFullscreen --> -- doSideFloat NW -- doFullFloat
+  [ isDialog  --> doFloat
   -- TODO tentar fazer o popup do opera não ficar por baixo das outras janelas
   , stringProperty "_NET_WM_NAME" =? "Picture in Picture" --> doFloat
+  , stringProperty "_NET_WM_NAME" =? "Picture-in-Picture" --> doFloat
   , className =? "vlc" --> doFloat
   , className =? "firefox" --> doShift (myWorkspaces !! 2)
   , className =? "mpv" --> doFloat
   , className =? "smplayer" --> doFloat
---   , stringProperty "WM_NAME(STRING)" =? "cava" --> doIgnore
 --  , className =? "GoldenDict" --> doFloat
---  , className =? "google-chrome" --> doShift (myWorkspaces !! 2) ]
   , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
---  , className =? "firefox" --> doShift "www"]

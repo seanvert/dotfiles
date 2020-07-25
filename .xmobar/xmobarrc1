@@ -1,6 +1,6 @@
 Config {
    -- appearance
-   font = "xft:DroidSansMono Nerd Font:size=10,Hiragino Kaku Gothic Pro:size=10:antialias=true"
+   font = "xft:DroidSansMono Nerd Font:size=11,Hiragino Kaku Gothic Pro:size=11:antialias=true"
   , bgColor =      "#007c80" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
   
   , fgColor =      "#dfeded"
@@ -43,7 +43,7 @@ Config {
 
      -- network activity monitor (dynamic interface resolution)
        [ Run StdinReader
-         , Run DynNetwork     [ "--template" , "<fc=#076678> \xf0aa</fc> <tx>kB/s <fc=#9d0006>\xf0ab</fc> <rx>kB/s  "--  " --<dev> pra mostrar o device
+         , Run DynNetwork     [ "--template" , "<fc=#076678>\xf0aa </fc><tx>kB/s <fc=#9d0006>\xf0ab </fc><rx>kB/s  "--  " --<dev> pra mostrar o device
                              , "--Low"      , "1000"       -- units: B/s
                              , "--High"     , "5000"       -- units: B/s
                              , "--low"      , "#79740e"
@@ -52,7 +52,7 @@ Config {
                              ] 10
 
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "\xf108 <total>%"
+        , Run MultiCpu       [ "--template" , "\xf108  <total>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
                              , "--low"      , "#ebdbb2"
@@ -70,7 +70,7 @@ Config {
                              ] 50
 
         -- memory usage monitor
-        , Run Memory         [ "--template" ,"<fc=#F92672>\xf2db</fc> <usedratio>%"
+        , Run Memory         [ "--template" ,"<fc=#F92672>\xf2db </fc><usedratio>%"
                              , "--Low"      , "20"        -- units: %
                              , "--High"     , "90"        -- units: %
                              , "--low"      , "#A6E22E"
@@ -80,7 +80,7 @@ Config {
         , Run Swap ["--template", "<fc=#F92672>Swap</fc> <usedratio>%"] 10
 
         -- battery monitor
-        , Run Battery        [ "--template" , "<acstatus>" -- "<fc=#a89984>\xe0b0</fc> <acstatus>" 
+        , Run Battery        [ "--template" , "<acstatus>" -- "<fc=#a89984>\xe0b0</fc><acstatus>" 
                              , "--Low"      , "10"        -- units: %
                              , "--High"     , "80"        -- units: %
                              , "--low"      , "#F92672"
@@ -89,16 +89,16 @@ Config {
 
                              , "--" -- battery specific options
                                        -- discharging status
-                                       , "-o"	, "\xf241 <timeleft>"
+                                       , "-o"	, "\xf241  <timeleft>"
                                        -- AC "on" status
-                                       , "-O"	, "\xf241"
+                                       , "-O"	, "\xf241 "
                                        -- charged status
-                                       , "-i"	, "\xf240"
+                                       , "-i"	, "\xf240 "
                              ] 50
 
         -- time and date indicator
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#F2e5bc> \xf133</fc> %F %a <fc=#F2e5bc>\xf017</fc> %T" "date" 10
+        , Run Date           "<fc=#F2e5bc>\xf133 </fc>%F %a <fc=#F2e5bc>\xf017 </fc>%T " "date" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
