@@ -37,6 +37,9 @@ import XMonad.Layout.Master
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.StateFull (focusTracking)
 import XMonad.Layout.OneBig
+import XMonad.Layout.Combo
+import XMonad.Layout.TwoPane
+import XMonad.Layout.Dishes
 
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
@@ -131,15 +134,18 @@ nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
---           Dishes 2 (2/6) |||
---           OneBig (2/3) (3/4) |||
-           layoutHints (FixedColumn 1 20 90 10) |||
-           layoutHints tiled |||
-           nobordersLayout |||
-           mastered (5/100) (2/3 - 5/100) (focusTracking tabs))
+            -- Dishes 2 (2/6) |||
+            -- OneBig (2/3) (3/4) |||
+            layoutHints (FixedColumn 1 20 90 10) |||
+            -- layoutHints tiled |||
+            nobordersLayout |||
+            -- multiple |||
+            mastered (5/100) (2/3 - 5/100) (focusTracking tabs)
+           )
 
       -- default tiling algorithm partitions the screen into two panes
   where
+    -- multiple = combineTwo (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig)
     tabs = tabbed shrinkText myTabConfig
     tiled = spacing 40 $ Tall nmaster delta ratio
       -- The default number of windows in the master pane

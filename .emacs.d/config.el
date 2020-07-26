@@ -102,6 +102,7 @@
 (setq scroll-step            1
       scroll-conservatively  10000)
 (tool-bar-mode -1)
+(menu-bar-mode -1)
 
 ;;(powerline-default-theme)
 
@@ -476,7 +477,11 @@
 ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
 (require 'org-habit)
 (require 'org-tempo)
-(setq org-startup-folded "children")
+(setq org-startup-folded nil ;; default t
+	  org-inhibit-startup-visibility-stuff t
+	  org-set-startup-visibility 'content)
+
+
 (use-package org-journal
   :bind
   ("C-c n j" . org-journal-new-entry))
@@ -544,10 +549,11 @@
 ;; org-agenda load na pasta do emacs
 
 ;; TODO colocar os arquivos direitinho nesse negócio
-(setq org-agenda-files '("~/Desktop/"
-						 "~/.emacs.d/config.org"
-						 "/ubuntu/home/sean/"
-						 "~/vest/"))
+(setq org-agenda-files '(
+                         "~/.emacs.d/config.org"
+                         "/ubuntu/home/sean"))
+
+;;						 "~/vest/"))
 ;;						 "~/vest/vestibular.org"
 
 

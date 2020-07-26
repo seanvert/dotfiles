@@ -24,7 +24,7 @@
  '(default-input-method "japanese")
  '(org-agenda-files
    (quote
-	("/home/sean/Desktop/jp.org" "~/ossu/ossu.org" "~/Documents/livros.org" "/home/sean/Documents/linux.org" "/home/sean/Documents/livros.org" "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org" "/home/sean/vest/Ceci Starr-Biologia _ unidade e diversidade da vida, volume 2-Cengage Learning (2012).org" "/home/sean/vest/Edição Iniciacao a Filosofia - Volume Único.org" "/home/sean/vest/[PV Poliedro, Filosofia] Romulo Vitor Braga - Filosofia Poliedro, Volúme Único, 2016 U(2016, Poliedro).org" "/home/sean/vest/vestibular.org")))
+	("/home/sean/Desktop/jp.org" "~/ossu/ossu.org" "/home/sean/Documents/linux.org" "/home/sean/vest/Biologia. Unidade E Diversidade Da Vida - Volume 1.org" "/home/sean/vest/Ceci Starr-Biologia _ unidade e diversidade da vida, volume 2-Cengage Learning (2012).org" "/home/sean/vest/Edição Iniciacao a Filosofia - Volume Único.org" "/home/sean/vest/[PV Poliedro, Filosofia] Romulo Vitor Braga - Filosofia Poliedro, Volúme Único, 2016 U(2016, Poliedro).org" "/home/sean/vest/vestibular.org")))
  '(org-download-screenshot-method "gnome-screenshot")
  '(org-ref-default-bibliography "/home/sean/biblioteca.bib")
  '(org-roam-bibtex-mode nil)

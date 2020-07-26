@@ -13,6 +13,8 @@ import XMonad.Scratchpads.Scratchpads
 import XMonad.Actions.CopyWindow
 import XMonad.Prompt.Shell
 
+import XMonad.Layout.WindowNavigation
+
 import XMonad.Colors.Colors
 keysToAdd x =
   [((mod4Mask, xK_c), kill)
@@ -71,7 +73,7 @@ keysToAdd x =
             (TSNode
                "Resolução da tela"
                "Troca a resolução da tela"
-               (return ()))
+               (return ()))]
             [ Node
               (TSNode
               "1920x1080 VGA1"
@@ -114,9 +116,13 @@ keysToAdd x =
         --            (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes_accomplished.org"))
         --         []
         --     ]
-        ])
-  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer")
+        
+  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer"))
   , ((mod4Mask, xK_v), toggleCopyToAll)
+  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
+  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
+  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
+  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
 --  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "goldendict")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -e '(switch-to-buffer nil)' --alternate-editor=''")
 --  , ((mod4Mask, xK_a), bringSelected def)
