@@ -49,6 +49,7 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
 (require 'iso-transl)
+
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -103,6 +104,13 @@
       scroll-conservatively  10000)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+(use-package writeroom-mode)
+(with-eval-after-load 'writeroom-mode
+  (define-key writeroom-mode-map (kbd "C-M-<") #'writeroom-decrease-width)
+  (define-key writeroom-mode-map (kbd "C-M->") #'writeroom-increase-width)
+  (define-key writeroom-mode-map (kbd "C-M-=") #'writeroom-adjust-width))
+(setq writeroom-width 120)
 
 ;;(powerline-default-theme)
 
@@ -165,6 +173,9 @@
   (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete)
   (define-key pdf-view-mode-map (kbd "z") 'org-noter))
 
+;; troca a cor do midnight mode para combinar com a cor do tema
+(setq pdf-view-midnight-colors (cons (face-attribute 'default :foreground) (face-attribute 'default :background)))
+
 ;; TODO FAZER O BÁSICO PRIMEIRO
 (setq pdf-time-before 0)
 (setq pdf-time-after 0)
@@ -198,6 +209,8 @@
 
 
 ;; (define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
+
+;; (define-key flyspell-mode-map (kbd "C-,") #'flyspell-goto-next-error)
 
 (use-package try)
 
@@ -322,8 +335,8 @@
 (setq org-my-anki-file "/ubuntu/home/sean/anki.org")
 
 ;; Allow Emacs to access content from clipboard.
-(setq x-select-enable-clipboard t
-      x-select-enable-primary t)
+(setq select-enable-clipboard t
+      select-enable-primary t)
 
 (use-package gif-screencast)
 (use-package keycast)
@@ -477,11 +490,8 @@
 ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
 (require 'org-habit)
 (require 'org-tempo)
-(setq org-startup-folded nil ;; default t
-	  org-inhibit-startup-visibility-stuff t
-	  org-set-startup-visibility 'content)
-
-
+;; TODO este pedaço não está funcionando
+(setq org-startup-folded 'content) ;; default t)
 (use-package org-journal
   :bind
   ("C-c n j" . org-journal-new-entry))
@@ -494,14 +504,14 @@
          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
          org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
          org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
-         org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
          org-ref-notes-directory "/ubuntu/home/sean/"
-         org-ref-notes-function 'orb-edit-notes
-    ))
+         org-ref-notes-function 'orb-edit-notes))
 
 (use-package org-download
   :custom
-  (org-download-screenshot-method "gnome-screenshot"))
+  (org-download-screenshot-method "gnome-screenshot")
+  (org-download-image-dir "./assets/images"))
 (use-package html-to-markdown)
 (use-package ox-jekyll-md)
 (use-package ox-epub)
@@ -549,8 +559,7 @@
 ;; org-agenda load na pasta do emacs
 
 ;; TODO colocar os arquivos direitinho nesse negócio
-(setq org-agenda-files '(
-                         "~/.emacs.d/config.org"
+(setq org-agenda-files '("~/.emacs.d/config.org"
                          "/ubuntu/home/sean"))
 
 ;;						 "~/vest/"))
@@ -607,6 +616,17 @@
   ;; (defvar org-roam-directory nil)
   :init
   :config
+  (add-to-list 'org-roam-capture-templates
+               '("w" "webref" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "web/${slug}"
+                 :head "#+TITLE: ${title}\n#+ROAM_KEY: %x\n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
+                 :unnarrowed t))
+  (add-to-list 'org-roam-capture-templates '("r" "regular" plain (function org-roam-capture--get-point)
+                                             "%?"
+                                             :file-name "${slug}"
+                                             :head "#+TITLE: ${title}\n#+ROAM_KEY: \n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
+                                             :unnarrowed t))
   (require 'org-roam-protocol)
   (setq 
 ;; org-roam-directory (expand-file-name (or org-roam-directory "roam")
@@ -614,12 +634,12 @@
         org-roam-verbose nil  ;; https://youtu.be/fn4jIlFwuLU
 ;; changed this 
         ;; org-roam-buffer-no-delete-other-windows t ;; make org-roam buffer sticky
-		org-roam-buffer-window-parameters '((no-delete-other-windows . t))
+                org-roam-buffer-window-parameters '((no-delete-other-windows . t))
         org-roam-completion-system 'default
-		org-roam-graph-executable "/usr/bin/dot"
-		org-roam-graph-viewer "/usr/bin/google-chrome-stable"
-		org-roam-completion-system 'helm
-		org-roam-index-file "index.org"
+                org-roam-graph-executable "/usr/bin/dot"
+                org-roam-graph-viewer "/usr/bin/google-chrome-stable"
+                org-roam-completion-system 'helm
+                org-roam-index-file "index.org"
 
 
   ;; Normally, the org-roam buffer doesn't open until you explicitly call
@@ -639,14 +659,14 @@
   ;; mode line in the org-roam buffer, since it serves no purpose. This
   ;; makes it easier to distinguish among other org buffers.
   ;; (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-		)
+                )
   :bind (:map org-roam-mode-map
-			  (("C-c n l" . org-roam)
-			   ("C-c n f" . org-roam-find-file)
-			   ("C-c n g" . org-roam-graph-show)
-			   ("C-c n i" . org-roam-insert)
-			   ("C-c n I" . org-roam-insert-immediate)
-			   ("C-c n d" . deft)))
+                          (("C-c n l" . org-roam)
+                           ("C-c n f" . org-roam-find-file)
+                           ("C-c n g" . org-roam-graph)
+                           ("C-c n i" . org-roam-insert)
+                           ("C-c n I" . org-roam-insert-immediate)
+                           ("C-c n d" . deft)))
   )
 
 
@@ -777,12 +797,12 @@
 )))
 
 (setq org-capture-templates
-      '(("t" "☛ TODO" entry (file+headline "~/semana.org" "Tarefas")
-	     "* ☛ TODO %^{Descrição breve} %^g \n \n %? \n Adicionado em: %U")
+      '(("t" "PRA FAZER" entry (file+headline "~/semana.org" "Tarefas")
+	     "* PRA FAZER %^{Descrição breve} %^g \n \n %? \n Adicionado em: %U")
         ("c" "Checklist" entry (file+headline "~/semana.org" "Tarefas")
-         "* ☛ TODO %^{Descrição breve} [/] %^g \n- [ ] %? \n Adicionado em: %U")
+         "* PRA FAZER %^{Descrição breve} [/] %^g \n- [ ] %? \n Adicionado em: %U")
         ("p" "Programming TODO" entry (file+headline "~/semana.org" "projetos")
-         "* ☛ TODO %^{Descrição breve} %^g \n %? \n link: %a \n Adicionado em: %U")
+         "* PRA FAZER %^{Descrição breve} %^g \n %? \n link: %a \n Adicionado em: %U")
         ("n" "Programming Notes" entry (file+headline "~/ossu/prognotes.org" "notas")
          "* %^{Descrição} %^g \n %x \n")
         ("w" "Citações" entry (file+headline "~/lang/citações.org" "citações")
@@ -813,6 +833,8 @@
 		))
 
 (global-set-key (kbd "C-c c") 'org-capture)
+
+
 
 (use-package ob-sml)
 
@@ -846,7 +868,7 @@
 
 (use-package ox-reveal)
 
-(require 'org-drill)
+;; (require 'org-drill)
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 									   (smartparens-mode 1)
@@ -986,10 +1008,10 @@
 
 (use-package company-math)
 (use-package company-box
-;;  :hook (company-mode . company-box-mode)
+  :hook (company-mode . company-box-mode)
   :config
   (setq company-box-doc-delay 0.3)
-  (setq company-box-enable-icon nil))
+  (setq company-box-enable-icon t))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
@@ -1048,6 +1070,51 @@
     	   (setq emmet-use-css-transform t)
       	 (setq emmet-use-css-transform nil)))))
 
+;; (use-package tide
+;;   :ensure t
+;;   :after (typescript-mode company flycheck)
+;;   :hook ((typescript-mode . tide-setup)
+;;          (typescript-mode . tide-hl-identifier-mode)
+;;          (before-save . tide-format-before-save)))
+;; (defun setup-tide-mode ()
+;;   "Setup function for tide."
+;;   (interactive)
+;;   (tide-setup)
+;;   (flycheck-mode +1)
+;;   (setq flycheck-check-syntax-automatically '(save mode-enabled))
+;;   (eldoc-mode +1)
+;;   (tide-hl-identifier-mode +1)
+;;   (company-mode +1))
+
+;; (setq company-tooltip-align-annotations t)
+
+;; (setq flycheck-javascript-standard-executable "/home/sean/.npm-global/bin/standardx")
+;; (use-package prettier-js)
+;; ;; TODO ver isso direto depois
+;; ;; https://github.com/ananthakumaran/tide/tree/c6b86277f1c7d3d04c07d93a6cf49378225da5a2
+;; (setq tide-format-options '(
+;; 							:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+;; :placeOpenBraceOnNewLineForFunctions nil
+;; :tabSize: 4
+;; :indentSize 4
+;; ))
+
+
+
+;; (add-hook 'js-mode-hook #'setup-tide-mode)
+;; (add-hook 'js-mode-hook 'prettier-js-mode)
+
+;; (setq prettier-js-args '(
+;;   "--trailing-comma" "none"
+;;   "--bracket-spacing" "true"
+;;   "--single-quote" "true"
+;;   "--no-semi" "true"
+;;   "--jsx-single-quote" "true"
+;;   "--jsx-bracket-same-line" "true"
+;;   "--print-width" "100"))
+
+(use-package restclient)
+
 ;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
 ;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
 ;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -1067,6 +1134,7 @@
 (use-package projectile
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+(setq projectile-use-git-grep t)
 
 (use-package helm-dash
   :config
