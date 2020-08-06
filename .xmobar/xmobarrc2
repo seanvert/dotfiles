@@ -1,8 +1,8 @@
 Config {
    -- appearance
      font =         "xft:DroidSansMono Nerd Font:size=9"
-   , bgColor =      "#007c80" -- "#0dd5db"
-   , fgColor =      "#dfeded"
+   , bgColor = "#190f0b" --     "#007c80" -- "#0dd5db"
+   , fgColor = "#b4b4b9" --     "#dfeded"
    -- TODO fazer um shell script que pegue a resolução e coloque aqui pra n ficar uma merda
    , position =     Bottom -- OnScreen { screenNr = , position = Top} -- C 100
    , border =       NoBorder --BottomB
@@ -24,6 +24,6 @@ Config {
        [
          Run Com "/home/sean/.xmobar/xmonad-clocking-monitor.sh" [] "orgClock" 10
 --       , Run Com "/home/sean/.xmobar/hd.sh" [] "hd" 600
-       , Run Mpris2 "smplayer" ["-t", "<fc=#076678,#007c80>\xe0b2</fc><fc=#ffffff,#076678> <title> - <artist> \xf886 </fc>"] 10
-       ]
+       , Run Mpris2 "smplayer" ["-t", "<fc=#b4b4b9,#190f0b> <title> - <artist> \xf886 </fc>"] 10
+       ] -- <fc=#076678,#007c80>\xe0b2</fc>
    }

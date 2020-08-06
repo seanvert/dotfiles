@@ -30,50 +30,28 @@ keysToAdd x =
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
                -- nmtui -(
- , ((mod4Mask, xK_y)--mod4Mask, xK_y) xf86Display 
+ , ((mod4Mask, xK_y) -- mod4Mask, xK_y xf86Display 
     , treeselectAction
         myTreeConf
         -- TODO gerar um menu desses com um arquivo xml ou um arquivo do org mode, sei lá json  tanto faz
-        [
-          -- Node
-          --   (TSNode
-          --      "\xf011 "
-          --      "Desligar/Reiniciar/Hibernar"
-          --      (return ()))
-          --   [ Node
-          --       (TSNode
-          --          "Desligar"
-          --          "Desligar o computador"
-          --          (spawn "shutdown -h now"))
-          --       []
-          --   , Node
-          --       (TSNode
-          --         "Reiniciar"
-          --         "Reinicia o computador"
-          --         (spawn "reboot"))
-          --       []
-          --   ],
-          Node
-            (TSNode
-               "Brilho"
-               "Muda o brilho da tela com o xbacklight"
-               (return ()))
-            [ Node (TSNode "Máximo" "Meus olhos!11!!1!" (spawn "xbacklight -set 100")) []
+        [ Node (TSNode "Brilho" "Muda o brilho da tela com o xbacklight" (return ()))
+            [
+              Node (TSNode "Máximo" "Meus olhos!11!!1!" (spawn "xbacklight -set 100")) []
             , Node (TSNode "Normal" "50%" (spawn "xbacklight -set 40")) []
-            , Node (TSNode "Fraquinho" "Bem escuro" (spawn "xbacklight -set 10")) []]
+            , Node (TSNode "Fraquinho" "Bem escuro" (spawn "xbacklight -set 10")) []
+            ]
                                     -- TODO colocar uma opçao pra desativar o wifi
-        , Node
-            (TSNode
-               "Desliga o monitor"
-               "Desliga o monitor do notebook"
-               (spawn "xrandr --output LVDS1 --off"))
-            []
+        , Node (TSNode "Monitor do note" "Liga/desliga o monitor" (return ()))
+          [
+            Node (TSNode "Desliga o monitor" "Desliga o monitor do notebook" (spawn "xrandr --output LVDS1 --off")) []
+          , Node (TSNode "Liga o monitor" "Liga o monitor do notebook" (spawn "xrandr --output LVDS1 --primary --mode 1280x720")) []
+          ]
+        , Node (TSNode "Scale" "Muda a proporção do monitor" (return ()))
+          [ Node (TSNode "1.5" "Resolução pequena" (spawn "xrandr --output LVDS1 --scale 1.5x1.5")) []
+          , Node (TSNode "1.0" "Resolução padrão" (spawn "xrandr --output LVDS1 --scale 1.0x1.0")) []
+          ]
                                     -- TODO colocar uns atalhos para coisas de arquivos
-        , Node
-            (TSNode
-               "Resolução da tela"
-               "Troca a resolução da tela"
-               (return ()))]
+        , Node (TSNode "Resolução da tela" "Troca a resolução da tela" (return ()))
             [ Node
               (TSNode
               "1920x1080 VGA1"
@@ -88,36 +66,8 @@ keysToAdd x =
               []
             , Node (TSNode "1280x720 VGA1" "Monitor externo ou projetor" (spawn "xrandr --output VGA1 --primary --mode 1280x720"))
               []
-            ]
-        -- , Node
-        --     (TSNode "\x03be Orgmode" "Arquivos de agenda, diário e afins" (return ()))
-        --     [ Node
-        --         (TSNode
-        --            "learn"
-        --            "1 learn"
-        --            (spawn "emacsclient -c /home/sean/emacs/org/agenda/learn.org"))
-        --         []
-        --     , Node
-        --         (TSNode
-        --            "tarefas"
-        --            "1 tarefas"
-        --            (spawn "emacsclient -c /home/sean/emacs/org/agenda/tarefas.org"))
-        --         []
-        --     , Node
-        --         (TSNode
-        --            "notes"
-        --            "1 notes"
-        --            (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes.org"))
-        --         []
-        --     , Node
-        --         (TSNode
-        --            "accomplished"
-        --            "descrição"
-        --            (spawn "emacsclient -c /home/sean/emacs/org/agenda/notes_accomplished.org"))
-        --         []
-        --     ]
-        
-  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer"))
+            ]])
+  , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer")
   , ((mod4Mask, xK_v), toggleCopyToAll)
   , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
   , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
@@ -126,7 +76,11 @@ keysToAdd x =
 --  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "goldendict")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -e '(switch-to-buffer nil)' --alternate-editor=''")
 --  , ((mod4Mask, xK_a), bringSelected def)
-  , ((mod4Mask, xK_a), spawn "rofi -show windowcd")
+  , ((mod4Mask, xK_a), bringSelected def
+                             { gs_navigate   = navNSearch
+                             , gs_font = "xft:DroidSansMono Nerd Font:size=9"
+                             })
+--                       { gs_rearranger = searchStringRearrangerGenerator id })-- spawn "rofi -show windowcd")
   --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
      -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
      -- gerar esses menus proceduralmente a partir delistas

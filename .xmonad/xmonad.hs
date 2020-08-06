@@ -25,6 +25,7 @@ import XMonad.Actions.SpawnOn --faz os programas aparecerem em determinadas áre
 -- meus imports
 import XMonad.Workspaces.WSConfig
 import XMonad.Colors.Colors
+
 import XMonad.Keys.Keys
 import XMonad.Scratchpads.Scratchpads
 
@@ -56,27 +57,27 @@ myBar = "xmobar /home/sean/.xmobar/xmobarrc1"
 -- colors no .xmonad/lib/Colors/Colors.hs
 currentFG = color0
 currentBG = color4
-currentLWrapper = "\xe0d2"
+currentLWrapper = " "--"\xe0d2"
 currentLWrapperFG = color2
 currentLWrapperBG = color4
-currentRWrapper = "\xe0d4"
+currentRWrapper = " "--"\xe0d4"
 currentRWrapperFG = color2
 currentRWrapperBG = color4
-hiddenFG = color0
-hiddenBG = color2
+hiddenFG = foreground -- color0
+hiddenBG = background -- color2
 hiddenLWrapper = ""
 hiddenLWrapperFG = color8
 hiddenLWrapperBG = color2
-hiddenRWrapper = " "
+hiddenRWrapper = ""
 hiddenRWrapperFG = color8
 hiddenRWrapperBG = color2
-sep = " "
+sep = "\xe0b0 "
 sepFG = color0
 sepBG = color2
 wsSep = ""
 wsSepFG = color0
 wsSepBG = color2
-layoutFG = color0
+layoutFG = foreground
 layoutBG = color2
 separatorPPXmobar = "\xe0b0"
 separatorPPXmobarFG = color2
@@ -93,9 +94,9 @@ myPP =
                  wrap (xmobarColor hiddenLWrapperFG hiddenLWrapperBG hiddenLWrapper) 
                  (xmobarColor hiddenRWrapperFG hiddenRWrapperBG hiddenRWrapper)
       -- ws -> workspace, l -> layout, wn -> window name
-    , ppOrder = \(ws:l:_:_) -> [ws                               
-                               , xmobarColor layoutFG layoutBG $ shorten 20 l ++ " " ++
-                                 xmobarColor separatorPPXmobarFG separatorPPXmobarBG separatorPPXmobar]   
+    , ppOrder = \(ws:l:wn:x) -> [ws]
+                               -- , xmobarColor layoutFG layoutBG $ shorten 20 l ++ " " ++
+                                 -- xmobarColor separatorPPXmobarFG separatorPPXmobarBG separatorPPXmobar]   
     , ppSep = xmobarColor sepFG sepBG sep
     , ppWsSep = xmobarColor wsSepFG wsSepBG wsSep
     , ppUrgent = xmobarColor color5 color2
@@ -112,8 +113,8 @@ myConfig =
   withUrgencyHook NoUrgencyHook
     defaultConfig
       { modMask = mod4Mask -- Use Super instead of Alt
-      , focusedBorderColor = color15
-      , normalBorderColor = color11
+      , focusedBorderColor = color14
+      , normalBorderColor = color9
       , borderWidth = border
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
@@ -135,7 +136,7 @@ nobordersLayout = noBorders $ Full
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (tabs |||
             -- Dishes 2 (2/6) |||
-            -- OneBig (2/3) (3/4) |||
+            OneBig (2/3) (3/4) |||
             layoutHints (FixedColumn 1 20 90 10) |||
             -- layoutHints tiled |||
             nobordersLayout |||
@@ -218,8 +219,13 @@ projects =
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
   spawn "xrdb -merge ~/.Xresources"
-  spawn $ "DISPLAY=:0 feh --bg-scale " ++ wallpaper
+  spawn "killall stalonetray"
+  spawn "stalonetray"
+--  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
   spawn "xmodmap ~/.Xmodmap"
+  spawn "pkill -f xmobarrx2"
+  spawn "xmobar /home/sean/.xmobar/xmobarrc2"
+  
 
 myManageHook :: ManageHook
 myManageHook = namedScratchpadManageHook scratchpads

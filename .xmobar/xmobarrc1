@@ -1,9 +1,9 @@
 Config {
    -- appearance
    font = "xft:DroidSansMono Nerd Font:size=11,Hiragino Kaku Gothic Pro:size=11:antialias=true"
-  , bgColor =      "#007c80" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
+  , bgColor = "#190f0b"  --   "#007c80" -- "#fbf1c7"--"#fbf1c7" -- "#0dd5db"
   
-  , fgColor =      "#dfeded"
+  , fgColor = "#b4b4b9"    -- "#dfeded"
     -- TODO fazer um shell script que pegue a resolução e coloque aqui pra n ficar uma merda
    , position =     Top -- OnScreen { screenNr = , position = Top} -- C 100
    , border =       NoBorder --BottomB

@@ -55,16 +55,15 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-;; (use-package ewal
-;;   :init (setq ewal-use-built-in-always-p t
-;;               ewal-use-built-in-on-failure-p nil
-;;               ewal-built-in-palette "hybrid-material"))
-
+(use-package ewal
+  :init (setq ewal-use-built-in-always-p nil
+              ewal-use-built-in-on-failure-p nil
+              ewal-built-in-palette "sexy-material"))
 ;; (use-package ewal-spacemacs-themes
 ;;   :init (progn
 ;;           (setq spacemacs-theme-underline-parens t
 ;;                 my:rice:font (font-spec
-;;                               :family "Iosevka"
+;;                               :family "Source Code Pro"
 ;;                               :weight 'semi-bold
 ;;                               :size 11.0))
 ;;           (show-paren-mode +1)
@@ -79,16 +78,16 @@
 (visual-line-mode t)
 
 ;;(use-package cyberpunk-theme)
-(use-package spaceline
-  :after (winum)
-  :init (setq powerline-default-separator nil)
-  :config (spaceline-spacemacs-theme))
+;; (use-package spaceline
+;;   :after (winum)
+;;   :init (setq powerline-default-separator nil)
+;;   :config (spaceline-spacemacs-theme))
 ;; highlight lines
 (global-hl-line-mode)
 ;; eink theme
 ;; (use-package eink-theme)
-(use-package solarized-theme)
-(load-theme 'solarized-light-high-contrast t)
+;; (use-package solarized-theme)
+;; (load-theme 'solarized-light-high-contrast t)
 ;;(use-package zenburn-theme)
 ;;(use-package monokai-theme)
 ;; (use-package gruvbox-theme
@@ -213,6 +212,8 @@
 ;; (define-key flyspell-mode-map (kbd "C-,") #'flyspell-goto-next-error)
 
 (use-package try)
+
+(use-package rainbow-mode)
 
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -851,6 +852,7 @@
    (sml        . t)
    (python     . t)
    (ocaml      . t)
+   (restclient . t)
    (emacs-lisp . t)
    (plantuml   . t)
    (js         . t)
@@ -1011,12 +1013,21 @@
   :hook (company-mode . company-box-mode)
   :config
   (setq company-box-doc-delay 0.3)
-  (setq company-box-enable-icon t))
+  (setq company-box-enable-icon nil)
+  (setq company-box-color-icon nil))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
+
+(let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,bg))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
 (setq-default tab-width 4)
 
@@ -1070,50 +1081,25 @@
     	   (setq emmet-use-css-transform t)
       	 (setq emmet-use-css-transform nil)))))
 
-;; (use-package tide
-;;   :ensure t
-;;   :after (typescript-mode company flycheck)
-;;   :hook ((typescript-mode . tide-setup)
-;;          (typescript-mode . tide-hl-identifier-mode)
-;;          (before-save . tide-format-before-save)))
-;; (defun setup-tide-mode ()
-;;   "Setup function for tide."
-;;   (interactive)
-;;   (tide-setup)
-;;   (flycheck-mode +1)
-;;   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;   (eldoc-mode +1)
-;;   (tide-hl-identifier-mode +1)
-;;   (company-mode +1))
-
 ;; (setq company-tooltip-align-annotations t)
 
 ;; (setq flycheck-javascript-standard-executable "/home/sean/.npm-global/bin/standardx")
 ;; (use-package prettier-js)
-;; ;; TODO ver isso direto depois
-;; ;; https://github.com/ananthakumaran/tide/tree/c6b86277f1c7d3d04c07d93a6cf49378225da5a2
-;; (setq tide-format-options '(
-;; 							:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
-;; :placeOpenBraceOnNewLineForFunctions nil
-;; :tabSize: 4
-;; :indentSize 4
-;; ))
-
-
 
 ;; (add-hook 'js-mode-hook #'setup-tide-mode)
-;; (add-hook 'js-mode-hook 'prettier-js-mode)
+(add-hook 'js-mode-hook 'prettier-js-mode)
 
-;; (setq prettier-js-args '(
-;;   "--trailing-comma" "none"
-;;   "--bracket-spacing" "true"
-;;   "--single-quote" "true"
-;;   "--no-semi" "true"
-;;   "--jsx-single-quote" "true"
-;;   "--jsx-bracket-same-line" "true"
-;;   "--print-width" "100"))
+(setq prettier-js-args '(
+  "--trailing-comma" "none"
+  "--bracket-spacing" "true"
+  "--single-quote" "true"
+  "--no-semi" "true"
+  "--jsx-single-quote" "true"
+  "--jsx-bracket-same-line" "true"
+  "--print-width" "100"))
 
 (use-package restclient)
+(use-package ob-restclient)
 
 ;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
 ;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
@@ -1122,7 +1108,21 @@
 
 
 
-(use-package yasnippet)
+(use-package yasnippet
+  :config
+  (defun mars/company-backend-with-yas (backends)
+      "Add :with company-yasnippet to company BACKENDS.
+Taken from https://github.com/syl20bnr/spacemacs/pull/179."
+      (if (and (listp backends) (memq 'company-yasnippet backends))
+	  backends
+	(append (if (consp backends)
+		    backends
+		  (list backends))
+		'(:with company-yasnippet))))
+
+    ;; add yasnippet to all backends
+  (setq company-backends
+		(mapcar #'mars/company-backend-with-yas company-backends)))
 (use-package auto-yasnippet
   :config
   (global-set-key (kbd "C-,") #'aya-create)
