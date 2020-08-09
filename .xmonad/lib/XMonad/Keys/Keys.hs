@@ -84,19 +84,26 @@ keysToAdd x =
   --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
      -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
      -- gerar esses menus proceduralmente a partir delistas
-  , ((mod4Mask, xK_s), spawn "rofi -show window")
-    -- , spawnSelected'
-    --     [ ("qutebrowser", "qutebrowser")
-    --     , ("Emacs", "emacsclient -c")
-    --     , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
-    --     , ("Anki", "anki")
-    --     , ("Thunar", "thunar")
-    --     , ("SMplayer", "smplayer")
-    --     , ("Clementine", "clementine")
-    --     , ("Recoll", "recoll")
-    --     , ("Libre Office", "libreoffice")
-    --     , ("Zotero", "zotero")
-    --     ])
+  , ((mod4Mask, xK_s) -- , spawn "rofi -show window")
+    , spawnSelected'
+        [ ("Chrome", "google-chrome-stable")
+        , ("Emacs", "emacs")
+        , ("Tmux", "urxvtc -e bash -c 'tmuxinator start default'")
+        , ("Anki", "anki")
+        , ("qBittorrent", "qbittorrent")
+        , ("Nemo", "nemo")
+        , ("Calibre", "calibre")
+        , ("Gimp", "gimp")
+        , ("VLC", "vlc")
+        , ("FlameShot", "flameshot")
+        , ("VSCode", "code")
+--        , ("Thunar", "thunar")
+        , ("SMplayer", "smplayer")
+--        , ("Clementine", "clementine")
+--        , ("Recoll", "recoll")
+        , ("Libre Office", "libreoffice")
+        , ("Zotero", "zotero")
+        ])
   , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   , ((mod4Mask, xK_f), namedScratchpadAction scratchpads "notes")
@@ -159,7 +166,7 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                , gs_cellheight = 40
                , gs_cellwidth = 130
                , gs_cellpadding = 30
-               , gs_originFractX = 0.01
+--               , gs_originFractX = 0.01
                , gs_rearranger = searchStringRearrangerGenerator id
                }    
 

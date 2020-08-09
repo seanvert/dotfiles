@@ -1,6 +1,6 @@
 * init
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results none
 (require 'use-package)
 (unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
@@ -19,9 +19,6 @@
 
 #+END_SRC
 
-#+RESULTS:
-| ~/.emacs.d/lisp/ | /home/sean/.emacs.d/elpa/anki-editor-20190922.1223 | /home/sean/.emacs.d/elpa/auto-compile-20191020.1040 | /home/sean/.emacs.d/elpa/auto-complete-20170125.245 | /home/sean/.emacs.d/elpa/auto-org-md-20180213.2343 | /home/sean/.emacs.d/elpa/auto-yasnippet-20191015.942 | /home/sean/.emacs.d/elpa/company-anaconda-20200404.1859 | /home/sean/.emacs.d/elpa/anaconda-mode-20200714.612 | /home/sean/.emacs.d/elpa/company-auctex-20200529.1835 | /home/sean/.emacs.d/elpa/auctex-12.2.4/ | /home/sean/.emacs.d/elpa/auctex-12.2.4 | /home/sean/.emacs.d/elpa/company-box-20200511.401 | /home/sean/.emacs.d/elpa/company-ghci-20190707.311 | /home/sean/.emacs.d/elpa/company-irony-20190124.2346 | /home/sean/.emacs.d/elpa/company-lsp-20190612.1553 | /home/sean/.emacs.d/elpa/company-math-20200131.2337 | /home/sean/.emacs.d/elpa/company-org-roam-20200711.355 | /home/sean/.emacs.d/elpa/company-quickhelp-20200714.1611 | /home/sean/.emacs.d/elpa/cyberpunk-theme-20200601.1632 | /home/sean/.emacs.d/elpa/dap-mode-20200725.1307 | /home/sean/.emacs.d/elpa/bui-20200426.2219 | /home/sean/.emacs.d/elpa/deferred-20170901.1330 | /home/sean/.emacs.d/elpa/deft-20200515.1513 | /home/sean/.emacs.d/elpa/django-mode-20170522.714 | /home/sean/.emacs.d/elpa/edit-server-20181016.1125 | /home/sean/.emacs.d/elpa/eink-theme-20190219.858 | /home/sean/.emacs.d/elpa/emmet-mode-20180613.341 | /home/sean/.emacs.d/elpa/ess-smart-underscore-20190309.101 | /home/sean/.emacs.d/elpa/ess-20200721.1405/obsolete | /home/sean/.emacs.d/elpa/ess-20200721.1405 | /home/sean/.emacs.d/elpa/ewal-spacemacs-themes-20190911.1305 | /home/sean/.emacs.d/elpa/ewal-20200305.230 | /home/sean/.emacs.d/elpa/flycheck-cask-20191030.2253 | /home/sean/.emacs.d/elpa/flycheck-clojure-20191215.2227 | /home/sean/.emacs.d/elpa/flycheck-cython-20170724.958 | /home/sean/.emacs.d/elpa/flycheck-demjsonlint-20161115.718 | /home/sean/.emacs.d/elpa/flycheck-haskell-20200218.753 | /home/sean/.emacs.d/elpa/flycheck-irony-20180604.2152 | /home/sean/.emacs.d/elpa/flycheck-package-20200304.2151 | /home/sean/.emacs.d/elpa/flycheck-plantuml-20171018.111 | /home/sean/.emacs.d/elpa/flycheck-pycheckers-20200704.433 | /home/sean/.emacs.d/elpa/frames-only-mode-20200518.800 | /home/sean/.emacs.d/elpa/gif-screencast-20200327.1332 | /home/sean/.emacs.d/elpa/god-mode-20200708.2200 | /home/sean/.emacs.d/elpa/haskell-snippets-20160919.22 | /home/sean/.emacs.d/elpa/helm-c-yasnippet-20200520.1519 | /home/sean/.emacs.d/elpa/helm-cider-20180307.458 | /home/sean/.emacs.d/elpa/cider-20200718.1908 | /home/sean/.emacs.d/elpa/clojure-mode-20200419.559 | /home/sean/.emacs.d/elpa/helm-dash-20190527.1118 | /home/sean/.emacs.d/elpa/dash-docs-20200516.1943 | /home/sean/.emacs.d/elpa/helm-lsp-20200701.2042 | /home/sean/.emacs.d/elpa/helm-make-20200620.27 | /home/sean/.emacs.d/elpa/helm-org-rifle-20200512.1943 | /home/sean/.emacs.d/elpa/helm-swoop-20200515.417 | /home/sean/.emacs.d/elpa/howdoyou-20191118.2222 | /home/sean/.emacs.d/elpa/html-to-markdown-20151105.840 | /home/sean/.emacs.d/elpa/indium-20200116.1247 | /home/sean/.emacs.d/elpa/intero-20200125.848 | /home/sean/.emacs.d/elpa/company-20200725.2348 | /home/sean/.emacs.d/elpa/flycheck-20200610.1809 | /home/sean/.emacs.d/elpa/irony-20200130.849 | /home/sean/.emacs.d/elpa/js2-refactor-20190630.2108 | /home/sean/.emacs.d/elpa/json-mode-20190123.422 | /home/sean/.emacs.d/elpa/json-process-client-20190827.1858 | /home/sean/.emacs.d/elpa/json-reformat-20160212.853 | /home/sean/.emacs.d/elpa/json-snatcher-20150512.347 | /home/sean/.emacs.d/elpa/julia-mode-20200717.1915 | /home/sean/.emacs.d/elpa/keycast-20200612.2247 | /home/sean/.emacs.d/elpa/leetcode-20200711.840 | /home/sean/.emacs.d/elpa/aio-20200610.1904 | /home/sean/.emacs.d/elpa/graphql-20180912.31 | /home/sean/.emacs.d/elpa/linum-relative-20180124.1047 | /home/sean/.emacs.d/elpa/lsp-clangd-20180828.1657 | /home/sean/.emacs.d/elpa/lsp-haskell-20200527.2014 | /home/sean/.emacs.d/elpa/haskell-mode-20200531.2255 | /home/sean/.emacs.d/elpa/lsp-python-20181108.754 | /home/sean/.emacs.d/elpa/lsp-treemacs-20200725.1143 | /home/sean/.emacs.d/elpa/lsp-ui-20200718.1035 | /home/sean/.emacs.d/elpa/lsp-mode-20200726.1814 | /home/sean/.emacs.d/elpa/dash-functional-20200617.702 | /home/sean/.emacs.d/elpa/magit-20200723.236 | /home/sean/.emacs.d/elpa/git-commit-20200701.2112 | /home/sean/.emacs.d/elpa/markdown-mode-20200724.633 | /home/sean/.emacs.d/elpa/math-symbol-lists-20200131.2333 | /home/sean/.emacs.d/elpa/memoize-20200103.2036 | /home/sean/.emacs.d/elpa/mode-icons-20190627.2121 | /home/sean/.emacs.d/elpa/multi-term-20200514.428 | /home/sean/.emacs.d/elpa/multiple-cursors-20191210.1759 | /home/sean/.emacs.d/elpa/nov-20200608.1339 | /home/sean/.emacs.d/elpa/esxml-20171129.807 | /home/sean/.emacs.d/elpa/ob-sml-20130829.1843 | /home/sean/.emacs.d/elpa/org-bullets-20200317.1740 | /home/sean/.emacs.d/elpa/org-download-20200615.936 | /home/sean/.emacs.d/elpa/org-drill-20200412.1812 | /home/sean/.emacs.d/elpa/org-journal-20200719.1545 | /home/sean/.emacs.d/elpa/org-noter-20191020.1212 | /home/sean/.emacs.d/elpa/org-plus-contrib-20200720 | /home/sean/.emacs.d/elpa/org-pomodoro-20190530.1445 | /home/sean/.emacs.d/elpa/alert-20200303.2118 | /home/sean/.emacs.d/elpa/log4e-20200420.745 | /home/sean/.emacs.d/elpa/gntp-20141025.250 | /home/sean/.emacs.d/elpa/org-pretty-tags-20200303.2201 | /home/sean/.emacs.d/elpa/org-ref-20200710.1516 | /home/sean/.emacs.d/elpa/key-chord-20160227.1238 | /home/sean/.emacs.d/elpa/ivy-20200624.1140 | /home/sean/.emacs.d/elpa/helm-bibtex-20200429.1606 | /home/sean/.emacs.d/elpa/helm-20200722.1531 | /home/sean/.emacs.d/elpa/helm-core-20200726.943 | /home/sean/.emacs.d/elpa/htmlize-20191111.2130 | /home/sean/.emacs.d/elpa/org-roam-bibtex-20200716.1450 | /home/sean/.emacs.d/elpa/bibtex-completion-20200513.852 | /home/sean/.emacs.d/elpa/biblio-20200416.1407 | /home/sean/.emacs.d/elpa/biblio-core-20200416.307 | /home/sean/.emacs.d/elpa/org-roam-20200726.1703 | /home/sean/.emacs.d/elpa/emacsql-sqlite3-20200718.614 | /home/sean/.emacs.d/elpa/emacsql-20190625.1859 | /home/sean/.emacs.d/elpa/ox-epub-20181101.1854 | /home/sean/.emacs.d/elpa/ox-jekyll-md-20180831.1732 | /home/sean/.emacs.d/elpa/ox-reveal-20200703.2313 | /home/sean/.emacs.d/elpa/org-20200720 | /home/sean/.emacs.d/elpa/package-lint-20200616.2257 | /home/sean/.emacs.d/elpa/packed-20180318.1729 | /home/sean/.emacs.d/elpa/pandoc-20161128.1157 | /home/sean/.emacs.d/elpa/pandoc-mode-20200303.2322 | /home/sean/.emacs.d/elpa/parsebib-20200513.2352 | /home/sean/.emacs.d/elpa/parseedn-20200419.1124 | /home/sean/.emacs.d/elpa/parseclj-20190531.711 | /home/sean/.emacs.d/elpa/a-20180907.953 | /home/sean/.emacs.d/elpa/pdf-view-restore-20190904.1708 | /home/sean/.emacs.d/elpa/pdf-tools-20200512.1524 | /home/sean/.emacs.d/elpa/let-alist-1.0.6 | /home/sean/.emacs.d/elpa/pdfgrep-20200306.209 | /home/sean/.emacs.d/elpa/persist-0.4 | /home/sean/.emacs.d/elpa/plantuml-mode-20191102.2056 | /home/sean/.emacs.d/elpa/polymode-20200606.1106 | /home/sean/.emacs.d/elpa/popup-20200610.317 | /home/sean/.emacs.d/elpa/pos-tip-20191227.1356 | /home/sean/.emacs.d/elpa/posframe-20200629.239 | /home/sean/.emacs.d/elpa/projectile-20200710.947 | /home/sean/.emacs.d/elpa/pkg-info-20150517.1143 | /home/sean/.emacs.d/elpa/epl-20180205.2049 | /home/sean/.emacs.d/elpa/promise-20200530.630 | /home/sean/.emacs.d/elpa/pythonic-20200304.1901 | /home/sean/.emacs.d/elpa/queue-0.2 | /home/sean/.emacs.d/elpa/rainbow-delimiters-20191018.1233 | /home/sean/.emacs.d/elpa/request-20200517.1305 | /home/sean/.emacs.d/elpa/sesman-20190909.1754 | /home/sean/.emacs.d/elpa/skewer-mode-20200304.1142 | /home/sean/.emacs.d/elpa/js2-mode-20200725.112 | /home/sean/.emacs.d/elpa/simple-httpd-20191103.1446 | /home/sean/.emacs.d/elpa/smartparens-20200324.2147 | /home/sean/.emacs.d/elpa/sml-mode-6.10 | /home/sean/.emacs.d/elpa/solarized-theme-20200717.1054 | /home/sean/.emacs.d/elpa/spaceline-20191230.1221 | /home/sean/.emacs.d/elpa/powerline-20200105.2053 | /home/sean/.emacs.d/elpa/spacemacs-theme-20200615.1304 | /home/sean/.emacs.d/elpa/spinner-1.7.3 | /home/sean/.emacs.d/elpa/tablist-20200427.2205 | /home/sean/.emacs.d/elpa/transient-20200719.955 | /home/sean/.emacs.d/elpa/tree-mode-20151104.1331 | /home/sean/.emacs.d/elpa/treemacs-20200716.2041 | /home/sean/.emacs.d/elpa/ht-20200217.2331 | /home/sean/.emacs.d/elpa/hydra-20200711.1210 | /home/sean/.emacs.d/elpa/lv-20200507.1518 | /home/sean/.emacs.d/elpa/pfuture-20200425.1357 | /home/sean/.emacs.d/elpa/ace-window-20200606.1259 | /home/sean/.emacs.d/elpa/avy-20200624.1148 | /home/sean/.emacs.d/elpa/f-20191110.1357 | /home/sean/.emacs.d/elpa/dash-20200524.1947 | /home/sean/.emacs.d/elpa/try-20181204.236 | /home/sean/.emacs.d/elpa/typescript-mode-20200430.1232 | /home/sean/.emacs.d/elpa/undo-tree-0.7.4 | /home/sean/.emacs.d/elpa/use-package-20200721.2156 | /home/sean/.emacs.d/elpa/bind-key-20191110.416 | /home/sean/.emacs.d/elpa/web-mode-20200612.1038 | /home/sean/.emacs.d/elpa/websocket-20200419.2124 | /home/sean/.emacs.d/elpa/which-key-20200721.1927 | /home/sean/.emacs.d/elpa/with-editor-20200720.2014 | /home/sean/.emacs.d/elpa/async-20200113.1745 | /home/sean/.emacs.d/elpa/writeroom-mode-20200519.37 | /home/sean/.emacs.d/elpa/visual-fill-column-20200428.816 | /home/sean/.emacs.d/elpa/yasnippet-snippets-20200606.1149 | /home/sean/.emacs.d/elpa/s-20180406.808 | /home/sean/.emacs.d/elpa/yasnippet-20200604.246 | /home/sean/.emacs.d/elpa/zenburn-theme-20200701.1333 | /usr/share/emacs/26.3/site-lisp | /usr/share/emacs/site-lisp | /usr/share/emacs/site-lisp/auctex | /usr/share/emacs/site-lisp/mu4e | /usr/share/emacs/site-lisp/auctex/images | /usr/share/emacs/26.3/lisp | /usr/share/emacs/26.3/lisp/vc | /usr/share/emacs/26.3/lisp/url | /usr/share/emacs/26.3/lisp/textmodes | /usr/share/emacs/26.3/lisp/progmodes | /usr/share/emacs/26.3/lisp/play | /usr/share/emacs/26.3/lisp/org | /usr/share/emacs/26.3/lisp/nxml | /usr/share/emacs/26.3/lisp/net | /usr/share/emacs/26.3/lisp/mh-e | /usr/share/emacs/26.3/lisp/mail | /usr/share/emacs/26.3/lisp/leim | /usr/share/emacs/26.3/lisp/language | /usr/share/emacs/26.3/lisp/international | /usr/share/emacs/26.3/lisp/image | /usr/share/emacs/26.3/lisp/gnus | /usr/share/emacs/26.3/lisp/eshell | /usr/share/emacs/26.3/lisp/erc | /usr/share/emacs/26.3/lisp/emulation | /usr/share/emacs/26.3/lisp/emacs-lisp | /usr/share/emacs/26.3/lisp/cedet | /usr/share/emacs/26.3/lisp/calendar | /usr/share/emacs/26.3/lisp/calc | /usr/share/emacs/26.3/lisp/obsolete |
-
 ** server mode
 
 #+BEGIN_SRC emacs-lisp
@@ -30,11 +27,7 @@
  		 (not (server-running-p)))
  	(server-start)
  1)
-
 #+END_SRC
-
-#+RESULTS:
-: 1
 
 ** CANCELADO conserta o teclado
 essas funções são para o teclado do meu notebook que está com algumas
@@ -61,7 +54,6 @@ algum problema nele
 ;; (define-key key-translation-map (kbd "<C-f9>") (kbd "9"))
 #+end_src
 
-#+RESULTS:
 
 ** exec path
 
@@ -70,17 +62,6 @@ algum problema nele
 (setq exec-path (append exec-path '("~/.local/bin")))
 #+END_SRC
 
-#+RESULTS:
-| /home/sean/.opam/default/bin | /usr/local/sbin | /usr/local/bin | /usr/bin | /usr/lib/jvm/default/bin | /usr/bin/site_perl | /usr/bin/vendor_perl | /usr/bin/core_perl | /usr/lib/smlnj/bin | /usr/lib/emacs/26.3/x86_64-pc-linux-gnu | ~/.local/bin | ~/.local/bin | ~/.local/bin |
-
-** esup emacs start time
-
-#+begin_src emacs-lisp
-#+end_src
-
-#+RESULTS:
-
-* PRONTO ajeitar as keywords antigas que eu acabei trocando
 * repositórios
 
 #+BEGIN_SRC emacs-lisp
@@ -88,24 +69,17 @@ algum problema nele
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
-
 #+END_SRC
-
-#+RESULTS:
 
 * acentos
 
 #+BEGIN_SRC emacs-lisp
 (require 'iso-transl)
-
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 #+END_SRC
-
-#+RESULTS:
-: utf-8-unix
 
 * aparência
 ** ewal
@@ -115,62 +89,14 @@ algum problema nele
   :init (setq ewal-use-built-in-always-p nil
               ewal-use-built-in-on-failure-p nil
               ewal-built-in-palette "sexy-material"))
-;; (use-package ewal-spacemacs-themes
-;;   :init (progn
-;;           (setq spacemacs-theme-underline-parens t
-;;                 my:rice:font (font-spec
-;;                               :family "Source Code Pro"
-;;                               :weight 'semi-bold
-;;                               :size 11.0))
-;;           (show-paren-mode +1)
-;;           (global-hl-line-mode)
-;;           (set-frame-font my:rice:font nil t)
-;;           (add-to-list  'default-frame-alist
-;;                         `(font . ,(font-xlfd-name my:rice:font))))
-;;   :config (progn
-;;             (load-theme 'ewal-spacemacs-modern t)
-;;             (enable-theme 'ewal-spacemacs-modern)))
-
-
-
 #+end_src
 
-#+RESULTS:
 ** texto
+
 #+begin_src emacs-lisp
-(visual-line-mode t)
-#+end_src
-
-#+RESULTS:
-: t
-** tema
-
-#+BEGIN_SRC emacs-lisp
-;;(use-package cyberpunk-theme)
-;; (use-package spaceline
-;;   :after (winum)
-;;   :init (setq powerline-default-separator nil)
-;;   :config (spaceline-spacemacs-theme))
 ;; highlight lines
 (global-hl-line-mode)
-;; eink theme
-;; (use-package eink-theme)
-;; (use-package solarized-theme)
-;; (load-theme 'solarized-light-high-contrast t)
-;;(use-package zenburn-theme)
-;;(use-package monokai-theme)
-;; (use-package gruvbox-theme
-;;   :config
-;;   (load-theme 'gruvb-light-hard t))
-;; 
-;; (set-face-attribute 'default nil :family "Iosevka" :height 130)
-;; (set-face-attribute 'fixed-pitch nil :family "Sans Serif")
-;; (set-face-attribute 'variable-pitch nil :family "Baskerville")
-
-#+END_SRC
-
-#+RESULTS:
-: t
+#+end_src
 
 ** barra de rolagem, menu e modeline. scroll step
 
@@ -182,31 +108,11 @@ algum problema nele
 (menu-bar-mode -1)
 #+end_src
 
-#+RESULTS:
-
-** writeroom mode
+** ESPERANDO modeline
+linha que coloca o relógio na modeline preciso confirmar depois
 #+begin_src emacs-lisp
-(use-package writeroom-mode)
-(with-eval-after-load 'writeroom-mode
-  (define-key writeroom-mode-map (kbd "C-M-<") #'writeroom-decrease-width)
-  (define-key writeroom-mode-map (kbd "C-M->") #'writeroom-increase-width)
-  (define-key writeroom-mode-map (kbd "C-M-=") #'writeroom-adjust-width))
-(setq writeroom-width 120)
-#+end_src
-
-#+RESULTS:
-: 120
-
-** modeline
-
-#+begin_src emacs-lisp
-;;(powerline-default-theme)
-
 (setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
 #+end_src
-
-#+RESULTS:
-| -40 | (%12b) |
 
 ** pretty printing
 
@@ -214,33 +120,10 @@ algum problema nele
 (global-prettify-symbols-mode 1)
 #+END_SRC
 
-#+RESULTS:
-: t
-
-** all the icons
-
-#+BEGIN_SRC emacs-lisp
-;;(use-package all-the-icons)
-#+END_SRC
-
-#+RESULTS:
-
-** mode icons
-#+begin_src emacs-lisp
-;; (use-package mode-icons
-;;    :after all-the-icons
-;;    :config
-;;    (mode-icons-mode))
-
-#+end_src
-
-#+RESULTS:
-
 * configurações
   
-** ESPERANDO autosave
-para não encher o de arquivos com autosave, enfia tudo numa pasta só
-tá junto com o tramp
+** autosave
+coloca os autosaves numa pasta só ao invés de largar junto com os arquivos
 #+begin_src emacs-lisp
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
 (make-directory user-temporary-file-directory t)
@@ -251,25 +134,8 @@ tá junto com o tramp
 (setq auto-save-file-name-transforms `((".*" ,user-temporary-file-directory t)))
 #+end_src
 
-#+RESULTS:
-| .* | ~/.emacs-autosaves/ | t |
-
-** diretórios
-#+begin_src emacs-lisp
-(setq
-   org_notes "/ubuntu/home/sean/" ;; (concat (getenv "HOME") "/Git/Gitlab/Mine/Notes/")
-   zot_bib (concat (getenv "HOME") "/Minha biblioteca.bib")
-   org-directory org_notes
-   deft-directory org_notes
-   org-roam-directory org_notes
-   )
-#+end_src
-
-#+RESULTS:
-: /ubuntu/home/sean/
-
 * extensões adicionais
-** PRA FAZER pdf tools 
+** PRA FAZER [#B] pdf tools 
 montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 #+BEGIN_SRC emacs-lisp
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
@@ -308,11 +174,11 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (setq pdf-view-midnight-colors (cons (face-attribute 'default :foreground) (face-attribute 'default :background)))
 #+END_SRC
 
-#+RESULTS:
-: t
+*** PRA FAZER [#C] extensão para estimar o tempo
+terminar esse troço e colocar num arquivo separado. Tá horrível isso
+largado aqui.
 
-*** extensão para estimar o tempo
-
+preciso ver isso depois. Talvez pensar melhor na abordagem
 #+begin_src emacs-lisp
 ;; TODO FAZER O BÁSICO PRIMEIRO
 (setq pdf-time-before 0)
@@ -337,26 +203,10 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 ;; TODO uma função que conta o tempo numa página
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
-
 #+end_src
 
-#+RESULTS:
-: pdf-check-page-advance
-
-
-*** match pdf colors with theme colors
-
-y#+begin_src emacs-lisp
-(setq pdf-view-midnight-colors (cons (face-attribute 'default :background) (face-attribute 'default :foreground))
-;; (setq pdf-view-midnight-colors (cons "#282828" "#f9f5d7"))
-;; ("#839496" . "#002b36")
-
-#+end_src
-
-#+RESULTS:
-: (#282828 . #f9f5d7)
-
-*** testes pdf1
+*** PRA FAZER [#C] testes pdf1
+não sei o que é isso
 #+begin_src emacs-lisp
 ;; (defun org-noter-insert-selected-text-inside-note-content ()
 ;;   (interactive)
@@ -367,34 +217,26 @@ y#+begin_src emacs-lisp
 
 
 ;; (define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
-
 #+end_src
 
-#+RESULTS:
-** flyspell
+** PRA FAZER [#A] flyspell
+transformar isso num hook do flyspell mode e colocar algumas outras
+keys úteis
 #+begin_src emacs-lisp
   ;; (define-key flyspell-mode-map (kbd "C-,") #'flyspell-goto-next-error)
-
 #+end_src
-
-#+RESULTS:
 
 ** try
 
 #+BEGIN_SRC emacs-lisp
 (use-package try)
-
 #+END_SRC
 
-#+RESULTS:
 
 ** rainbow mode 
 visualizar cores no buffer
 #+begin_src emacs-lisp
 (use-package rainbow-mode)
-
-
-
 #+end_src
 
 ** nov mode (epub)
@@ -403,9 +245,6 @@ visualizar cores no buffer
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-;; (setq visual-fill-column-center-text t)
-;; (setq nov-text-width t)
-;;(setq nov-text-width 50)
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
                                            :height 1.0))
@@ -443,8 +282,6 @@ visualizar cores no buffer
 ;;(add-hook 'nov-mode-hook 'visual-fill-column-mode)
 #+END_SRC
 
-#+RESULTS:
-| my-nov-post-html-render-hook |
 
 ** smart parens
 
@@ -458,20 +295,16 @@ visualizar cores no buffer
   (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
 #+END_SRC
 
-#+RESULTS:
-| company-mode | (lambda nil (progn (linum-relative-mode 1) (smartparens-mode 1) (rainbow-delimiters-mode 1))) | smartparens-mode |
-
-** CANCELADO leet code
+** leet code
 
 #+BEGIN_SRC emacs-lisp
-;; (use-package leetcode)
-;; (setq leetcode-prefer-language "python3")
-;; (setq leetcode-prefer-sql "mysql")
+(use-package leetcode)
+(setq leetcode-prefer-language "python3")
+(setq leetcode-prefer-sql "mysql")
 #+END_SRC
 
-#+RESULTS:
-
 ** zettelkasten
+*** deft
 #+begin_src emacs-lisp
 (use-package deft
   :commands deft
@@ -490,517 +323,43 @@ visualizar cores no buffer
   :config
   (add-to-list 'deft-extensions "tex")
   )
-;; (use-package zetteldeft
-;;    :after deft
-;;    :config
-;;    (zetteldeft-set-classic-keybindings))
 #+end_src
 
-#+RESULTS:
 
-** relative linum
-
-#+BEGIN_SRC emacs-lisp
-(use-package linum-relative)
-(column-number-mode 1)
-(setq linum-relative-current-symbol "")
-#+END_SRC
-
-#+RESULTS:
-
-** rainbow delimiters
-
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters)
-#+END_SRC
-
-#+RESULTS:
-
-** anki
-https://yiufung.net/post/anki-org/
-- By default anki-editor-cloze-{dwim,region} always asks for hints and
-  requires card number input. I don’t use hints much, and usually want
-  card number to increase, so two helper functions
-  anki-editor-cloze-region-{auto-incr,dont-incr} are written to skip
-  these behaviors. (Note: Such kind of customizations are ubiquitous
-  in Emacs community, where users don’t have to wait for upstream to
-  implement a desired new feature. This is quite different from Anki
-  community where version updates frequently break existing add-ons,
-  leaving end-users hands tied, or new features being delayed due to
-  technical difficulty in understanding the code base.)
-
-- A function is added to org-capture-after-finalize-hook to reset
-  cloze number to 1 after each capture
-
-- By default anki-editor-push-notes will push the whole file. This is
-  slow when the file contain old entries that didn’t really need to
-  change. In my workflow, I keep all pending notes under Dispatch
-  Shelf subtree, and push that whole subtree (with <f9>) when I feel
-  ready. Once they’re pushed, I would refile/relocate them under
-  Exported subtree. anki-editor-push-tree is added for this purpose.
-
-- Assign handy keybindings (<f9>-<f12> in this case) to your liking.
+*** diretórios
 #+begin_src emacs-lisp
-(use-package anki-editor
-  :after org
-  :bind (:map org-mode-map
-              ("<f12>" . anki-editor-cloze-region-auto-incr)
-              ("<f11>" . anki-editor-cloze-region-dont-incr)
-              ("<f10>" . anki-editor-reset-cloze-number)
-              ("<f9>"  . anki-editor-push-tree))
-  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
-  :config
-  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
-        anki-editor-org-tags-as-anki-tags t)
-
-  (defun anki-editor-cloze-region-auto-incr (&optional arg)
-    "Cloze region without hint and increase card number."
-    (interactive)
-    (anki-editor-cloze-region my-anki-editor-cloze-number "")
-    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
-    (forward-sexp))
-  (defun anki-editor-cloze-region-dont-incr (&optional arg)
-    "Cloze region without hint using the previous card number."
-    (interactive)
-    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
-    (forward-sexp))
-  (defun anki-editor-reset-cloze-number (&optional arg)
-    "Reset cloze number to ARG or 1"
-    (interactive)
-    (setq my-anki-editor-cloze-number (or arg 1)))
-  (defun anki-editor-push-tree ()
-    "Push all notes under a tree."
-    (interactive)
-    (anki-editor-push-notes '(4))
-    (anki-editor-reset-cloze-number))
-  ;; Initialize
-  (anki-editor-reset-cloze-number)
-  )
+  (setq
+   org_notes "/ubuntu/home/sean/" ;; (concat (getenv "HOME") "/Git/Gitlab/Mine/Notes/")
+   zot_bib (concat (getenv "HOME") "/Minha biblioteca.bib")
+   org-directory org_notes
+   deft-directory org_notes
+   org-roam-directory org_notes)
 #+end_src
 
-#+RESULTS:
-: anki-editor-push-tree
-
+*** org-roam-bibtex
 #+begin_src emacs-lisp
-
-(setq org-my-anki-file "/ubuntu/home/sean/anki.org")
-
-;; Allow Emacs to access content from clipboard.
-(setq select-enable-clipboard t
-      select-enable-primary t)
-#+end_src
-
-#+RESULTS:
-: t
-
-** screencast gif / keycast
-arrumar o keycast
-#+BEGIN_SRC emacs-lisp
-(use-package gif-screencast)
-(use-package keycast)
-;;(setq keycast-insert-after "%e")
-(with-eval-after-load 'gif-screencast
-  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
-  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
-;;(setq mode-line-format mode-line-keycast)
-#+END_SRC
-
-#+RESULTS:
-: gif-screencast-stop
-
-** undo tree
-
-#+BEGIN_SRC emacs-lisp
-(use-package undo-tree)
-(global-undo-tree-mode)
-#+END_SRC
-
-#+RESULTS:
-: t
-
-** pandoc
-
-#+BEGIN_SRC emacs-lisp
-(use-package pandoc-mode)
-(use-package pandoc)
-#+END_SRC
-
-#+RESULTS:
-
-* interface
-** frames only
-esse daqui só presta se for pra usar os frames separados. Tipo no
-Qtile, i3, xmonad e etc.
-
-depende do 
-#+BEGIN_SRC emacs-lisp
-(use-package frames-only-mode)
-(frames-only-mode 1)
-#+END_SRC
-
-#+RESULTS:
-: t
-
-** yes or no para y or n
-
-#+BEGIN_SRC emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
-
-#+RESULTS:
-: y-or-n-p
-
-** multiterm
-
-#+begin_src emacs-lisp
-(use-package multi-term)
-#+end_src
-
-#+RESULTS:
-
-** which key
-
-#+BEGIN_SRC emacs-lisp
-(use-package which-key)
-(which-key-mode 1)
-
-;; (setq which-key-popup-type 'minibuffer)
-(setq which-key-popup-type 'side-window)
-(setq which-key-side-window-max-height 0.33)
-
-
-#+END_SRC
-
-#+RESULTS:
-: 0.33
-
-** edit with chrome
-#+begin_src emacs-lisp
-(edit-server-start)
-#+end_src
-
-#+RESULTS:
-: An edit-server process is already running
-
-** helm
-
-#+BEGIN_SRC emacs-lisp
-(use-package helm-bibtex
-  :custom
-  (bibtex-completion-bibliography '("/home/sean/Minha biblioteca.bib"))
-  (reftex-default-bibliography '("//home/sean/Minha biblioteca.bib"))
-  (bibtex-completion-notes-path "/ubuntu/home/sean/")
-  (bibtex-completion-pdf-field "file")
-  (bibtex-completion-notes-template-multiple-files
-  (concat
-   "#+TITLE: ${title}\n"
-   "#+ROAM_KEY: cite:${=key=}\n"
-   "* TODO Notes\n"
-   ":PROPERTIES:\n"
-   ":Custom_ID: ${=key=}\n"
-   ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
-   ":AUTHOR: ${author-abbrev}\n"
-   ":JOURNAL: ${journaltitle}\n"
-   ":DATE: ${date}\n"
-   ":YEAR: ${year}\n"
-   ":DOI: ${doi}\n"
-   ":URL: ${url}\n"
-   ":END:\n\n"
-   ))
-)
-(use-package helm
-  :diminish helm-mode
-  :init
-  (progn
-    (require 'helm-config)
-    (setq helm-candidate-number-limit 100)
-    ;; From https://gist.github.com/antifuchs/9238468
-    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-          helm-input-idle-delay 0.01  ; this actually updates things
-                                        ; reeeelatively quickly.
-          helm-yas-display-key-on-candidate t
-		  ;; changed this
-		  ;; helm-completion-in-region-fuzzy-match t
-		  helm-completion-style 'emacs
-		  
-		  helm-split-window-inside-p t
-          helm-quick-update t
-		  ;; helm-mode-fuzzy-match t
-          helm-M-x-requires-pattern nil
-          helm-ff-skip-boring-files t)
-    (helm-mode))
-  :bind (("C-c h" . helm-mini)
-         ("C-h a" . helm-apropos)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x b" . helm-buffers-list)
-         ("M-y" . helm-show-kill-ring)
-         ("M-x" . helm-M-x)
-         ("C-x c o" . helm-occur)
-         ("C-x c s" . helm-swoop)
-         ("C-x c y" . helm-yas-complete)
-         ("C-x c Y" . helm-yas-create-snippet-on-region)
-         ("C-x c b" . my/helm-do-grep-book-notes)
-         ("C-x c SPC" . helm-all-mark-rings)))
-
-(ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
-#+END_SRC
-
-#+RESULTS:
-
-*** pacotes adicionais helm
-
-#+begin_src emacs-lisp
-(use-package helm-swoop)
-(use-package helm-c-yasnippet)
-(use-package helm-cider)
-(use-package helm-org-rifle)
-#+end_src
-
-#+RESULTS:
-
-*** atalhos do teclado
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-s") 'helm-occur)
-#+END_SRC
-
-#+RESULTS:
-: helm-occur
-
-** org-roam-bibtex
-#+begin_src emacs-lisp
-(use-package org-roam-bibtex
-  :after (org-roam)
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-;; changed this 
-  (setq orb-preformat-keywords
-   '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "${slug}"
-           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-
-- tags ::
-- keywords :: ${keywords}
-
-\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-
-           :unnarrowed t))))
-#+end_src
-
-#+RESULTS:
-
-** hydra
-
-#+begin_src emacs-lisp
-(use-package hydra)
-#+end_src
-
-#+RESULTS:
-
-** god mode
-#+begin_src emacs-lisp
-(use-package god-mode
-  :config
-  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
-  (global-set-key (kbd "<escape>") 'god-local-mode))
-
-(god-mode-all)
-
-(defun my-update-cursor ()
-  (setq cursor-type (if (or god-local-mode buffer-read-only)
-                        'box
-                      'bar)))
-
-(add-hook 'god-mode-enabled-hook 'my-update-cursor)
-(add-hook 'god-mode-disabled-hook 'my-update-cursor)
-#+end_src
-
-#+RESULTS:
-| my-update-cursor |
-
-** espeak
-fazer ele não abrir essa janela
-#+BEGIN_SRC emacs-lisp
-;; depende do espeak
-(defun espeak (text)
-  "Speaks text by espeak"
-  (save-window-excursion
-    (let* ((amplitude 100)
-           (voice 'brazil)
-           (command (format "espeak -a %s -v %s \"%s\"" amplitude voice text)))
-      (async-shell-command command "*Messages*" "*Messages*"))))
-#+END_SRC
-
-#+RESULTS:
-: espeak
-
-** desktop save
-
-#+BEGIN_SRC emacs-lisp
-(desktop-save-mode 1)
-#+END_SRC
-
-#+RESULTS:
-: t
-
-** key binds
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-#+END_SRC
-
-#+RESULTS:
-: ibuffer
-
-* Org mode
-** PRA FAZER Módulos adicionais
-
-#+BEGIN_SRC emacs-lisp
-(setq org-enable-org-journal-support t)
-(add-to-list 'org-modules 'org-tempo t)
-;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
-(require 'org-habit)
-(require 'org-tempo)
-;; TODO este pedaço não está funcionando
-(setq org-startup-folded 'content) ;; default t)
-(use-package org-journal
-  :bind
-  ("C-c n j" . org-journal-new-entry))
-
-(use-package org-pretty-tags)
-(use-package org-ref
+  (use-package org-roam-bibtex
+    :after org-roam
+    :hook (org-roam-mode . org-roam-bibtex-mode)
     :config
-    (setq
-         org-ref-completion-library 'org-ref-ivy-cite
-         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
-         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
-         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-         org-ref-notes-directory "/ubuntu/home/sean/"
-         org-ref-notes-function 'orb-edit-notes))
 
-(use-package org-download
-  :custom
-  (org-download-screenshot-method "gnome-screenshot")
-  (org-download-image-dir "./assets/images"))
-(use-package html-to-markdown)
-(use-package ox-jekyll-md)
-(use-package ox-epub)
-(use-package auto-org-md)
-(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
-(setq plantuml-default-exec-mode 'jar)
-#+END_SRC
+    (setq orb-preformat-keywords
+     '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
 
-#+RESULTS:
-: jar
+    (setq orb-templates
+	  '(("r" "ref" plain (function org-roam-capture--get-point)
+	     ""
+	     :file-name "${slug}"
+	     :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+	     - tags ::
+	     - keywords :: ${keywords}
+	     \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+	     :unnarrowed t))))
+#+end_src
 
-** PRA FAZER org-noter
-https://orgmode.org/manual/Initial-visibility.html
-olhar isso daqui e mexer nas coisas do org mode depois
-#+BEGIN_SRC emacs-lisp
-(use-package org-noter
-  :config
-  (setq org-noter-auto-save-last-location t
-		org-noter-notes-window-behavior '(start scroll)
-		org-noter-hide-other nil
-		;; abrir em outra janela
-		org-noter-notes-window-location 'other-frame
-		;; org-noter-notes-window-location 'horizontal-split
-		org-noter-separate-notes-from-heading t)
-
-  (defun org-noter-init-pdf-view ()
-	(pdf-view-fit-page-to-window))
-;;	(pdf-view-auto-slice-minor-mode)
-	;; (run-at-time "0.5 sec" nil #'org-noter))
-
-  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
-  
-(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
-  (interactive "@e")
-  (setq current-b (buffer-name))
-  (progn  (pdf-view-mouse-set-region-rectangle event)
-		  (pdf-view-extract-region-image pdf-view-active-region
-										 (pdf-view-current-page)
-										 (pdf-view-image-size)
-										 (get-buffer-create "teste")
-										 t)
-		  (set-buffer "teste")
-		  (write-file "/tmp/screenshot.png" nil)
-		  (kill-buffer "screenshot.png")
-		  (set-buffer current-b)
-		  (org-noter-insert-note)
-		  (org-download-screenshot)
-		  (if switch-back			 
-			  (switch-to-buffer-other-frame current-b))))
-
-(define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
-#+END_SRC
-
-#+RESULTS:
-: org-noter-insert-pdf-slice-note
-
-** PRA FAZER org-agenda
-ajeitar esse refile seria uma boa
-também preciso arrumar o que vai parar na agenda
-#+BEGIN_SRC emacs-lisp
-  ;; org-agenda load na pasta do emacs
-
-  ;; TODO colocar os arquivos direitinho nesse negócio
-  (setq org-agenda-files '("~/.emacs.d/config.org"
-                           "/ubuntu/home/sean"))
-
-  ;;						 "~/vest/"))
-  ;;						 "~/vest/vestibular.org"
-
-
-  (global-set-key (kbd "C-c a") 'org-agenda)
-#+END_SRC
-
-#+RESULTS:
-: org-agenda
-
-** org aparência
-#+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
-
-(setq org-startup-with-inline-images t)
-(add-hook
- 'org-babel-after-execute-hook
- (lambda ()
-   (when org-inline-image-overlays
-     (org-redisplay-inline-images))))
-;; todo states
-;; (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✓ PRONTO(p)")
-;;                           (sequence "⚑ ESPERANDO(e)" "|")
-;;                           (sequence "|" "✘ CANCELADO(c)")))
-(setq org-todo-keywords '((sequence "PRA FAZER(t)" "ESPERANDO(e)" "NÃO ENTENDI(n)" "REVER(r)" "|" "PRONTO(p)" "CANCELADO(c)")))
-
-(add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
-
-(use-package org-bullets)
-
-(setq org-startup-indented t
-	  ;; depende do pacote org-bullets
-      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
-	  org-ellipsis "";; " ⤵" ;; folding symbol
-      org-pretty-entities t
-      org-hide-emphasis-markers nil       ;; show actually italicized text instead of /italicized text/
-      org-agenda-block-separator ""
-      org-fontify-whole-heading-line t
-      org-fontify-done-headline t
-      org-fontify-quote-and-verse-blocks t
-      org-special-ctrl-a/e t)
-#+END_SRC
-
-#+RESULTS:
-: t
-
-** PRA FAZER org roam
+*** PRA FAZER org roam
+isso daqui tá uma bagunça e muito grande. preciso organizar e dividir
+em blocos menores
 #+begin_src emacs-lisp
 
   (use-package org-roam
@@ -1081,22 +440,393 @@ também preciso arrumar o que vai parar na agenda
   ;;   :after org-protocol)
 
 
-  (use-package company-org-roam
-    :after org-roam
-    :config
-  (push 'company-org-roam company-backends)
-  )
-    ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
+
 #+end_src
 
-#+RESULTS:
+** relative linum
+
+#+BEGIN_SRC emacs-lisp
+(use-package linum-relative)
+(column-number-mode 1)
+(setq linum-relative-current-symbol "")
+#+END_SRC
+
+
+** rainbow delimiters
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters)
+#+END_SRC
+
+** anki
+https://yiufung.net/post/anki-org/
+- By default anki-editor-cloze-{dwim,region} always asks for hints and
+  requires card number input. I don’t use hints much, and usually want
+  card number to increase, so two helper functions
+  anki-editor-cloze-region-{auto-incr,dont-incr} are written to skip
+  these behaviors. (Note: Such kind of customizations are ubiquitous
+  in Emacs community, where users don’t have to wait for upstream to
+  implement a desired new feature. This is quite different from Anki
+  community where version updates frequently break existing add-ons,
+  leaving end-users hands tied, or new features being delayed due to
+  technical difficulty in understanding the code base.)
+
+- A function is added to org-capture-after-finalize-hook to reset
+  cloze number to 1 after each capture
+
+- By default anki-editor-push-notes will push the whole file. This is
+  slow when the file contain old entries that didn’t really need to
+  change. In my workflow, I keep all pending notes under Dispatch
+  Shelf subtree, and push that whole subtree (with <f9>) when I feel
+  ready. Once they’re pushed, I would refile/relocate them under
+  Exported subtree. anki-editor-push-tree is added for this purpose.
+
+- Assign handy keybindings (<f9>-<f12> in this case) to your liking.
+#+begin_src emacs-lisp
+(use-package anki-editor
+  :after org
+  :bind (:map org-mode-map
+              ("<f12>" . anki-editor-cloze-region-auto-incr)
+              ("<f11>" . anki-editor-cloze-region-dont-incr)
+              ("<f10>" . anki-editor-reset-cloze-number)
+              ("<f9>"  . anki-editor-push-tree))
+  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
+  :config
+  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
+        anki-editor-org-tags-as-anki-tags t)
+
+  (defun anki-editor-cloze-region-auto-incr (&optional arg)
+    "Cloze region without hint and increase card number."
+    (interactive)
+    (anki-editor-cloze-region my-anki-editor-cloze-number "")
+    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
+    (forward-sexp))
+  (defun anki-editor-cloze-region-dont-incr (&optional arg)
+    "Cloze region without hint using the previous card number."
+    (interactive)
+    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
+    (forward-sexp))
+  (defun anki-editor-reset-cloze-number (&optional arg)
+    "Reset cloze number to ARG or 1"
+    (interactive)
+    (setq my-anki-editor-cloze-number (or arg 1)))
+  (defun anki-editor-push-tree ()
+    "Push all notes under a tree."
+    (interactive)
+    (anki-editor-push-notes '(4))
+    (anki-editor-reset-cloze-number))
+  ;; Initialize
+  (anki-editor-reset-cloze-number)
+  )
+#+end_src
+
+
+
+#+begin_src emacs-lisp
+(setq org-my-anki-file "/ubuntu/home/sean/anki.org")
+
+;; Allow Emacs to access content from clipboard.
+(setq select-enable-clipboard t
+      select-enable-primary t)
+#+end_src
+
+
+** PRA FAZER screencast gif / keycast
+arrumar o keycast
+ver como que mexe nisso e montar um notes e fazer um post 
+#+BEGIN_SRC emacs-lisp
+(use-package gif-screencast)
+(use-package keycast)
+;;(setq keycast-insert-after "%e")
+(with-eval-after-load 'gif-screencast
+  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
+  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
+;;(setq mode-line-format mode-line-keycast)
+#+END_SRC
+
+** undo tree
+
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree)
+(global-undo-tree-mode)
+#+END_SRC
+
+* interface
+** frames only
+esse daqui só presta se for pra usar os frames separados. Tipo no
+Qtile, i3, xmonad e etc.
+
+#+BEGIN_SRC emacs-lisp
+(use-package frames-only-mode)
+(frames-only-mode 1)
+#+END_SRC
+
+** yes or no para y or n
+
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+** multiterm
+
+#+begin_src emacs-lisp
+(use-package multi-term)
+(setq multi-term-program "/bin/bash")
+#+end_src
+
+** which key
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key)
+(which-key-mode 1)
+;; (setq which-key-popup-type 'minibuffer)
+(setq which-key-popup-type 'side-window)
+(setq which-key-side-window-max-height 0.33)
+#+END_SRC
+
+** PRA FAZER helm
+ver esse negócio e dividir em partes
+#+BEGIN_SRC emacs-lisp
+(use-package helm-bibtex
+  :custom
+  (bibtex-completion-bibliography '("/home/sean/Minha biblioteca.bib"))
+  (reftex-default-bibliography '("//home/sean/Minha biblioteca.bib"))
+  (bibtex-completion-notes-path "/ubuntu/home/sean/")
+  (bibtex-completion-pdf-field "file")
+  (bibtex-completion-notes-template-multiple-files
+  (concat
+   "#+TITLE: ${title}\n"
+   "#+ROAM_KEY: cite:${=key=}\n"
+   "* TODO Notes\n"
+   ":PROPERTIES:\n"
+   ":Custom_ID: ${=key=}\n"
+   ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+   ":AUTHOR: ${author-abbrev}\n"
+   ":JOURNAL: ${journaltitle}\n"
+   ":DATE: ${date}\n"
+   ":YEAR: ${year}\n"
+   ":DOI: ${doi}\n"
+   ":URL: ${url}\n"
+   ":END:\n\n"
+   ))
+)
+(use-package helm
+  :diminish helm-mode
+  :init
+  (progn
+    (require 'helm-config)
+    (setq helm-candidate-number-limit 100)
+    ;; From https://gist.github.com/antifuchs/9238468
+    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+          helm-input-idle-delay 0.01  ; this actually updates things
+                                        ; reeeelatively quickly.
+          helm-yas-display-key-on-candidate t
+		  ;; changed this
+		  ;; helm-completion-in-region-fuzzy-match t
+		  helm-completion-style 'emacs
+		  
+		  helm-split-window-inside-p t
+          helm-quick-update t
+		  ;; helm-mode-fuzzy-match t
+          helm-M-x-requires-pattern nil
+          helm-ff-skip-boring-files t)
+    (helm-mode))
+  :bind (("C-c h" . helm-mini)
+         ("C-h a" . helm-apropos)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x b" . helm-buffers-list)
+         ("M-y" . helm-show-kill-ring)
+         ("M-x" . helm-M-x)
+         ("C-x c o" . helm-occur)
+         ("C-x c s" . helm-swoop)
+         ("C-x c y" . helm-yas-complete)
+         ("C-x c Y" . helm-yas-create-snippet-on-region)
+         ("C-x c b" . my/helm-do-grep-book-notes)
+         ("C-x c SPC" . helm-all-mark-rings)))
+
+(ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+#+END_SRC
+
+
+
+*** pacotes adicionais helm
+
+#+begin_src emacs-lisp
+(use-package helm-swoop)
+(use-package helm-c-yasnippet)
+(use-package helm-org-rifle)
+#+end_src
+
+*** PRA FAZER atalhos do teclado
+arrumar isso e colocar junto com outros atalhos
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-s") 'helm-occur)
+#+END_SRC
+
+** hydra
+
+#+begin_src emacs-lisp
+(use-package hydra)
+#+end_src
+
+** PRA FAZER god mode
+não está funcionando
+#+begin_src emacs-lisp
+(use-package god-mode
+  :config
+  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+  (global-set-key (kbd "<escape>") 'god-local-mode))
+
+(god-mode-all)
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+#+end_src
+
+
+
+** PRA FAZER espeak
+fazer ele não abrir essa janela
+não lembro pra quê eu montei isso mas dá pra usar em alguma coisa
+#+BEGIN_SRC emacs-lisp
+;; depende do espeak
+(defun espeak (text)
+  "Speaks text by espeak"
+  (save-window-excursion
+    (let* ((amplitude 100)
+           (voice 'brazil)
+           (command (format "espeak -a %s -v %s \"%s\"" amplitude voice text)))
+      (async-shell-command command "*Messages*" "*Messages*"))))
+#+END_SRC
+
+** PRA FAZER desktop save
+não tem necessidade de deixar isso aqui
+#+BEGIN_SRC emacs-lisp
+(desktop-save-mode 1)
+#+END_SRC
+
+** PRA FAZER key binds
+juntar com as outras keybinds
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+
+* Org mode
+** PRA FAZER Módulos adicionais
+separar isso daqui em vários blocos
+
+#+BEGIN_SRC emacs-lisp
+(setq org-enable-org-journal-support t)
+(add-to-list 'org-modules 'org-tempo t)
+;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+(require 'org-habit)
+(require 'org-tempo)
+;; TODO este pedaço não está funcionando
+(setq org-startup-folded 'content) ;; default t)
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry))
+
+(use-package org-pretty-tags)
+(use-package org-ref
+    :config
+    (setq
+         org-ref-completion-library 'org-ref-ivy-cite
+         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
+         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
+         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+         org-ref-notes-directory "/ubuntu/home/sean/"
+         org-ref-notes-function 'orb-edit-notes))
+
+(use-package org-download
+  :custom
+  (org-download-screenshot-method "gnome-screenshot")
+  (org-download-image-dir "./assets/images"))
+(use-package html-to-markdown)
+
+(use-package auto-org-md)
+(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
+#+END_SRC
+
+** PRA FAZER org-noter
+https://orgmode.org/manual/Initial-visibility.html
+olhar isso daqui e mexer nas coisas do org mode depois
+também preciso ver um jeito de montar um 'smartcast' pra selecionar as
+caixas do slice
+#+BEGIN_SRC emacs-lisp
+(use-package org-noter
+  :config
+  (setq org-noter-auto-save-last-location t
+		org-noter-notes-window-behavior '(start scroll)
+		org-noter-hide-other nil
+		;; abrir em outra janela
+		org-noter-notes-window-location 'other-frame
+		;; org-noter-notes-window-location 'horizontal-split
+		org-noter-separate-notes-from-heading t)
+
+  (defun org-noter-init-pdf-view ()
+	(pdf-view-fit-page-to-window))
+;;	(pdf-view-auto-slice-minor-mode)
+	;; (run-at-time "0.5 sec" nil #'org-noter))
+
+  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
+  
+(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
+  (interactive "@e")
+  (setq current-b (buffer-name))
+  (progn  (pdf-view-mouse-set-region-rectangle event)
+		  (pdf-view-extract-region-image pdf-view-active-region
+										 (pdf-view-current-page)
+										 (pdf-view-image-size)
+										 (get-buffer-create "teste")
+										 t)
+		  (set-buffer "teste")
+		  (write-file "/tmp/screenshot.png" nil)
+		  (kill-buffer "screenshot.png")
+		  (set-buffer current-b)
+		  (org-noter-insert-note)
+		  (org-download-screenshot)
+		  (if switch-back			 
+			  (switch-to-buffer-other-frame current-b))))
+
+(define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
+#+END_SRC
+
+** PRA FAZER org-agenda
+vou testar aquele C-c [ de adicionar os arquivos pra agenda e ver no
+que dá. Pelo menos vai dar uma limpada nela
+#+BEGIN_SRC emacs-lisp
+;; TODO colocar os arquivos direitinho nesse negócio
+(setq org-agenda-files '("~/.emacs.d/config.org"))
+;;                         "/ubuntu/home/sean"
+;;						 "/ubuntu/home/sean/web"))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
+#+END_SRC
+
+** org aparência
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-indented t
+	  org-ellipsis "";; " ⤵" ;; folding symbol
+      org-pretty-entities t
+      org-hide-emphasis-markers nil       ;; show actually italicized text instead of /italicized text/
+      org-agenda-block-separator ""
+      org-fontify-whole-heading-line t
+      org-fontify-done-headline t
+      org-fontify-quote-and-verse-blocks t
+      org-special-ctrl-a/e t)
+#+END_SRC
 
 ** org pomodoro
-:LOGBOOK:
-CLOCK: [2020-01-02 qui 21:08]--[2020-01-02 qui 21:58] =>  0:50
-CLOCK: [2020-01-02 qui 20:07]--[2020-01-02 qui 20:57] =>  0:50
-:END:
-
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro)
 ;; duração
@@ -1113,16 +843,12 @@ CLOCK: [2020-01-02 qui 20:07]--[2020-01-02 qui 20:57] =>  0:50
 (setq org-pomodoro-finished-sound-args "-volume 0.4")
 (setq org-pomodoro-long-break-sound-args "-volume 0.4")
 (setq org-pomodoro-short-break-sound-args "-volume 0.4")
-
 #+END_SRC
 
-#+RESULTS:
-: -volume 0.4
-
-** org clock 
-tem uns bugs, mas acho que é no xmobar
-dar uma detalhada no bug do xmobar
+** PRA FAZER [#C] org clock 
+depois ver isso com calma
 #+BEGIN_SRC emacs-lisp
+;; acho que não tem necessidade de usar essa função
 (defun hhmmtomm (time)
   "converts hh:mm formated time string to minutes int"
   (if time
@@ -1147,6 +873,7 @@ dar uma detalhada no bug do xmobar
                         (- (org-clock-get-clocked-time) org-clock-total-time)
                         org-clock-total-time
                         (org-clock-get-clocked-time)  ;; all time total
+						;; FIX ME fazer isso usando funções nativas do emacs lisp
 						(- (hhmmtomm org-clock-effort)
 						   (- (org-clock-get-clocked-time)
 							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
@@ -1156,79 +883,14 @@ dar uma detalhada no bug do xmobar
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
 
-#+RESULTS:
-| esf/org-clocking-info-to-file |
+** interface
 
-** interface speed
 #+begin_src emacs-lisp
 (setq org-use-speed-commands 1)
 #+end_src
 
-#+RESULTS:
-: 1
+*** org refile
 
-** interface
-
-#+begin_src emacs-lisp
-(defun my/insert-text-after-heading (text)
-  "Insert TEXT after every heading in the file, skipping property drawers."
-  (interactive "sText to insert: ")
-
-  ;; The Org Element API provides functions that allow you to map over all
-  ;; elements of a particular type and perform modifications. However, as
-  ;; as soon as the buffer is modified the parsed data becomes out of date.
-  ;;
-  ;; Instead, we treat the buffer as text and use other org-element-*
-  ;; functions to parse out important data.
-
-  ;; Use save-excursion so the user's point is not disturbed when this code
-  ;; moves it around.
-  (save-excursion
-    ;; Go to the beginning of the buffer.
-    (goto-char (point-min))
-
-    ;; Use save-match-data as the following code uses re-search-forward,
-    ;; will disturb any regexp match data the user already has.
-    (save-match-data
-
-      ;; Search through the buffer looking for headings. The variable
-      ;; org-heading-regexp is defined by org-mode to match anything
-      ;; that looks like a valid Org heading.
-      (while (re-search-forward org-heading-regexp nil t)
-
-        ;; org-element-at-point returns a list of information about
-        ;; the element the point is on. This includes a :contents-begin
-        ;; property which is the buffer location of the first character
-        ;; of the contents after this headline.
-        ;;
-        ;; Jump to that point.
-        (goto-char (org-element-property :contents-begin (org-element-at-point)))
-
-        ;; Point is now on the first character after the headline. Find out
-        ;; what type of element is here using org-element-at-point.
-        (let ((first-element (org-element-at-point)))
-
-          ;; The first item in the list returned by org-element-at-point
-          ;; says what type of element this is.  See
-          ;; https://orgmode.org/worg/dev/org-element-api.html for details of
-          ;; the different types.
-          ;;
-          ;; If this is a property drawer we need to skip over it. It will
-          ;; an :end property containing the buffer location of the first
-          ;; character after the property drawer. Go there if necessary.
-          (when (eq 'property-drawer (car first-element))
-            (goto-char (org-element-property :end first-element))))
-
-      ;; Point is now after the heading, and if there was a property
-      ;; drawer then it's after that too. Insert the requested text.
-      (insert text "\n\n")))))
-#+end_src
-
-#+RESULTS:
-: my/insert-text-after-heading
-
-** PRA FAZER org refile
-arrumar isso
 #+begin_src emacs-lisp
 ;; org refiling pra mandar as tarefas de um arquivo pra outro
 (setq org-refile-targets (quote (;;("~/semana.org" :maxlevel . 1)
@@ -1236,59 +898,37 @@ arrumar isso
 								 ;;("~/vest/vestibular.org" :maxlevel . 1)
 								 ;; ("~/done.org" :maxlevel . 1) 
 								 ;; ("~/ossu/ossu.org" :maxlevel . 1)
-								 ("/ubuntu/home/sean/anki.org" :maxlevel . 1)
-)))
+								 ("/ubuntu/home/sean/anki.org" :maxlevel . 1))))
 #+end_src
 
-#+RESULTS:
-: ((/ubuntu/home/sean/anki.org :maxlevel . 1))
-
-** PRA FAZER [#A] org capture
-
+*** PRA FAZER org capture
+adicionar mais templates e consertar o de imagens
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("t" "PRA FAZER" entry (file+headline "~/semana.org" "Tarefas")
-	     "* PRA FAZER %^{Descrição breve} %^g \n \n %? \n Adicionado em: %U")
-        ("c" "Checklist" entry (file+headline "~/semana.org" "Tarefas")
-         "* PRA FAZER %^{Descrição breve} [/] %^g \n- [ ] %? \n Adicionado em: %U")
-        ("p" "Programming TODO" entry (file+headline "~/semana.org" "projetos")
-         "* PRA FAZER %^{Descrição breve} %^g \n %? \n link: %a \n Adicionado em: %U")
-        ("n" "Programming Notes" entry (file+headline "~/ossu/prognotes.org" "notas")
-         "* %^{Descrição} %^g \n %x \n")
-        ("w" "Citações" entry (file+headline "~/lang/citações.org" "citações")
-         "* %^{Descrição} %^gdrill: \n %x \n")
-        ("i" "Info" entry (file+headline "~/Documents/emacs.org" "emacs")
-         "* %^{Descrição} \n %? \n link: %a \n %:node")
-        ("e" "emacs" entry (file+headline "~/Documents/emacs.org" "emacs")
-         "* %^{Descrição}  %^g\n %x \n")
-        ("j" "日本語" entry (file+headline "~/lang/lang.org" "文法[ぶんぽう]")
-         "* %^{Descrição da gramática}\n %? \n")
-        ("l" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
-         "* %^{Descrição} \n [%x] \n %")
-        ("a" "livros/artigos" entry (file+headline "~/Documents/livros.org" "livros")
-         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \
- \n :END: \n %i \n Descrição:\n %?"
-         :prepend t
-         :empty-lines 1
-         :created t)
-		;; Org-capture anki templates
-		("b" "Anki basic"
+      '(;;		Org-capture anki templates
+		("j" "Japanese basic"
 		 entry
 		 (file+headline org-my-anki-file "Dispatch Shelf")
-		 "* %<%H:%M>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Basic\n:ANKI_DECK: Mega\n:END:\n** Front\n%?\n** Back\n%x\n")
-		("B" "Anki cloze"
+		 "* %<%H:%M:%S>   :japones:\n :PROPERTIES:\n :ANKI_NOTE_TYPE: Japanese (recognition&recall)\n :ANKI_DECK: japones\n :END:\n** Expression\n%x\n** Meaning\n%?\n** Reading\n%x\n** Kanji\n\n** Diagram\n\n** Imagem \n\n** Audio \n\n** ref\n\n")
+		;; TODO adicionar um outro pra francês, alemão e russo
+		("c" "Cloze"
 		 entry
 		 (file+headline org-my-anki-file "Dispatch Shelf")
-		 "* %<%H:%M>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x\n** Extra\n")
-		))
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x%?\n** Extra\n")
+		("a" "Anki cloze"
+		 entry
+		 (file+headline org-my-anki-file "Dispatch Shelf")
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x\n** Extra\n")
+		;; TODO não está funcionando
+		("i" "Image cloze"
+		 entry
+		 (file+headline org-my-anki-file "Dispatch shelf")
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Image\n:ANKI_DECK: Mega\n:END:\n** Descrição\n%?\n** Imagem\n\n** Comentários\n")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 
-#+RESULTS:
-: org-capture
-
-*** anki comments
+**** anki comments
 
 - Note the %x in org-capture-templates: this means we want to fill in
   content of X clipboard upon capture. For Cloze note, this would be
@@ -1310,10 +950,25 @@ arrumar isso
   decks/note types, you may want to create multiple capture templates,
   or write some elisp functions to reduce typing.
 
-** org roam capture
-#+begin_src emacs-lisp
+*** hooks
 
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
+(setq org-startup-with-inline-images t)
+(add-hook
+ 'org-babel-after-execute-hook
+ (lambda ()
+   (when org-inline-image-overlays
+     (org-redisplay-inline-images))))
 #+end_src
+
+*** todo states
+
+#+begin_src emacs-lisp
+;; todo states
+(setq org-todo-keywords '((sequence "PRA FAZER(t)" "ESPERANDO(e)" "NÃO ENTENDI(n)" "REVER(r)" "|" "PRONTO(p)" "CANCELADO(c)")))
+#+end_src
+
 ** org babel
 
 #+BEGIN_SRC emacs-lisp
@@ -1347,37 +1002,14 @@ arrumar isso
 	  org-edit-src-content-indentation 0)
 #+END_SRC
 
-#+RESULTS:
-: 0
-
-
-
-** org ref
-
-#+BEGIN_SRC emacs-lisp
-(use-package org-ref)
-#+END_SRC
-
-#+RESULTS:
-
-** ox-reveal
-
-#+BEGIN_SRC emacs-lisp
+** ox exports
+#+begin_src emacs-lisp
+(use-package ox-jekyll-md)
+(use-package ox-epub)
 (use-package ox-reveal)
-#+END_SRC
+#+end_src
 
-#+RESULTS:
-
-** org-drill
-
-#+BEGIN_SRC emacs-lisp
-  ;; (require 'org-drill)
-#+END_SRC
-
-#+RESULTS:
-: org-drill
-
-* prog
+* programming
 ** hooks
 
 #+BEGIN_SRC emacs-lisp
@@ -1385,9 +1017,6 @@ arrumar isso
 									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
 #+END_SRC
-
-#+RESULTS:
-| (lambda nil (progn (linum-relative-mode 1) (smartparens-mode 1) (rainbow-delimiters-mode 1))) | smartparens-mode |
 
 ** PRA FAZER lsp
 depois preciso ver isso com mais calma, acho que vale a pena
@@ -1411,15 +1040,7 @@ espaço no disco.
 		lsp-ui-peek-list-width 60
 		lsp-ui-peek-peek-height 25))
 
-(use-package company-lsp
-  :requires company
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
+
 
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
@@ -1439,7 +1060,7 @@ espaço no disco.
 
 
 (use-package dap-mode)
-;;(use-package lsp-python)
+(use-package lsp-python-ms)
 ;;(use-package lsp-clangd)
 
 (use-package lsp-mode
@@ -1489,24 +1110,6 @@ espaço no disco.
             (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
 #+end_src
 
-#+RESULTS:
-
-** clojure
-
-#+begin_src emacs-lisp
-(use-package cider)
-#+end_src
-
-#+RESULTS:
-
-** CANCELADO arduino
-
-#+begin_src emacs-lisp
-;; (use-package arduino-mode)
-#+end_src
-
-#+RESULTS:
-
 ** markdown
 #+begin_src emacs-lisp
 (use-package 
@@ -1518,9 +1121,6 @@ espaço no disco.
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 #+end_src
-
-#+RESULTS:
-: ((\.markdown\' . markdown-mode) (\.md\' . markdown-mode) (README\.md\' . gfm-mode) (\.odc\' . archive-mode) (\.odf\' . archive-mode) (\.odi\' . archive-mode) (\.otp\' . archive-mode) (\.odp\' . archive-mode) (\.otg\' . archive-mode) (\.odg\' . archive-mode) (\.ots\' . archive-mode) (\.ods\' . archive-mode) (\.odm\' . archive-mode) (\.ott\' . archive-mode) (\.odt\' . archive-mode) (\.epub\' . nov-mode) (\.[pP][dD][fF]\' . pdf-view-mode) (\.hva\' . latex-mode) (\.drv\' . latex-mode) (\<\(models\|views\|handlers\|feeds\|sitemaps\|admin\|context_processors\|urls\|settings\|tests\|assets\|forms\)\.py\' . django-mode) (\.djhtml$ . django-html-mode) (\.[Ss][Aa][Ss]\' . SAS-mode) (\.Sout . S-transcript-mode) (\.[Ss]t\' . S-transcript-mode) (\.Rd\' . Rd-mode) (DESCRIPTION\' . conf-colon-mode) (/Makevars\(\.win\)?\' . makefile-mode) (\.[Rr]out . ess-r-transcript-mode) (CITATION\' . ess-r-mode) (NAMESPACE\' . ess-r-mode) (\.[rR]profile\' . ess-r-mode) (\.[rR]\' . ess-r-mode) (/R/.*\.q\' . ess-r-mode) (\.[Jj][Aa][Gg]\' . ess-jags-mode) (\.[Bb][Mm][Dd]\' . ess-bugs-mode) (\.[Bb][Oo][Gg]\' . ess-bugs-mode) (\.[Bb][Uu][Gg]\' . ess-bugs-mode) (\(?:build\|profile\)\.boot\' . clojure-mode) (\.cljs\' . clojurescript-mode) (\.cljc\' . clojurec-mode) (\.\(clj\|dtm\|edn\)\' . clojure-mode) (\(?:\(?:\(?:\.\(?:b\(?:\(?:abel\|ower\)rc\)\|json\(?:ld\)?\)\|composer\.lock\)\)\'\) . json-mode) (\.jl\' . julia-mode) (\.hsc\' . haskell-mode) (\.l[gh]s\' . haskell-literate-mode) (\.hsig\' . haskell-mode) (\.[gh]s\' . haskell-mode) (\.cabal\'\|/cabal\.project\|/\.cabal/config\' . haskell-cabal-mode) (\.chs\' . haskell-c2hs-mode) (\.ghci\' . ghci-script-mode) (\.dump-simpl\' . ghc-core-mode) (\.hcr\' . ghc-core-mode) (/git-rebase-todo\' . git-rebase-mode) (\.\(?:md\|markdown\|mkd\|mdown\|mkdn\|mdwn\)\' . markdown-mode) (\.\(plantuml\|pum\|plu\)\' . plantuml-mode) (\.grm\' . sml-yacc-mode) (\.cm\' . sml-cm-mode) (\.s\(ml\|ig\)\' . sml-mode) (\.ts$ . typescript-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.\(?:avs\|bmp[23]?\|c\(?:als?\|myka?\|u[rt]\)\|d\(?:c[mx]\|ds\|px\)\|f\(?:ax\|its\)\|gif\(?:87\)?\|hrz\|ic\(?:on\|[bo]\)\|j\(?:\(?:pe\|[np]\)g\)\|m\(?:iff\|ng\|s\(?:l\|vg\)\|tv\)\|otb\|p\(?:bm\|c\(?:ds\|[dltx]\)\|db\|gm\|i\(?:ct\|x\)\|jpeg\|n\(?:g\(?:24\|32\|8\)\|[gm]\)\|pm\|sd\|tif\|wp\)\|r\(?:as\|gb[ao]?\|l[ae]\)\|s\(?:c[rt]\|fw\|gi\|un\|vgz?\)\|t\(?:ga\|i\(?:ff\(?:64\)?\|le\|m\)\|tf\)\|uyvy\|v\(?:da\|i\(?:car\|d\|ff\)\|st\)\|w\(?:bmp\|pg\)\|x\(?:bm\|cf\|pm\|wd\|[cv]\)\|y\(?:cbcra?\|uv\)\)\' . image-mode) (\.elc\' . elisp-byte-code-mode) (\.zst\' nil jka-compr) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.\(?:rbw?\|ru\|rake\|thor\|jbuilder\|rabl\|gemspec\|podspec\)\|/\(?:Gem\|Rake\|Cap\|Thor\|Puppet\|Berks\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (\.py[iw]?\' . python-mode) (\.less\' . less-css-mode) (\.scss\' . scss-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.h\' . c-or-c++-mode) (\.c\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . mhtml-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\.\(scm\|stk\|ss\|sch\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.ad[abs]\' . ada-mode) (\.ad[bs].dg\' . ada-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-gmake-mode) (\.make\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-gmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ckz]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|zshrc\|m?kshrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|cbr\|7z\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|CBR\|7Z\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.jsm?\' . javascript-mode) (\.json\' . javascript-mode) (\.jsx\' . js-jsx-mode) (\.[ds]?vh?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) ([:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|DVI\|OD[FGPST]\|DOCX?\|XLSX?\|PPTX?\|pdf\|djvu\|dvi\|od[fgpst]\|docx?\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.la\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\.toml\' . conf-toml-mode) (\.desktop\' . conf-desktop-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gitconfig\|gnokiirc\|hgrc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.\(?:enigma\|gltron\|gtk\|hxplayer\|net\|neverball\|qt/.+\|realplayer\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/\|\.ad\' . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode) (\.tzst\' . tar-mode))
 
 ** flycheck
 
@@ -1537,15 +1137,11 @@ espaço no disco.
 (use-package flycheck-cask)
 #+END_SRC
 
-#+RESULTS:
-
 ** magit git
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit)
 #+END_SRC
-
-#+RESULTS:
 
 ** PRA FAZER company
 
@@ -1576,8 +1172,7 @@ espaço no disco.
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 #+END_SRC
 
-#+RESULTS:
-: company-select-previous-or-abort
+
 
 *** company colors
 #+begin_src emacs-lisp
@@ -1590,6 +1185,33 @@ espaço no disco.
      `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 #+end_src
 
+*** company backends
+
+**** company-org-roam
+
+#+begin_src emacs-lisp
+(use-package company-org-roam
+  :requires company
+  :after org-roam
+  :config
+(push 'company-org-roam company-backends)
+)
+  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
+#+end_src
+
+**** company-lsp
+#+begin_src emacs-lisp
+(use-package company-lsp
+  :requires company
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
+#+end_src
+
 ** outros parametros
 *** tamanho das tabulações
 
@@ -1597,12 +1219,11 @@ espaço no disco.
 (setq-default tab-width 4)
 #+END_SRC
 
-#+RESULTS:
-: 4
 
 ** web
 
 #+begin_src emacs-lisp
+(use-package skewer-mode)
 (use-package emmet-mode
 :ensure t
 :defer t
@@ -1655,8 +1276,7 @@ espaço no disco.
 
 #+end_src
 
-#+RESULTS:
-| lambda | nil | (let ((web-mode-cur-language (web-mode-language-at-pos))) (if (string= web-mode-cur-language php) (yas-activate-extra-mode (quote php-mode)) (yas-deactivate-extra-mode (quote php-mode))) (if (string= web-mode-cur-language css) (setq emmet-use-css-transform t) (setq emmet-use-css-transform nil))) |
+
 
 *** PRA FAZER javascript prettier
 #+begin_src emacs-lisp
@@ -1683,26 +1303,6 @@ espaço no disco.
 (use-package restclient)
 (use-package ob-restclient)
 #+end_src
-
-** CANCELADO smart parens
-
-#+BEGIN_SRC emacs-lisp
-;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
-;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
-;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-;; (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-#+END_SRC
-
-#+RESULTS:
-
-** auctex
-
-#+begin_src emacs-lisp
-#+end_src
-
-#+RESULTS:
-
 ** yasnippets
 
 #+BEGIN_SRC emacs-lisp
@@ -1717,21 +1317,22 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 		    backends
 		  (list backends))
 		'(:with company-yasnippet))))
-
     ;; add yasnippet to all backends
   (setq company-backends
-		(mapcar #'mars/company-backend-with-yas company-backends)))
+		(mapcar #'mars/company-backend-with-yas company-backends))
+  (yas-global-mode 1))
+
 (use-package auto-yasnippet
   :config
   (global-set-key (kbd "C-,") #'aya-create)
   (global-set-key (kbd "C-.") #'aya-expand))
+
 (use-package yasnippet-snippets
   :config
-  (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets" yasnippet-snippets-dir "/home/sean/.emacs.d/elpa/haskell-snippets-20160919.22/snippets")))
-#+END_SRC
+  (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets"
+						   yasnippet-snippets-dir)))
 
-#+RESULTS:
-: t
+#+END_SRC
 
 ** projectile
 
@@ -1742,9 +1343,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (setq projectile-use-git-grep t)
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** helm dash
 
 #+BEGIN_SRC emacs-lisp
@@ -1754,17 +1352,11 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
    (setq helm-dash-browser-func 'browse-url))
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** octave
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 #+END_SRC
-
-#+RESULTS:
-: ((\.m . octave-mode) (\.ejs\' . web-mode) (\.php\' . web-mode) (\.html\' . web-mode) (\.js\' . js2-mode) (\.ejs\' . emmet-mode) (\.css\' . emmet-mode) (\.html\' . emmet-mode) (\.markdown\' . markdown-mode) (\.md\' . markdown-mode) (README\.md\' . gfm-mode) (\.odc\' . archive-mode) (\.odf\' . archive-mode) (\.odi\' . archive-mode) (\.otp\' . archive-mode) (\.odp\' . archive-mode) (\.otg\' . archive-mode) (\.odg\' . archive-mode) (\.ots\' . archive-mode) (\.ods\' . archive-mode) (\.odm\' . archive-mode) (\.ott\' . archive-mode) (\.odt\' . archive-mode) (\.epub\' . nov-mode) (\.[pP][dD][fF]\' . pdf-view-mode) (\.hva\' . latex-mode) (\.drv\' . latex-mode) (\<\(models\|views\|handlers\|feeds\|sitemaps\|admin\|context_processors\|urls\|settings\|tests\|assets\|forms\)\.py\' . django-mode) (\.djhtml$ . django-html-mode) (\.[Ss][Aa][Ss]\' . SAS-mode) (\.Sout . S-transcript-mode) (\.[Ss]t\' . S-transcript-mode) (\.Rd\' . Rd-mode) (DESCRIPTION\' . conf-colon-mode) (/Makevars\(\.win\)?\' . makefile-mode) (\.[Rr]out . ess-r-transcript-mode) (CITATION\' . ess-r-mode) (NAMESPACE\' . ess-r-mode) (\.[rR]profile\' . ess-r-mode) (\.[rR]\' . ess-r-mode) (/R/.*\.q\' . ess-r-mode) (\.[Jj][Aa][Gg]\' . ess-jags-mode) (\.[Bb][Mm][Dd]\' . ess-bugs-mode) (\.[Bb][Oo][Gg]\' . ess-bugs-mode) (\.[Bb][Uu][Gg]\' . ess-bugs-mode) (\(?:build\|profile\)\.boot\' . clojure-mode) (\.cljs\' . clojurescript-mode) (\.cljc\' . clojurec-mode) (\.\(clj\|dtm\|edn\)\' . clojure-mode) (\(?:\(?:\(?:\.\(?:b\(?:\(?:abel\|ower\)rc\)\|json\(?:ld\)?\)\|composer\.lock\)\)\'\) . json-mode) (\.jl\' . julia-mode) (\.hsc\' . haskell-mode) (\.l[gh]s\' . haskell-literate-mode) (\.hsig\' . haskell-mode) (\.[gh]s\' . haskell-mode) (\.cabal\'\|/cabal\.project\|/\.cabal/config\' . haskell-cabal-mode) (\.chs\' . haskell-c2hs-mode) (\.ghci\' . ghci-script-mode) (\.dump-simpl\' . ghc-core-mode) (\.hcr\' . ghc-core-mode) (/git-rebase-todo\' . git-rebase-mode) (\.\(?:md\|markdown\|mkd\|mdown\|mkdn\|mdwn\)\' . markdown-mode) (\.\(plantuml\|pum\|plu\)\' . plantuml-mode) (\.grm\' . sml-yacc-mode) (\.cm\' . sml-cm-mode) (\.s\(ml\|ig\)\' . sml-mode) (\.ts$ . typescript-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.\(?:avs\|bmp[23]?\|c\(?:als?\|myka?\|u[rt]\)\|d\(?:c[mx]\|ds\|px\)\|f\(?:ax\|its\)\|gif\(?:87\)?\|hrz\|ic\(?:on\|[bo]\)\|j\(?:\(?:pe\|[np]\)g\)\|m\(?:iff\|ng\|s\(?:l\|vg\)\|tv\)\|otb\|p\(?:bm\|c\(?:ds\|[dltx]\)\|db\|gm\|i\(?:ct\|x\)\|jpeg\|n\(?:g\(?:24\|32\|8\)\|[gm]\)\|pm\|sd\|tif\|wp\)\|r\(?:as\|gb[ao]?\|l[ae]\)\|s\(?:c[rt]\|fw\|gi\|un\|vgz?\)\|t\(?:ga\|i\(?:ff\(?:64\)?\|le\|m\)\|tf\)\|uyvy\|v\(?:da\|i\(?:car\|d\|ff\)\|st\)\|w\(?:bmp\|pg\)\|x\(?:bm\|cf\|pm\|wd\|[cv]\)\|y\(?:cbcra?\|uv\)\)\' . image-mode) (\.elc\' . elisp-byte-code-mode) (\.zst\' nil jka-compr) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.\(?:rbw?\|ru\|rake\|thor\|jbuilder\|rabl\|gemspec\|podspec\)\|/\(?:Gem\|Rake\|Cap\|Thor\|Puppet\|Berks\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (\.py[iw]?\' . python-mode) (\.less\' . less-css-mode) (\.scss\' . scss-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.h\' . c-or-c++-mode) (\.c\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . mhtml-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\.\(scm\|stk\|ss\|sch\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.ad[abs]\' . ada-mode) (\.ad[bs].dg\' . ada-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-gmake-mode) (\.make\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-gmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ckz]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|zshrc\|m?kshrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|cbr\|7z\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|CBR\|7Z\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.jsm?\' . javascript-mode) (\.json\' . javascript-mode) (\.jsx\' . js-jsx-mode) (\.[ds]?vh?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) ([:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|DVI\|OD[FGPST]\|DOCX?\|XLSX?\|PPTX?\|pdf\|djvu\|dvi\|od[fgpst]\|docx?\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.la\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\.toml\' . conf-toml-mode) (\.desktop\' . conf-desktop-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gitconfig\|gnokiirc\|hgrc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.\(?:enigma\|gltron\|gtk\|hxplayer\|net\|neverball\|qt/.+\|realplayer\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/\|\.ad\' . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode) (\.tzst\' . tar-mode))
 
 ** C
 
@@ -1772,20 +1364,15 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package company-irony)
 #+END_SRC
 
-#+RESULTS:
-
 ** python
 
 #+BEGIN_SRC emacs-lisp
-(use-package company-anaconda)
-
 (add-hook 'python-mode-hook
 		  (lambda () (setq tab-width 4
 					  python-indent-offset 4)))
 #+END_SRC
 
-#+RESULTS:
-| lambda | nil | (setq tab-width 4 python-indent-offset 4) |
+
 
 *** django
 #+begin_src emacs-lisp
@@ -1793,8 +1380,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 ;; (yas/load-directory "/home/sean/.emacs.d/elpa/django-mode-20170522.714/snippets")
 ;; (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
 #+end_src
-
-#+RESULTS:
 
 ** haskell
 
@@ -1808,9 +1393,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   (setq lsp-haskell-process-args-hie '()))
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** lisp
 
 #+begin_src emacs-lisp
@@ -1818,27 +1400,15 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (setq show-paren-style 'parenthesis)
 #+end_src
 
-#+RESULTS:
-: parenthesis
-
 ** sml
 
 #+BEGIN_SRC emacs-lisp
 (use-package sml-mode)
 #+END_SRC
 
-#+RESULTS:
 
-** ESS R stats
-
-#+BEGIN_SRC emacs-lisp
-(use-package ess)
-(use-package ess-smart-underscore)
-#+END_SRC
-
-#+RESULTS:
-
-** howdoyou stackoverflow consult
+** PRA FAZER howdoyou stackoverflow consult
+montar um negócio pra enfiar no capture
 
 #+BEGIN_SRC emacs-lisp
 (use-package howdoyou)
@@ -1848,8 +1418,5 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
         helm-google-suggest-actions))
 #+END_SRC
 
-#+RESULTS:
-: ((How Do You lambda (candidate) (howdoyou-query candidate)) (Google Search . helm-google-suggest-action) (Wikipedia lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-wikipedia-url candidate)) (Youtube lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-youtube-url candidate)) (IMDb lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-imdb-url candidate)) (Google Maps lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-google-maps-url candidate)) (Google News lambda (candidate) (helm-search-suggest-perform-additional-action helm-search-suggest-action-google-news-url candidate)))
-
-
-
+* properties
+#+PROPERTY: header-args    :results silent

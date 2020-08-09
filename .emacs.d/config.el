@@ -41,15 +41,12 @@
 (setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
 (setq exec-path (append exec-path '("~/.local/bin")))
 
-
-
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
 
 (require 'iso-transl)
-
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -59,44 +56,9 @@
   :init (setq ewal-use-built-in-always-p nil
               ewal-use-built-in-on-failure-p nil
               ewal-built-in-palette "sexy-material"))
-;; (use-package ewal-spacemacs-themes
-;;   :init (progn
-;;           (setq spacemacs-theme-underline-parens t
-;;                 my:rice:font (font-spec
-;;                               :family "Source Code Pro"
-;;                               :weight 'semi-bold
-;;                               :size 11.0))
-;;           (show-paren-mode +1)
-;;           (global-hl-line-mode)
-;;           (set-frame-font my:rice:font nil t)
-;;           (add-to-list  'default-frame-alist
-;;                         `(font . ,(font-xlfd-name my:rice:font))))
-;;   :config (progn
-;;             (load-theme 'ewal-spacemacs-modern t)
-;;             (enable-theme 'ewal-spacemacs-modern)))
 
-(visual-line-mode t)
-
-;;(use-package cyberpunk-theme)
-;; (use-package spaceline
-;;   :after (winum)
-;;   :init (setq powerline-default-separator nil)
-;;   :config (spaceline-spacemacs-theme))
 ;; highlight lines
 (global-hl-line-mode)
-;; eink theme
-;; (use-package eink-theme)
-;; (use-package solarized-theme)
-;; (load-theme 'solarized-light-high-contrast t)
-;;(use-package zenburn-theme)
-;;(use-package monokai-theme)
-;; (use-package gruvbox-theme
-;;   :config
-;;   (load-theme 'gruvb-light-hard t))
-;; 
-;; (set-face-attribute 'default nil :family "Iosevka" :height 130)
-;; (set-face-attribute 'fixed-pitch nil :family "Sans Serif")
-;; (set-face-attribute 'variable-pitch nil :family "Baskerville")
 
 (scroll-bar-mode -1)
 (setq scroll-step            1
@@ -104,25 +66,9 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
-(use-package writeroom-mode)
-(with-eval-after-load 'writeroom-mode
-  (define-key writeroom-mode-map (kbd "C-M-<") #'writeroom-decrease-width)
-  (define-key writeroom-mode-map (kbd "C-M->") #'writeroom-increase-width)
-  (define-key writeroom-mode-map (kbd "C-M-=") #'writeroom-adjust-width))
-(setq writeroom-width 120)
-
-;;(powerline-default-theme)
-
 (setq-default mode-line-buffer-identification (list -40 (propertized-buffer-identification "%12b")))
 
 (global-prettify-symbols-mode 1)
-
-;;(use-package all-the-icons)
-
-;; (use-package mode-icons
-;;    :after all-the-icons
-;;    :config
-;;    (mode-icons-mode))
 
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
 (make-directory user-temporary-file-directory t)
@@ -131,14 +77,6 @@
 			       (tramp-file-name-regexp nil)))
 (setq auto-save-list-file-prefix (concat user-temporary-file-directory ".auto-saves-"))
 (setq auto-save-file-name-transforms `((".*" ,user-temporary-file-directory t)))
-
-(setq
-   org_notes "/ubuntu/home/sean/" ;; (concat (getenv "HOME") "/Git/Gitlab/Mine/Notes/")
-   zot_bib (concat (getenv "HOME") "/Minha biblioteca.bib")
-   org-directory org_notes
-   deft-directory org_notes
-   org-roam-directory org_notes
-   )
 
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
 (use-package pdf-view-restore)
@@ -218,9 +156,6 @@
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-;; (setq visual-fill-column-center-text t)
-;; (setq nov-text-width t)
-;;(setq nov-text-width 50)
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
                                            :height 1.0))
@@ -265,9 +200,9 @@
   (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
   (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
 
-;; (use-package leetcode)
-;; (setq leetcode-prefer-language "python3")
-;; (setq leetcode-prefer-sql "mysql")
+(use-package leetcode)
+(setq leetcode-prefer-language "python3")
+(setq leetcode-prefer-sql "mysql")
 
 (use-package deft
   :commands deft
@@ -286,319 +221,31 @@
   :config
   (add-to-list 'deft-extensions "tex")
   )
-;; (use-package zetteldeft
-;;    :after deft
-;;    :config
-;;    (zetteldeft-set-classic-keybindings))
 
-(use-package linum-relative)
-(column-number-mode 1)
-(setq linum-relative-current-symbol "")
-
-(use-package rainbow-delimiters)
-
-(use-package anki-editor
-  :after org
-  :bind (:map org-mode-map
-              ("<f12>" . anki-editor-cloze-region-auto-incr)
-              ("<f11>" . anki-editor-cloze-region-dont-incr)
-              ("<f10>" . anki-editor-reset-cloze-number)
-              ("<f9>"  . anki-editor-push-tree))
-  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
-  :config
-  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
-        anki-editor-org-tags-as-anki-tags t)
-
-  (defun anki-editor-cloze-region-auto-incr (&optional arg)
-    "Cloze region without hint and increase card number."
-    (interactive)
-    (anki-editor-cloze-region my-anki-editor-cloze-number "")
-    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
-    (forward-sexp))
-  (defun anki-editor-cloze-region-dont-incr (&optional arg)
-    "Cloze region without hint using the previous card number."
-    (interactive)
-    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
-    (forward-sexp))
-  (defun anki-editor-reset-cloze-number (&optional arg)
-    "Reset cloze number to ARG or 1"
-    (interactive)
-    (setq my-anki-editor-cloze-number (or arg 1)))
-  (defun anki-editor-push-tree ()
-    "Push all notes under a tree."
-    (interactive)
-    (anki-editor-push-notes '(4))
-    (anki-editor-reset-cloze-number))
-  ;; Initialize
-  (anki-editor-reset-cloze-number)
-  )
-
-(setq org-my-anki-file "/ubuntu/home/sean/anki.org")
-
-;; Allow Emacs to access content from clipboard.
-(setq select-enable-clipboard t
-      select-enable-primary t)
-
-(use-package gif-screencast)
-(use-package keycast)
-;;(setq keycast-insert-after "%e")
-(with-eval-after-load 'gif-screencast
-  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
-  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
-;;(setq mode-line-format mode-line-keycast)
-
-(use-package undo-tree)
-(global-undo-tree-mode)
-
-(use-package pandoc-mode)
-(use-package pandoc)
-
-(use-package frames-only-mode)
-(frames-only-mode 1)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(use-package multi-term)
-
-(use-package which-key)
-(which-key-mode 1)
-
-;; (setq which-key-popup-type 'minibuffer)
-(setq which-key-popup-type 'side-window)
-(setq which-key-side-window-max-height 0.33)
-
-(edit-server-start)
-
-(use-package helm-bibtex
-  :custom
-  (bibtex-completion-bibliography '("/home/sean/Minha biblioteca.bib"))
-  (reftex-default-bibliography '("//home/sean/Minha biblioteca.bib"))
-  (bibtex-completion-notes-path "/ubuntu/home/sean/")
-  (bibtex-completion-pdf-field "file")
-  (bibtex-completion-notes-template-multiple-files
-  (concat
-   "#+TITLE: ${title}\n"
-   "#+ROAM_KEY: cite:${=key=}\n"
-   "* TODO Notes\n"
-   ":PROPERTIES:\n"
-   ":Custom_ID: ${=key=}\n"
-   ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
-   ":AUTHOR: ${author-abbrev}\n"
-   ":JOURNAL: ${journaltitle}\n"
-   ":DATE: ${date}\n"
-   ":YEAR: ${year}\n"
-   ":DOI: ${doi}\n"
-   ":URL: ${url}\n"
-   ":END:\n\n"
-   ))
-)
-(use-package helm
-  :diminish helm-mode
-  :init
-  (progn
-    (require 'helm-config)
-    (setq helm-candidate-number-limit 100)
-    ;; From https://gist.github.com/antifuchs/9238468
-    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-          helm-input-idle-delay 0.01  ; this actually updates things
-                                        ; reeeelatively quickly.
-          helm-yas-display-key-on-candidate t
-		  ;; changed this
-		  ;; helm-completion-in-region-fuzzy-match t
-		  helm-completion-style 'emacs
-		  
-		  helm-split-window-inside-p t
-          helm-quick-update t
-		  ;; helm-mode-fuzzy-match t
-          helm-M-x-requires-pattern nil
-          helm-ff-skip-boring-files t)
-    (helm-mode))
-  :bind (("C-c h" . helm-mini)
-         ("C-h a" . helm-apropos)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x b" . helm-buffers-list)
-         ("M-y" . helm-show-kill-ring)
-         ("M-x" . helm-M-x)
-         ("C-x c o" . helm-occur)
-         ("C-x c s" . helm-swoop)
-         ("C-x c y" . helm-yas-complete)
-         ("C-x c Y" . helm-yas-create-snippet-on-region)
-         ("C-x c b" . my/helm-do-grep-book-notes)
-         ("C-x c SPC" . helm-all-mark-rings)))
-
-(ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
-
-(use-package helm-swoop)
-(use-package helm-c-yasnippet)
-(use-package helm-cider)
-(use-package helm-org-rifle)
-
-(global-set-key (kbd "C-s") 'helm-occur)
+(setq
+ org_notes "/ubuntu/home/sean/" ;; (concat (getenv "HOME") "/Git/Gitlab/Mine/Notes/")
+ zot_bib (concat (getenv "HOME") "/Minha biblioteca.bib")
+ org-directory org_notes
+ deft-directory org_notes
+ org-roam-directory org_notes)
 
 (use-package org-roam-bibtex
-  :after (org-roam)
+  :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
-;; changed this 
+
   (setq orb-preformat-keywords
    '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+
   (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "${slug}"
-           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-
-- tags ::
-- keywords :: ${keywords}
-
-\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-
-           :unnarrowed t))))
-
-(use-package hydra)
-
-(use-package god-mode
-  :config
-  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
-  (global-set-key (kbd "<escape>") 'god-local-mode))
-
-(god-mode-all)
-
-(defun my-update-cursor ()
-  (setq cursor-type (if (or god-local-mode buffer-read-only)
-                        'box
-                      'bar)))
-
-(add-hook 'god-mode-enabled-hook 'my-update-cursor)
-(add-hook 'god-mode-disabled-hook 'my-update-cursor)
-
-;; depende do espeak
-(defun espeak (text)
-  "Speaks text by espeak"
-  (save-window-excursion
-    (let* ((amplitude 100)
-           (voice 'brazil)
-           (command (format "espeak -a %s -v %s \"%s\"" amplitude voice text)))
-      (async-shell-command command "*Messages*" "*Messages*"))))
-
-(desktop-save-mode 1)
-
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
-(setq org-enable-org-journal-support t)
-(add-to-list 'org-modules 'org-tempo t)
-;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
-(require 'org-habit)
-(require 'org-tempo)
-;; TODO este pedaço não está funcionando
-(setq org-startup-folded 'content) ;; default t)
-(use-package org-journal
-  :bind
-  ("C-c n j" . org-journal-new-entry))
-
-(use-package org-pretty-tags)
-(use-package org-ref
-    :config
-    (setq
-         org-ref-completion-library 'org-ref-ivy-cite
-         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
-         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
-         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-         org-ref-notes-directory "/ubuntu/home/sean/"
-         org-ref-notes-function 'orb-edit-notes))
-
-(use-package org-download
-  :custom
-  (org-download-screenshot-method "gnome-screenshot")
-  (org-download-image-dir "./assets/images"))
-(use-package html-to-markdown)
-(use-package ox-jekyll-md)
-(use-package ox-epub)
-(use-package auto-org-md)
-(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
-(setq plantuml-default-exec-mode 'jar)
-
-(use-package org-noter
-  :config
-  (setq org-noter-auto-save-last-location t
-		org-noter-notes-window-behavior '(start scroll)
-		org-noter-hide-other nil
-		;; abrir em outra janela
-		org-noter-notes-window-location 'other-frame
-		;; org-noter-notes-window-location 'horizontal-split
-		org-noter-separate-notes-from-heading t)
-
-  (defun org-noter-init-pdf-view ()
-	(pdf-view-fit-page-to-window))
-;;	(pdf-view-auto-slice-minor-mode)
-	;; (run-at-time "0.5 sec" nil #'org-noter))
-
-  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
-  
-(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
-  (interactive "@e")
-  (setq current-b (buffer-name))
-  (progn  (pdf-view-mouse-set-region-rectangle event)
-		  (pdf-view-extract-region-image pdf-view-active-region
-										 (pdf-view-current-page)
-										 (pdf-view-image-size)
-										 (get-buffer-create "teste")
-										 t)
-		  (set-buffer "teste")
-		  (write-file "/tmp/screenshot.png" nil)
-		  (kill-buffer "screenshot.png")
-		  (set-buffer current-b)
-		  (org-noter-insert-note)
-		  (org-download-screenshot)
-		  (if switch-back			 
-			  (switch-to-buffer-other-frame current-b))))
-
-(define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
-
-;; org-agenda load na pasta do emacs
-
-;; TODO colocar os arquivos direitinho nesse negócio
-(setq org-agenda-files '("~/.emacs.d/config.org"
-                         "/ubuntu/home/sean"))
-
-;;						 "~/vest/"))
-;;						 "~/vest/vestibular.org"
-
-
-(global-set-key (kbd "C-c a") 'org-agenda)
-
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-;;(add-hook 'org-mode-hook (lambda () (writeroom-mode 1)))
-
-(setq org-startup-with-inline-images t)
-(add-hook
- 'org-babel-after-execute-hook
- (lambda ()
-   (when org-inline-image-overlays
-     (org-redisplay-inline-images))))
-;; todo states
-;; (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✓ PRONTO(p)")
-;;                           (sequence "⚑ ESPERANDO(e)" "|")
-;;                           (sequence "|" "✘ CANCELADO(c)")))
-(setq org-todo-keywords '((sequence "PRA FAZER(t)" "ESPERANDO(e)" "NÃO ENTENDI(n)" "REVER(r)" "|" "PRONTO(p)" "CANCELADO(c)")))
-
-(add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
-
-(use-package org-bullets)
-
-(setq org-startup-indented t
-	  ;; depende do pacote org-bullets
-      org-bullets-bullet-list '("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
-	  org-ellipsis "";; " ⤵" ;; folding symbol
-      org-pretty-entities t
-      org-hide-emphasis-markers nil       ;; show actually italicized text instead of /italicized text/
-      org-agenda-block-separator ""
-      org-fontify-whole-heading-line t
-      org-fontify-done-headline t
-      org-fontify-quote-and-verse-blocks t
-      org-special-ctrl-a/e t)
+	'(("r" "ref" plain (function org-roam-capture--get-point)
+	   ""
+	   :file-name "${slug}"
+	   :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+	   - tags ::
+	   - keywords :: ${keywords}
+	   \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+	   :unnarrowed t))))
 
 (use-package org-roam
   :hook (org-load . org-roam-mode)
@@ -677,13 +324,261 @@
 ;; (use-package org-roam-protocol
 ;;   :after org-protocol)
 
+(use-package linum-relative)
+(column-number-mode 1)
+(setq linum-relative-current-symbol "")
 
-(use-package company-org-roam
-  :after org-roam
+(use-package rainbow-delimiters)
+
+(use-package anki-editor
+  :after org
+  :bind (:map org-mode-map
+              ("<f12>" . anki-editor-cloze-region-auto-incr)
+              ("<f11>" . anki-editor-cloze-region-dont-incr)
+              ("<f10>" . anki-editor-reset-cloze-number)
+              ("<f9>"  . anki-editor-push-tree))
+  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
   :config
-(push 'company-org-roam company-backends)
+  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
+        anki-editor-org-tags-as-anki-tags t)
+
+  (defun anki-editor-cloze-region-auto-incr (&optional arg)
+    "Cloze region without hint and increase card number."
+    (interactive)
+    (anki-editor-cloze-region my-anki-editor-cloze-number "")
+    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
+    (forward-sexp))
+  (defun anki-editor-cloze-region-dont-incr (&optional arg)
+    "Cloze region without hint using the previous card number."
+    (interactive)
+    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
+    (forward-sexp))
+  (defun anki-editor-reset-cloze-number (&optional arg)
+    "Reset cloze number to ARG or 1"
+    (interactive)
+    (setq my-anki-editor-cloze-number (or arg 1)))
+  (defun anki-editor-push-tree ()
+    "Push all notes under a tree."
+    (interactive)
+    (anki-editor-push-notes '(4))
+    (anki-editor-reset-cloze-number))
+  ;; Initialize
+  (anki-editor-reset-cloze-number)
+  )
+
+(setq org-my-anki-file "/ubuntu/home/sean/anki.org")
+
+;; Allow Emacs to access content from clipboard.
+(setq select-enable-clipboard t
+      select-enable-primary t)
+
+(use-package gif-screencast)
+(use-package keycast)
+;;(setq keycast-insert-after "%e")
+(with-eval-after-load 'gif-screencast
+  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
+  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
+;;(setq mode-line-format mode-line-keycast)
+
+(use-package undo-tree)
+(global-undo-tree-mode)
+
+(use-package frames-only-mode)
+(frames-only-mode 1)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(use-package multi-term)
+(setq multi-term-program "/bin/bash")
+
+(use-package which-key)
+(which-key-mode 1)
+;; (setq which-key-popup-type 'minibuffer)
+(setq which-key-popup-type 'side-window)
+(setq which-key-side-window-max-height 0.33)
+
+(use-package helm-bibtex
+  :custom
+  (bibtex-completion-bibliography '("/home/sean/Minha biblioteca.bib"))
+  (reftex-default-bibliography '("//home/sean/Minha biblioteca.bib"))
+  (bibtex-completion-notes-path "/ubuntu/home/sean/")
+  (bibtex-completion-pdf-field "file")
+  (bibtex-completion-notes-template-multiple-files
+  (concat
+   "#+TITLE: ${title}\n"
+   "#+ROAM_KEY: cite:${=key=}\n"
+   "* TODO Notes\n"
+   ":PROPERTIES:\n"
+   ":Custom_ID: ${=key=}\n"
+   ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+   ":AUTHOR: ${author-abbrev}\n"
+   ":JOURNAL: ${journaltitle}\n"
+   ":DATE: ${date}\n"
+   ":YEAR: ${year}\n"
+   ":DOI: ${doi}\n"
+   ":URL: ${url}\n"
+   ":END:\n\n"
+   ))
 )
-  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
+(use-package helm
+  :diminish helm-mode
+  :init
+  (progn
+    (require 'helm-config)
+    (setq helm-candidate-number-limit 100)
+    ;; From https://gist.github.com/antifuchs/9238468
+    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+          helm-input-idle-delay 0.01  ; this actually updates things
+                                        ; reeeelatively quickly.
+          helm-yas-display-key-on-candidate t
+		  ;; changed this
+		  ;; helm-completion-in-region-fuzzy-match t
+		  helm-completion-style 'emacs
+		  
+		  helm-split-window-inside-p t
+          helm-quick-update t
+		  ;; helm-mode-fuzzy-match t
+          helm-M-x-requires-pattern nil
+          helm-ff-skip-boring-files t)
+    (helm-mode))
+  :bind (("C-c h" . helm-mini)
+         ("C-h a" . helm-apropos)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x b" . helm-buffers-list)
+         ("M-y" . helm-show-kill-ring)
+         ("M-x" . helm-M-x)
+         ("C-x c o" . helm-occur)
+         ("C-x c s" . helm-swoop)
+         ("C-x c y" . helm-yas-complete)
+         ("C-x c Y" . helm-yas-create-snippet-on-region)
+         ("C-x c b" . my/helm-do-grep-book-notes)
+         ("C-x c SPC" . helm-all-mark-rings)))
+
+(ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+
+(use-package helm-swoop)
+(use-package helm-c-yasnippet)
+(use-package helm-org-rifle)
+
+(global-set-key (kbd "C-s") 'helm-occur)
+
+(use-package hydra)
+
+(use-package god-mode
+  :config
+  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+  (global-set-key (kbd "<escape>") 'god-local-mode))
+
+(god-mode-all)
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+
+;; depende do espeak
+(defun espeak (text)
+  "Speaks text by espeak"
+  (save-window-excursion
+    (let* ((amplitude 100)
+           (voice 'brazil)
+           (command (format "espeak -a %s -v %s \"%s\"" amplitude voice text)))
+      (async-shell-command command "*Messages*" "*Messages*"))))
+
+(desktop-save-mode 1)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(setq org-enable-org-journal-support t)
+(add-to-list 'org-modules 'org-tempo t)
+;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+(require 'org-habit)
+(require 'org-tempo)
+;; TODO este pedaço não está funcionando
+(setq org-startup-folded 'content) ;; default t)
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry))
+
+(use-package org-pretty-tags)
+(use-package org-ref
+    :config
+    (setq
+         org-ref-completion-library 'org-ref-ivy-cite
+         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
+         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
+         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+         org-ref-notes-directory "/ubuntu/home/sean/"
+         org-ref-notes-function 'orb-edit-notes))
+
+(use-package org-download
+  :custom
+  (org-download-screenshot-method "gnome-screenshot")
+  (org-download-image-dir "./assets/images"))
+(use-package html-to-markdown)
+
+(use-package auto-org-md)
+(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
+
+(use-package org-noter
+  :config
+  (setq org-noter-auto-save-last-location t
+		org-noter-notes-window-behavior '(start scroll)
+		org-noter-hide-other nil
+		;; abrir em outra janela
+		org-noter-notes-window-location 'other-frame
+		;; org-noter-notes-window-location 'horizontal-split
+		org-noter-separate-notes-from-heading t)
+
+  (defun org-noter-init-pdf-view ()
+	(pdf-view-fit-page-to-window))
+;;	(pdf-view-auto-slice-minor-mode)
+	;; (run-at-time "0.5 sec" nil #'org-noter))
+
+  (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view))
+  
+(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
+  (interactive "@e")
+  (setq current-b (buffer-name))
+  (progn  (pdf-view-mouse-set-region-rectangle event)
+		  (pdf-view-extract-region-image pdf-view-active-region
+										 (pdf-view-current-page)
+										 (pdf-view-image-size)
+										 (get-buffer-create "teste")
+										 t)
+		  (set-buffer "teste")
+		  (write-file "/tmp/screenshot.png" nil)
+		  (kill-buffer "screenshot.png")
+		  (set-buffer current-b)
+		  (org-noter-insert-note)
+		  (org-download-screenshot)
+		  (if switch-back			 
+			  (switch-to-buffer-other-frame current-b))))
+
+(define-key pdf-view-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
+
+;; TODO colocar os arquivos direitinho nesse negócio
+(setq org-agenda-files '("~/.emacs.d/config.org"))
+;;                         "/ubuntu/home/sean"
+;;						 "/ubuntu/home/sean/web"))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
+
+(setq org-startup-indented t
+	  org-ellipsis "";; " ⤵" ;; folding symbol
+      org-pretty-entities t
+      org-hide-emphasis-markers nil       ;; show actually italicized text instead of /italicized text/
+      org-agenda-block-separator ""
+      org-fontify-whole-heading-line t
+      org-fontify-done-headline t
+      org-fontify-quote-and-verse-blocks t
+      org-special-ctrl-a/e t)
 
 (use-package org-pomodoro)
 ;; duração
@@ -701,6 +596,7 @@
 (setq org-pomodoro-long-break-sound-args "-volume 0.4")
 (setq org-pomodoro-short-break-sound-args "-volume 0.4")
 
+;; acho que não tem necessidade de usar essa função
 (defun hhmmtomm (time)
   "converts hh:mm formated time string to minutes int"
   (if time
@@ -725,6 +621,7 @@
                         (- (org-clock-get-clocked-time) org-clock-total-time)
                         org-clock-total-time
                         (org-clock-get-clocked-time)  ;; all time total
+						;; FIX ME fazer isso usando funções nativas do emacs lisp
 						(- (hhmmtomm org-clock-effort)
 						   (- (org-clock-get-clocked-time)
 							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
@@ -735,107 +632,47 @@
 
 (setq org-use-speed-commands 1)
 
-(defun my/insert-text-after-heading (text)
-  "Insert TEXT after every heading in the file, skipping property drawers."
-  (interactive "sText to insert: ")
-
-  ;; The Org Element API provides functions that allow you to map over all
-  ;; elements of a particular type and perform modifications. However, as
-  ;; as soon as the buffer is modified the parsed data becomes out of date.
-  ;;
-  ;; Instead, we treat the buffer as text and use other org-element-*
-  ;; functions to parse out important data.
-
-  ;; Use save-excursion so the user's point is not disturbed when this code
-  ;; moves it around.
-  (save-excursion
-    ;; Go to the beginning of the buffer.
-    (goto-char (point-min))
-
-    ;; Use save-match-data as the following code uses re-search-forward,
-    ;; will disturb any regexp match data the user already has.
-    (save-match-data
-
-      ;; Search through the buffer looking for headings. The variable
-      ;; org-heading-regexp is defined by org-mode to match anything
-      ;; that looks like a valid Org heading.
-      (while (re-search-forward org-heading-regexp nil t)
-
-        ;; org-element-at-point returns a list of information about
-        ;; the element the point is on. This includes a :contents-begin
-        ;; property which is the buffer location of the first character
-        ;; of the contents after this headline.
-        ;;
-        ;; Jump to that point.
-        (goto-char (org-element-property :contents-begin (org-element-at-point)))
-
-        ;; Point is now on the first character after the headline. Find out
-        ;; what type of element is here using org-element-at-point.
-        (let ((first-element (org-element-at-point)))
-
-          ;; The first item in the list returned by org-element-at-point
-          ;; says what type of element this is.  See
-          ;; https://orgmode.org/worg/dev/org-element-api.html for details of
-          ;; the different types.
-          ;;
-          ;; If this is a property drawer we need to skip over it. It will
-          ;; an :end property containing the buffer location of the first
-          ;; character after the property drawer. Go there if necessary.
-          (when (eq 'property-drawer (car first-element))
-            (goto-char (org-element-property :end first-element))))
-
-      ;; Point is now after the heading, and if there was a property
-      ;; drawer then it's after that too. Insert the requested text.
-      (insert text "\n\n")))))
-
 ;; org refiling pra mandar as tarefas de um arquivo pra outro
 (setq org-refile-targets (quote (;;("~/semana.org" :maxlevel . 1)
 								 ;;("~/notes_accomplished.org" :maxlevel . 1)
 								 ;;("~/vest/vestibular.org" :maxlevel . 1)
 								 ;; ("~/done.org" :maxlevel . 1) 
 								 ;; ("~/ossu/ossu.org" :maxlevel . 1)
-								 ("/ubuntu/home/sean/anki.org" :maxlevel . 1)
-)))
+								 ("/ubuntu/home/sean/anki.org" :maxlevel . 1))))
 
 (setq org-capture-templates
-      '(("t" "PRA FAZER" entry (file+headline "~/semana.org" "Tarefas")
-	     "* PRA FAZER %^{Descrição breve} %^g \n \n %? \n Adicionado em: %U")
-        ("c" "Checklist" entry (file+headline "~/semana.org" "Tarefas")
-         "* PRA FAZER %^{Descrição breve} [/] %^g \n- [ ] %? \n Adicionado em: %U")
-        ("p" "Programming TODO" entry (file+headline "~/semana.org" "projetos")
-         "* PRA FAZER %^{Descrição breve} %^g \n %? \n link: %a \n Adicionado em: %U")
-        ("n" "Programming Notes" entry (file+headline "~/ossu/prognotes.org" "notas")
-         "* %^{Descrição} %^g \n %x \n")
-        ("w" "Citações" entry (file+headline "~/lang/citações.org" "citações")
-         "* %^{Descrição} %^gdrill: \n %x \n")
-        ("i" "Info" entry (file+headline "~/Documents/emacs.org" "emacs")
-         "* %^{Descrição} \n %? \n link: %a \n %:node")
-        ("e" "emacs" entry (file+headline "~/Documents/emacs.org" "emacs")
-         "* %^{Descrição}  %^g\n %x \n")
-        ("j" "日本語" entry (file+headline "~/lang/lang.org" "文法[ぶんぽう]")
-         "* %^{Descrição da gramática}\n %? \n")
-        ("l" "links internet clipboard" entry (file+headline "~/Desktop/links.org" "links")
-         "* %^{Descrição} \n [%x] \n %")
-        ("a" "livros/artigos" entry (file+headline "~/Documents/livros.org" "livros")
-         "* %^{Título} %^g :referência: \n :PROPERTIES: \n Criado em: %U \n Link: %a \
- \n :END: \n %i \n Descrição:\n %?"
-         :prepend t
-         :empty-lines 1
-         :created t)
-		;; Org-capture anki templates
-		("b" "Anki basic"
+      '(;;		Org-capture anki templates
+		("j" "Japanese basic"
 		 entry
 		 (file+headline org-my-anki-file "Dispatch Shelf")
-		 "* %<%H:%M>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Basic\n:ANKI_DECK: Mega\n:END:\n** Front\n%?\n** Back\n%x\n")
-		("B" "Anki cloze"
+		 "* %<%H:%M:%S>   :japones:\n :PROPERTIES:\n :ANKI_NOTE_TYPE: Japanese (recognition&recall)\n :ANKI_DECK: japones\n :END:\n** Expression\n%x\n** Meaning\n%?\n** Reading\n%x\n** Kanji\n\n** Diagram\n\n** Imagem \n\n** Audio \n\n** ref\n\n")
+		;; TODO adicionar um outro pra francês, alemão e russo
+		("c" "Cloze"
 		 entry
 		 (file+headline org-my-anki-file "Dispatch Shelf")
-		 "* %<%H:%M>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x\n** Extra\n")
-		))
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x%?\n** Extra\n")
+		("a" "Anki cloze"
+		 entry
+		 (file+headline org-my-anki-file "Dispatch Shelf")
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Cloze\n:ANKI_DECK: Mega\n:END:\n** Text\n%x\n** Extra\n")
+		;; TODO não está funcionando
+		("i" "Image cloze"
+		 entry
+		 (file+headline org-my-anki-file "Dispatch shelf")
+		 "* %<%H:%M:%S>   %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Image\n:ANKI_DECK: Mega\n:END:\n** Descrição\n%?\n** Imagem\n\n** Comentários\n")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 
+(add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
+(setq org-startup-with-inline-images t)
+(add-hook
+ 'org-babel-after-execute-hook
+ (lambda ()
+   (when org-inline-image-overlays
+     (org-redisplay-inline-images))))
 
+;; todo states
+(setq org-todo-keywords '((sequence "PRA FAZER(t)" "ESPERANDO(e)" "NÃO ENTENDI(n)" "REVER(r)" "|" "PRONTO(p)" "CANCELADO(c)")))
 
 (use-package ob-sml)
 
@@ -866,11 +703,9 @@
 	  org-src-preserve-indentation nil
 	  org-edit-src-content-indentation 0)
 
-(use-package org-ref)
-
+(use-package ox-jekyll-md)
+(use-package ox-epub)
 (use-package ox-reveal)
-
-;; (require 'org-drill)
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 									   (smartparens-mode 1)
@@ -893,15 +728,7 @@
 		lsp-ui-peek-list-width 60
 		lsp-ui-peek-peek-height 25))
 
-(use-package company-lsp
-  :requires company
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
+
 
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
@@ -921,7 +748,7 @@
 
 
 (use-package dap-mode)
-;;(use-package lsp-python)
+(use-package lsp-python-ms)
 ;;(use-package lsp-clangd)
 
 (use-package lsp-mode
@@ -969,10 +796,6 @@
 
   (add-hook 'lsp-mode-hook
             (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
-
-(use-package cider)
-
-;; (use-package arduino-mode)
 
 (use-package 
   markdown-mode 
@@ -1029,8 +852,27 @@
      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
      `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
+(use-package company-org-roam
+  :requires company
+  :after org-roam
+  :config
+(push 'company-org-roam company-backends)
+)
+  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
+
+(use-package company-lsp
+  :requires company
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
+
 (setq-default tab-width 4)
 
+(use-package skewer-mode)
 (use-package emmet-mode
 :ensure t
 :defer t
@@ -1101,13 +943,6 @@
 (use-package restclient)
 (use-package ob-restclient)
 
-;; (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
-;; (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
-;; (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-;; (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-
-
 (use-package yasnippet
   :config
   (defun mars/company-backend-with-yas (backends)
@@ -1119,17 +954,20 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 		    backends
 		  (list backends))
 		'(:with company-yasnippet))))
-
     ;; add yasnippet to all backends
   (setq company-backends
-		(mapcar #'mars/company-backend-with-yas company-backends)))
+		(mapcar #'mars/company-backend-with-yas company-backends))
+  (yas-global-mode 1))
+
 (use-package auto-yasnippet
   :config
   (global-set-key (kbd "C-,") #'aya-create)
   (global-set-key (kbd "C-.") #'aya-expand))
+
 (use-package yasnippet-snippets
   :config
-  (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets" yasnippet-snippets-dir "/home/sean/.emacs.d/elpa/haskell-snippets-20160919.22/snippets")))
+  (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets"
+						   yasnippet-snippets-dir)))
 
 (use-package projectile
   :config
@@ -1144,8 +982,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 
 (use-package company-irony)
-
-(use-package company-anaconda)
 
 (add-hook 'python-mode-hook
 		  (lambda () (setq tab-width 4
@@ -1167,9 +1003,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (setq show-paren-style 'parenthesis)
 
 (use-package sml-mode)
-
-(use-package ess)
-(use-package ess-smart-underscore)
 
 (use-package howdoyou)
 

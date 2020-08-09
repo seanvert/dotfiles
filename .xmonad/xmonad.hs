@@ -1,3 +1,4 @@
+-- TODO fazer esse arquivo ficar um pouco mais apresentável pra você montar um tutorial
 import XMonad
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -25,7 +26,6 @@ import XMonad.Actions.SpawnOn --faz os programas aparecerem em determinadas áre
 -- meus imports
 import XMonad.Workspaces.WSConfig
 import XMonad.Colors.Colors
-
 import XMonad.Keys.Keys
 import XMonad.Scratchpads.Scratchpads
 
@@ -156,12 +156,28 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
       -- Percent of screen to increment by when resizing panes
     delta = 5 / 100-- configurações
     -- TODO não está funcionando
-    myTabConfig = def { inactiveBorderColor = color15
-                      , activeTextColor = color0
-                      , inactiveTextColor = color0
-                      , activeBorderColor = color3
-                      , fontName = "xft:DroidSansMono Nerd Font:size=10"
-                      , decoHeight = 20 }
+    myTabConfig = def {
+      -- inactiveBorderColor = color15
+      --                 , activeTextColor = color0
+      --                 , inactiveTextColor = color0
+      --                 , activeBorderColor = color3
+                        fontName = "xft:DroidSansMono Nerd Font:size=10"
+                      , activeColor         = color14 -- "#999999"
+                      , inactiveColor       = color10 -- "#666666"
+                      , urgentColor         = "#FFFF00"
+                      , activeBorderColor   = color15 --"#FFFFFF"
+                      , inactiveBorderColor = color8 -- "#BBBBBB"
+                      , urgentBorderColor   = "##00FF00"
+                      , activeBorderWidth   = 1
+                      , inactiveBorderWidth = 1
+                      , urgentBorderWidth   = 1
+                      , activeTextColor     = "#FFFFFF"
+                      , inactiveTextColor   = "#BFBFBF"
+                      , urgentTextColor     = "#FF0000"
+                      , decoWidth           = 200
+                      , decoHeight          = 25
+                      , windowTitleAddons   = []
+                      , windowTitleIcons    = [] }
 
 myTerminal = "urxvtc"
 
@@ -218,13 +234,20 @@ projects =
 
 -- comandos pra iniciar junto com o xmonad
 myStartupHook = do
-  spawn "xrdb -merge ~/.Xresources"
-  spawn "killall stalonetray"
-  spawn "stalonetray"
---  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
-  spawn "xmodmap ~/.Xmodmap"
-  spawn "pkill -f xmobarrx2"
-  spawn "xmobar /home/sean/.xmobar/xmobarrc2"
+  spawn "xrdb -merge ~/.Xresources &"
+  spawn "killall stalonetray &"
+  spawn "stalonetray &"
+  spawn "wal -R &"
+  spawn "nitrogen --restore"
+  -- TODO enfiar um script pra arrumar a parte do cabeçalho
+  --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
+  -- Essa linha faz o teclado trocar os mapas
+  -- TODO fazer um atalho pra dar toggle nisso, já tá ficando chato ficar enfiando o teclado toda hora
+  spawn "xmodmap ~/.Xmodmap &"
+  spawn "pkill -f xmobarrx2 &"
+  spawn "xmobar /home/sean/.xmobar/xmobarrc2 &"
+-- TODO ver o que está fazendo esse efeito bizarro no vídeo  
+--  spawn " compton --config ~/.config/compton.conf"
   
 
 myManageHook :: ManageHook

@@ -48,12 +48,19 @@
  '(custom-safe-themes
    (quote
 	("ba72dfc6bb260a9d8609136b9166e04ad0292b9760a3e2431cf0cd0679f83c3a" default)))
+ '(org-agenda-files
+   (quote
+	("/ubuntu/home/sean/20200723114804-emacs.org" "~/.emacs.d/config.org")))
  '(package-selected-packages
    (quote
-	(rainbow-mode ob-restclient restclient zenburn-theme yasnippet-snippets writeroom-mode which-key websocket web-mode use-package undo-tree try tree-mode solarized-theme smartparens skewer-mode rainbow-delimiters prettier-js polymode pdfgrep pdf-view-restore pandoc-mode pandoc ox-reveal ox-jekyll-md ox-epub org-roam-bibtex org-ref org-pretty-tags org-pomodoro org-plus-contrib org-noter org-journal org-drill org-download org-bullets ob-sml nov multi-term mode-icons memoize magit lsp-ui lsp-python lsp-haskell lsp-clangd linum-relative leetcode keycast julia-mode json-mode intero indium html-to-markdown howdoyou helm-swoop helm-org-rifle helm-lsp helm-dash helm-cider helm-c-yasnippet haskell-snippets god-mode gif-screencast frames-only-mode flycheck-pycheckers flycheck-plantuml flycheck-package flycheck-irony flycheck-haskell flycheck-demjsonlint flycheck-cython flycheck-clojure flycheck-cask ess-smart-underscore emmet-mode eink-theme edit-server django-mode deft deferred dap-mode cyberpunk-theme company-quickhelp company-org-roam company-math company-lsp company-irony company-ghci company-box company-auctex company-anaconda auto-yasnippet auto-org-md auto-complete auto-compile anki-editor))))
+	(rainbow-mode ob-restclient restclient yasnippet-snippets which-key web-mode use-package undo-tree try tree-mode smartparens skewer-mode rainbow-delimiters prettier-js polymode pdfgrep pdf-view-restore ox-reveal ox-jekyll-md ox-epub org-roam-bibtex org-ref org-pretty-tags org-pomodoro org-plus-contrib org-noter org-journal org-download ob-sml nov multi-term memoize magit lsp-ui lsp-haskell lsp-clangd linum-relative leetcode keycast json-mode html-to-markdown howdoyou helm-swoop helm-org-rifle helm-lsp helm-dash helm-c-yasnippet haskell-snippets god-mode gif-screencast frames-only-mode flycheck-pycheckers flycheck-plantuml flycheck-package flycheck-irony flycheck-haskell flycheck-demjsonlint flycheck-cask emmet-mode django-mode deft deferred dap-mode company-quickhelp company-org-roam company-math company-lsp company-irony company-box auto-yasnippet auto-org-md auto-complete auto-compile anki-editor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-scrollbar-bg ((t (:background "#3c8e24551aa4"))))
+ '(company-scrollbar-fg ((t (:background "#2ac719aa12d2"))))
+ '(company-tooltip ((t (:inherit default :background "#190f0b"))))
+ '(company-tooltip-common ((t (:inherit font-lock-constant-face))))
+ '(company-tooltip-selection ((t (:inherit font-lock-function-name-face)))))

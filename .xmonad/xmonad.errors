@@ -1,15 +1,15 @@
 
-xmonad.hs:113:5: warning: [-Wdeprecations]
+xmonad.hs:114:5: warning: [-Wdeprecations]
     In the use of ‘defaultConfig’
     (imported from XMonad, but defined in XMonad.Config):
     Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
     |
-113 |     defaultConfig
+114 |     defaultConfig
     |     ^^^^^^^^^^^^^
 
-xmonad.hs:150:13: warning: [-Wdeprecations]
+xmonad.hs:151:13: warning: [-Wdeprecations]
     In the use of ‘spacing’ (imported from XMonad.Layout.Spacing):
     Deprecated: "Use spacingRaw instead."
     |
-150 |     tiled = spacing 40 $ Tall nmaster delta ratio
+151 |     tiled = spacing 40 $ Tall nmaster delta ratio
     |             ^^^^^^^
