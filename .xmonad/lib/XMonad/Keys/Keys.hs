@@ -16,6 +16,10 @@ import XMonad.Prompt.Shell
 import XMonad.Layout.WindowNavigation
 
 import XMonad.Colors.Colors
+
+import XMonad.Actions.CycleWS
+
+import XMonad.Layout.ComboP
 keysToAdd x =
   [((mod4Mask, xK_c), kill)
  , ((mod4Mask, xK_o), gridselectWorkspace' def
@@ -25,7 +29,7 @@ keysToAdd x =
                          }
                      addWorkspace)--switchProjectPrompt warmPromptTheme)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
-
+  , ((mod4Mask .|. shiftMask, xK_s    ), sendMessage $ SwapWindow)
 --  , ((mod4Mask, xK_p), shellPrompt def)
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
@@ -69,17 +73,20 @@ keysToAdd x =
             ]])
   , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer")
   , ((mod4Mask, xK_v), toggleCopyToAll)
-  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Right), sendMessage $ Move R)
-  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Left ), sendMessage $ Move L)
-  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Up   ), sendMessage $ Move U)
-  , ((mod4Mask .|. controlMask .|. shiftMask, xK_Down ), sendMessage $ Move D)
+  -- TODO parou de funcionar depios preciso olhar o motivo
+  , ((mod4Mask, xK_Right), sendMessage $ Move R)
+  , ((mod4Mask, xK_Left ), sendMessage $ Move L)
+  , ((mod4Mask, xK_Up   ), sendMessage $ Move U)
+  , ((mod4Mask, xK_Down ), sendMessage $ Move D)
 --  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "goldendict")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -e '(switch-to-buffer nil)' --alternate-editor=''")
 --  , ((mod4Mask, xK_a), bringSelected def)
-  , ((mod4Mask, xK_a), bringSelected def
-                             { gs_navigate   = navNSearch
-                             , gs_font = "xft:DroidSansMono Nerd Font:size=9"
-                             })
+  , ((mod4Mask, xK_a), toggleWS)
+
+  -- , ((mod4Mask, xK_a), bringSelected def
+  --                            { gs_navigate   = navNSearch
+  --                            , gs_font = "xft:DroidSansMono Nerd Font:size=9"
+  --                            })
 --                       { gs_rearranger = searchStringRearrangerGenerator id })-- spawn "rofi -show windowcd")
   --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
      -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui

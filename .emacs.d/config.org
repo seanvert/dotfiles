@@ -336,27 +336,6 @@ visualizar cores no buffer
    org-roam-directory org_notes)
 #+end_src
 
-*** org-roam-bibtex
-#+begin_src emacs-lisp
-  (use-package org-roam-bibtex
-    :after org-roam
-    :hook (org-roam-mode . org-roam-bibtex-mode)
-    :config
-
-    (setq orb-preformat-keywords
-     '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-
-    (setq orb-templates
-	  '(("r" "ref" plain (function org-roam-capture--get-point)
-	     ""
-	     :file-name "${slug}"
-	     :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-	     - tags ::
-	     - keywords :: ${keywords}
-	     \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-	     :unnarrowed t))))
-#+end_src
-
 *** PRA FAZER org roam
 isso daqui tá uma bagunça e muito grande. preciso organizar e dividir
 em blocos menores
@@ -441,6 +420,27 @@ em blocos menores
 
 
 
+#+end_src
+
+**** org-roam-bibtex
+#+begin_src emacs-lisp
+  (use-package org-roam-bibtex
+    :after org-roam
+    :hook (org-roam-mode . org-roam-bibtex-mode)
+    :config
+
+    (setq orb-preformat-keywords
+     '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+
+    (setq orb-templates
+	  '(("r" "ref" plain (function org-roam-capture--get-point)
+	     ""
+	     :file-name "${slug}"
+	     :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+	     - tags ::
+	     - keywords :: ${keywords}
+	     \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+	     :unnarrowed t))))
 #+end_src
 
 ** relative linum
@@ -624,7 +624,7 @@ ver esse negócio e dividir em partes
 		  ;; changed this
 		  ;; helm-completion-in-region-fuzzy-match t
 		  helm-completion-style 'emacs
-		  
+		  helm-ff-auto-update-initial-value t
 		  helm-split-window-inside-p t
           helm-quick-update t
 		  ;; helm-mode-fuzzy-match t
@@ -1009,6 +1009,24 @@ adicionar mais templates e consertar o de imagens
 (use-package ox-reveal)
 #+end_src
 
+** PRA FAZER org publish jekyll
+#+begin_src emacs-lisp
+(setq org-publish-project-alist
+      '(("seanvert.github.io"
+         ;; Path to org files.
+         :base-directory "~/ossu/org"
+         :base-extension "org"
+
+         ;; Path to Jekyll Posts
+         :publishing-directory "~/Desktop/projetos/seanvert.github.io/_posts"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4
+         :html-extension "html"
+         :body-only t
+         )))
+#+end_src
+
 * programming
 ** hooks
 
@@ -1060,6 +1078,7 @@ espaço no disco.
 
 
 (use-package dap-mode)
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
 (use-package lsp-python-ms)
 ;;(use-package lsp-clangd)
 
@@ -1144,7 +1163,7 @@ espaço no disco.
 #+END_SRC
 
 ** PRA FAZER company
-
+depois preciso ver o company 
 #+BEGIN_SRC emacs-lisp
 (use-package company
   :ensure t
@@ -1159,12 +1178,13 @@ espaço no disco.
 (setq company-dabbrev-other-buffers t)
 
 (use-package company-math)
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :config
-  (setq company-box-doc-delay 0.3)
-  (setq company-box-enable-icon nil)
-  (setq company-box-color-icon nil))
+
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode)
+;;   :config
+;;   (setq company-box-doc-delay 0.3)
+;;   (setq company-box-enable-icon nil)
+;;   (setq company-box-color-icon nil))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
@@ -1188,7 +1208,6 @@ espaço no disco.
 *** company backends
 
 **** company-org-roam
-
 #+begin_src emacs-lisp
 (use-package company-org-roam
   :requires company
@@ -1196,23 +1215,13 @@ espaço no disco.
   :config
 (push 'company-org-roam company-backends)
 )
+
+
   ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
 #+end_src
 
-**** company-lsp
-#+begin_src emacs-lisp
-(use-package company-lsp
-  :requires company
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
-#+end_src
-
 ** outros parametros
+
 *** tamanho das tabulações
 
 #+BEGIN_SRC emacs-lisp
@@ -1230,11 +1239,6 @@ espaço no disco.
 :mode ("\\.html\\'"
 	   "\\.css\\'"
 	   "\\.ejs\\'"))
-
-(use-package css-mode
-:ensure t
-:defer t
-:mode "\\.css\\'")
 
 (unless (package-installed-p 'indium)
   (use-package indium))
@@ -1352,6 +1356,12 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
    (setq helm-dash-browser-func 'browse-url))
 #+END_SRC
 
+** rust
+#+begin_src emacs-lisp
+(use-package rust-mode)
+(use-package rustic)
+#+end_src
+
 ** octave
 
 #+BEGIN_SRC emacs-lisp
@@ -1398,6 +1408,16 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 #+begin_src emacs-lisp
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)
+#+end_src
+
+** yaml
+#+begin_src emacs-lisp 
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-hook 'yaml-mode-hook
+			'(lambda ()
+			   (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 #+end_src
 
 ** sml

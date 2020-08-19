@@ -37,13 +37,22 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.Master
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.StateFull (focusTracking)
-import XMonad.Layout.OneBig
 import XMonad.Layout.Combo
 import XMonad.Layout.TwoPane
-import XMonad.Layout.Dishes
 
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
+
+
+-- transparência
+import XMonad.Hooks.FadeInactive
+
+-- TESTES
+import XMonad.Layout.ComboP
+import XMonad.Layout.WindowNavigation
+
+
+
 
 -- dynamic workspaces
 --import XMonad.Actions.DynamicWorkspaces (addWorkspace)
@@ -71,7 +80,7 @@ hiddenLWrapperBG = color2
 hiddenRWrapper = ""
 hiddenRWrapperFG = color8
 hiddenRWrapperBG = color2
-sep = "\xe0b0 "
+sep = ""--"\xe0b0 "
 sepFG = color0
 sepBG = color2
 wsSep = ""
@@ -94,7 +103,7 @@ myPP =
                  wrap (xmobarColor hiddenLWrapperFG hiddenLWrapperBG hiddenLWrapper) 
                  (xmobarColor hiddenRWrapperFG hiddenRWrapperBG hiddenRWrapper)
       -- ws -> workspace, l -> layout, wn -> window name
-    , ppOrder = \(ws:l:wn:x) -> [ws]
+    , ppOrder = \(ws:l:wn:_) -> [ws, shorten 20 l]
                                -- , xmobarColor layoutFG layoutBG $ shorten 20 l ++ " " ++
                                  -- xmobarColor separatorPPXmobarFG separatorPPXmobarBG separatorPPXmobar]   
     , ppSep = xmobarColor sepFG sepBG sep
@@ -119,6 +128,7 @@ myConfig =
       , workspaces = myWorkspaces
       , layoutHook =  myLayout
       , handleEventHook = hintsEventHook
+      , logHook = myLogHook
 --      , handleEventHook = fullscreenEventHook -- faz o fs funcionar
       , manageHook = myManageHook <+> manageHook def
       , keys = myKeys
@@ -134,14 +144,10 @@ border = 4
 nobordersLayout = noBorders $ Full
 
 myLayout = onWorkspace (myWorkspaces !! 8) Grid $
-           (tabs |||
-            -- Dishes 2 (2/6) |||
-            OneBig (2/3) (3/4) |||
-            layoutHints (FixedColumn 1 20 90 10) |||
-            -- layoutHints tiled |||
+           (layoutHints (FixedColumn 1 20 90 10) |||
             nobordersLayout |||
-            -- multiple |||
-            mastered (5/100) (2/3 - 5/100) (focusTracking tabs)
+            mastered (5/100) (2/3 - 5/100) (focusTracking tabs) |||
+            windowNavigation (combineTwoP (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig) (Role "browser"))
            )
 
       -- default tiling algorithm partitions the screen into two panes
@@ -238,14 +244,15 @@ myStartupHook = do
   spawn "killall stalonetray &"
   spawn "stalonetray &"
   spawn "wal -R &"
-  spawn "nitrogen --restore"
+  spawn "nitrogen --restore &"
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
   -- Essa linha faz o teclado trocar os mapas
   -- TODO fazer um atalho pra dar toggle nisso, já tá ficando chato ficar enfiando o teclado toda hora
   spawn "xmodmap ~/.Xmodmap &"
-  spawn "pkill -f xmobarrx2 &"
-  spawn "xmobar /home/sean/.xmobar/xmobarrc2 &"
+-- TODO ver se éisso que está bugando o emacs
+--  spawn "pkill -f xmobarrx2 &"
+--  spawn "xmobar /home/sean/.xmobar/xmobarrc2 &"
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo  
 --  spawn " compton --config ~/.config/compton.conf"
   
@@ -263,3 +270,7 @@ myManageHook = namedScratchpadManageHook scratchpads
   , className =? "smplayer" --> doFloat
 --  , className =? "GoldenDict" --> doFloat
   , stringProperty "WM_NAME" =? "scratchemacs-frame" --> doFloat ]
+
+-- transparência nas janelas inativas
+myLogHook = fadeInactiveLogHook fadeAmount
+  where fadeAmount = 0.95

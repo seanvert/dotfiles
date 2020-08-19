@@ -229,24 +229,6 @@
  deft-directory org_notes
  org-roam-directory org_notes)
 
-(use-package org-roam-bibtex
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-
-  (setq orb-preformat-keywords
-   '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-
-  (setq orb-templates
-	'(("r" "ref" plain (function org-roam-capture--get-point)
-	   ""
-	   :file-name "${slug}"
-	   :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-	   - tags ::
-	   - keywords :: ${keywords}
-	   \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-	   :unnarrowed t))))
-
 (use-package org-roam
   :hook (org-load . org-roam-mode)
   :commands (org-roam-buffer-toggle-display
@@ -323,6 +305,24 @@
 
 ;; (use-package org-roam-protocol
 ;;   :after org-protocol)
+
+(use-package org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+
+  (setq orb-preformat-keywords
+   '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+
+  (setq orb-templates
+	'(("r" "ref" plain (function org-roam-capture--get-point)
+	   ""
+	   :file-name "${slug}"
+	   :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+	   - tags ::
+	   - keywords :: ${keywords}
+	   \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+	   :unnarrowed t))))
 
 (use-package linum-relative)
 (column-number-mode 1)
@@ -434,7 +434,7 @@
 		  ;; changed this
 		  ;; helm-completion-in-region-fuzzy-match t
 		  helm-completion-style 'emacs
-		  
+		  helm-ff-auto-update-initial-value t
 		  helm-split-window-inside-p t
           helm-quick-update t
 		  ;; helm-mode-fuzzy-match t
@@ -707,6 +707,21 @@
 (use-package ox-epub)
 (use-package ox-reveal)
 
+(setq org-publish-project-alist
+      '(("seanvert.github.io"
+         ;; Path to org files.
+         :base-directory "~/ossu/org"
+         :base-extension "org"
+
+         ;; Path to Jekyll Posts
+         :publishing-directory "~/Desktop/projetos/seanvert.github.io/_posts"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4
+         :html-extension "html"
+         :body-only t
+         )))
+
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
@@ -748,6 +763,7 @@
 
 
 (use-package dap-mode)
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
 (use-package lsp-python-ms)
 ;;(use-package lsp-clangd)
 
@@ -832,12 +848,13 @@
 (setq company-dabbrev-other-buffers t)
 
 (use-package company-math)
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :config
-  (setq company-box-doc-delay 0.3)
-  (setq company-box-enable-icon nil)
-  (setq company-box-color-icon nil))
+
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode)
+;;   :config
+;;   (setq company-box-doc-delay 0.3)
+;;   (setq company-box-enable-icon nil)
+;;   (setq company-box-color-icon nil))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-n") #'company-select-next-or-abort))
@@ -858,17 +875,9 @@
   :config
 (push 'company-org-roam company-backends)
 )
-  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
 
-(use-package company-lsp
-  :requires company
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
+
+  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
 
 (setq-default tab-width 4)
 
@@ -879,11 +888,6 @@
 :mode ("\\.html\\'"
 	   "\\.css\\'"
 	   "\\.ejs\\'"))
-
-(use-package css-mode
-:ensure t
-:defer t
-:mode "\\.css\\'")
 
 (unless (package-installed-p 'indium)
   (use-package indium))
@@ -979,6 +983,9 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
    (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
    (setq helm-dash-browser-func 'browse-url))
 
+(use-package rust-mode)
+(use-package rustic)
+
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 
 (use-package company-irony)
@@ -1001,6 +1008,13 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)
+
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-hook 'yaml-mode-hook
+			'(lambda ()
+			   (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 (use-package sml-mode)
 
