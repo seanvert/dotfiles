@@ -91,7 +91,7 @@
   ;; numero de páginas no cache. default 64
   (setq pdf-cache-image-limit 15)
   ;; tempo que ele demora pra apagar uma imagem do cache
-  (setq image-cache-eviction-delay 30)
+  (setq image-cache-eviction-delay 180)
   ;; open pdfs scaled to fit page
   ;; fit-height, fit-width, fit-page
   (setq-default pdf-view-display-size 'fit-page)
@@ -112,30 +112,6 @@
 
 ;; troca a cor do midnight mode para combinar com a cor do tema
 (setq pdf-view-midnight-colors (cons (face-attribute 'default :foreground) (face-attribute 'default :background)))
-
-;; TODO FAZER O BÁSICO PRIMEIRO
-(setq pdf-time-before 0)
-(setq pdf-time-after 0)
-;; TODO adicionar uma função para chamar isso
-(add-hook 'pdf-view-after-change-page-hook (lambda () (progn (set-pdf-time-after)
-														(message (int-to-string (- pdf-time-after pdf-time-before)))
-														(set-pdf-time-before))))
-
-(defun set-pdf-time-after ()
-  (setq pdf-time-after (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
-
-(defun set-pdf-time-before ()
-  (setq pdf-time-before (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
-
-;; TODO uma função que checa se avançamos nas páginas
-(defun pdf-check-page-advance ()
-  (interactive)
-  "checks if we are going forward on non-read pages"
-  (if (not (member (pdf-view-current-page) pdf-time-pages))
-	  (setq pdf-time-pages (append (pdf-view-current-page)))))
-;; TODO uma função que conta o tempo numa página
-;; TODO uma outra função que estima o tempo final
-;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
 ;; (defun org-noter-insert-selected-text-inside-note-content ()
 ;;   (interactive)
@@ -725,6 +701,8 @@
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
+
+(use-package realgud)
 
 (use-package lsp-ui
   :ensure t

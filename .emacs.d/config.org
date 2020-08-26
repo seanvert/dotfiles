@@ -151,7 +151,7 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   ;; numero de páginas no cache. default 64
   (setq pdf-cache-image-limit 15)
   ;; tempo que ele demora pra apagar uma imagem do cache
-  (setq image-cache-eviction-delay 30)
+  (setq image-cache-eviction-delay 180)
   ;; open pdfs scaled to fit page
   ;; fit-height, fit-width, fit-page
   (setq-default pdf-view-display-size 'fit-page)
@@ -179,7 +179,7 @@ terminar esse troço e colocar num arquivo separado. Tá horrível isso
 largado aqui.
 
 preciso ver isso depois. Talvez pensar melhor na abordagem
-#+begin_src emacs-lisp
+#+begin_src
 ;; TODO FAZER O BÁSICO PRIMEIRO
 (setq pdf-time-before 0)
 (setq pdf-time-after 0)
@@ -1035,6 +1035,10 @@ adicionar mais templates e consertar o de imagens
 									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
 #+END_SRC
+** realgud
+#+begin_src emacs-lisp
+(use-package realgud)
+#+end_src
 
 ** PRA FAZER lsp
 depois preciso ver isso com mais calma, acho que vale a pena

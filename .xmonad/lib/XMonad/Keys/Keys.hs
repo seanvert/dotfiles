@@ -70,7 +70,13 @@ keysToAdd x =
               []
             , Node (TSNode "1280x720 VGA1" "Monitor externo ou projetor" (spawn "xrandr --output VGA1 --primary --mode 1280x720"))
               []
-            ]])
+            ]
+        , Node (TSNode "Remap do teclado" "Remapeamento do teclado para usar os números" (return ()))
+          [
+            Node (TSNode "Ativa o remap" "FnX -> X" (spawn "xmodmap ~/.Xmodmap &")) []
+          , Node (TSNode "Desativa o remap" "Mapa de teclas padrão" (spawn "setxkbmap br &")) []
+          ]
+        ])
   , ((mod4Mask, xK_x), namedScratchpadAction scratchpads "smplayer")
   , ((mod4Mask, xK_v), toggleCopyToAll)
   -- TODO parou de funcionar depios preciso olhar o motivo

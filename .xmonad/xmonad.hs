@@ -43,16 +43,12 @@ import XMonad.Layout.TwoPane
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.FixedColumn
 
-
 -- transparência
 import XMonad.Hooks.FadeInactive
 
 -- TESTES
 import XMonad.Layout.ComboP
 import XMonad.Layout.WindowNavigation
-
-
-
 
 -- dynamic workspaces
 --import XMonad.Actions.DynamicWorkspaces (addWorkspace)
@@ -147,8 +143,7 @@ myLayout = onWorkspace (myWorkspaces !! 8) Grid $
            (layoutHints (FixedColumn 1 20 90 10) |||
             nobordersLayout |||
             mastered (5/100) (2/3 - 5/100) (focusTracking tabs) |||
-            windowNavigation (combineTwoP (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig) (Role "browser"))
-           )
+            windowNavigation (combineTwoP (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig) (Role "browser")))
 
       -- default tiling algorithm partitions the screen into two panes
   where
@@ -248,8 +243,6 @@ myStartupHook = do
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
   -- Essa linha faz o teclado trocar os mapas
-  -- TODO fazer um atalho pra dar toggle nisso, já tá ficando chato ficar enfiando o teclado toda hora
-  spawn "xmodmap ~/.Xmodmap &"
 -- TODO ver se éisso que está bugando o emacs
 --  spawn "pkill -f xmobarrx2 &"
 --  spawn "xmobar /home/sean/.xmobar/xmobarrc2 &"
