@@ -426,22 +426,19 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 #+end_src
 
-*** PRA FAZER [#C] testes pdf1
-não sei o que é isso
+*** PRONTO [#C] testes pdf1
+
 #+begin_src emacs-lisp
 (defun org-noter-insert-selected-text-inside-note-content ()
   (interactive)
-  (progn ;;(setq currenb (buffer-name))
+  (async-start
+     (progn (setq currenb (buffer-name))
 		 (org-noter-insert-precise-note)
-		 ;;(set-buffer currenb)
-		 (org-noter-insert-note)
-		 (org-noter-quote)))
+		 (set-buffer currenb)
+		 (org-noter-insert-note))
+   	 (shell-command "xdotool key --clearmodifiers super+Tab")))
 
-(fset 'org-noter-quote
-   (kmacro-lambda-form [return S-f3 backspace ?# ?+ ?e ?n ?d ?_ ?q ?u ?o ?t ?e ?\C-r ?: ?e return ?\C-e return delete ?# ?+ ?b ?e ?g ?i ?n ?_ ?q ?u ?o ?t ?e] 1 "%d"))
-
-(define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
-(define-key org-noter-doc-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
+(define-key org-noter-doc-mode-map (kbd "q") 'org-noter-insert-selected-text-inside-note-content)
 #+end_src
 ** emacs application framework
 #+begin_src emacs-lisp

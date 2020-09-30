@@ -6,8 +6,8 @@ import XMonad.Hooks.DynamicLog
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
 
---import XMonad.Hooks.SetWMName
---import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.ManageHook
 
@@ -87,7 +87,7 @@ separatorPPXmobar = "\xe0b0"
 separatorPPXmobarFG = color2
 separatorPPXmobarBG = background
 
-myConfig = dynamicProjects projects def { modMask = mod4Mask -- Use Super instead of Alt
+myConfig = ewmh $ dynamicProjects projects def { modMask = mod4Mask -- Use Super instead of Alt
                , borderWidth = 4
                , focusedBorderColor = color14
                , normalBorderColor = color9
@@ -483,6 +483,7 @@ myStartupHook = do
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
   spawn "pkill -f xmobarrx2 &"
   spawn "xmobar /home/sean/.xmonad/xmobarrc2 &"
+  setWMName "LG3D"
 
 -- TODO ver se éisso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
