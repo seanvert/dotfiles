@@ -1,3 +1,6 @@
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 (require 'use-package)
 (unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
@@ -13,12 +16,11 @@
 (setq desktop-load-locked-desktop t)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+;;(setq read-process-output-max )  ;; lsp-mode's performance suggest
 
-;;(server-start)
-(if (and (fboundp 'server-running-p)
- 		 (not (server-running-p)))
- 	(server-start)
- 1)
+;; (if (and (fboundp 'server-running-p)
+;;  		 (not (server-running-p)))
+;;  	(server-start))
 
 ;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
 ;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
@@ -45,6 +47,8 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+(unless (assoc-default "melpa-stable" package-archives)
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t))
 
 (require 'iso-transl)
 (prefer-coding-system 'utf-8)
@@ -52,13 +56,194 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-(use-package ewal
-  :init (setq ewal-use-built-in-always-p nil
-              ewal-use-built-in-on-failure-p nil
-              ewal-built-in-palette "sexy-material"))
+;; (use-package ewal
+;;   :init (setq ewal-use-built-in-always-p nil
+;;               ewal-use-built-in-on-failure-p nil
+;;               ewal-built-in-palette "sexy-material"))
 
 ;; highlight lines
 (global-hl-line-mode)
+
+(set-frame-font "Droid Sans Mono for Powerline Plus Nerd File Types Mono")
+
+(use-package olivetti)
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+;; How tall the mode-line should be. It's only respected in GUI.
+;; If the actual char height is larger, it respects the actual height.
+(setq doom-modeline-height 25)
+
+;; How wide the mode-line bar should be. It's only respected in GUI.
+(setq doom-modeline-bar-width 3)
+
+;; The limit of the window width.
+;; If `window-width' is smaller than the limit, some information won't be displayed.
+(setq doom-modeline-window-width-limit fill-column)
+
+;; How to detect the project root.
+;; The default priority of detection is `ffip' > `projectile' > `project'.
+;; nil means to use `default-directory'.
+;; The project management packages have some issues on detecting project root.
+;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
+;; to hanle sub-projects.
+;; You can specify one if you encounter the issue.
+(setq doom-modeline-project-detection 'project)
+
+;; Determines the style used by `doom-modeline-buffer-file-name'.
+;;
+;; Given ~/Projects/FOSS/emacs/lisp/comint.el
+;;   auto => emacs/lisp/comint.el (in a project) or comint.el
+;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
+;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
+;;   truncate-with-project => emacs/l/comint.el
+;;   truncate-except-project => ~/P/F/emacs/l/comint.el
+;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
+;;   truncate-all => ~/P/F/e/l/comint.el
+;;   truncate-nil => ~/Projects/FOSS/emacs/lisp/comint.el
+;;   relative-from-project => emacs/lisp/comint.el
+;;   relative-to-project => lisp/comint.el
+;;   file-name => comint.el
+;;   buffer-name => comint.el<2> (uniquify buffer name)
+;;
+;; If you are experiencing the laggy issue, especially while editing remote files
+;; with tramp, please try `file-name' style.
+;; Please refer to https://github.com/bbatsov/projectile/issues/657.
+(setq doom-modeline-buffer-file-name-style 'auto)
+
+;; Whether display icons in the mode-line.
+;; While using the server mode in GUI, should set the value explicitly.
+(setq doom-modeline-icon (display-graphic-p))
+
+;; Whether display the icon for `major-mode'. It respects `doom-modeline-icon'.
+(setq doom-modeline-major-mode-icon t)
+
+;; Whether display the colorful icon for `major-mode'.
+;; It respects `all-the-icons-color-icons'.
+(setq doom-modeline-major-mode-color-icon t)
+
+;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+(setq doom-modeline-buffer-state-icon t)
+
+;; Whether display the modification icon for the buffer.
+;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+(setq doom-modeline-buffer-modification-icon t)
+
+;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
+(setq doom-modeline-unicode-fallback nil)
+
+;; Whether display the minor modes in the mode-line.
+(setq doom-modeline-minor-modes nil)
+
+;; If non-nil, a word count will be added to the selection-info modeline segment.
+(setq doom-modeline-enable-word-count nil)
+
+;; Major modes in which to display word count continuously.
+;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
+;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
+;; remove the modes from `doom-modeline-continuous-word-count-modes'.
+(setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+
+;; Whether display the buffer encoding.
+(setq doom-modeline-buffer-encoding t)
+
+;; Whether display the indentation information.
+(setq doom-modeline-indent-info nil)
+
+;; If non-nil, only display one number for checker information if applicable.
+(setq doom-modeline-checker-simple-format t)
+
+;; The maximum number displayed for notifications.
+(setq doom-modeline-number-limit 99)
+
+;; The maximum displayed length of the branch name of version control.
+(setq doom-modeline-vcs-max-length 12)
+
+;; Whether display the workspace name. Non-nil to display in the mode-line.
+(setq doom-modeline-workspace-name t)
+
+;; Whether display the perspective name. Non-nil to display in the mode-line.
+(setq doom-modeline-persp-name t)
+
+;; If non nil the default perspective name is displayed in the mode-line.
+(setq doom-modeline-display-default-persp-name nil)
+
+;; If non nil the perspective name is displayed alongside a folder icon.
+(setq doom-modeline-persp-icon t)
+
+;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+(setq doom-modeline-lsp t)
+
+;; Whether display the GitHub notifications. It requires `ghub' package.
+(setq doom-modeline-github nil)
+
+;; The interval of checking GitHub.
+(setq doom-modeline-github-interval (* 30 60))
+
+;; Whether display the modal state icon.
+;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
+(setq doom-modeline-modal-icon t)
+
+;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+(setq doom-modeline-mu4e nil)
+
+;; Whether display the gnus notifications.
+(setq doom-modeline-gnus t)
+
+;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+(setq doom-modeline-gnus-timer 2)
+
+;; Wheter groups should be excludede when gnus automatically being updated.
+(setq doom-modeline-gnus-excluded-groups '("dummy.group"))
+
+;; Whether display the IRC notifications. It requires `circe' or `erc' package.
+(setq doom-modeline-irc t)
+
+;; Function to stylize the irc buffer names.
+(setq doom-modeline-irc-stylize 'identity)
+
+;; Whether display the environment version.
+(setq doom-modeline-env-version t)
+;; Or for individual languages
+(setq doom-modeline-env-enable-python t)
+(setq doom-modeline-env-enable-ruby t)
+(setq doom-modeline-env-enable-perl t)
+(setq doom-modeline-env-enable-go t)
+(setq doom-modeline-env-enable-elixir t)
+(setq doom-modeline-env-enable-rust t)
+
+;; Change the executables to use for the language version string
+(setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
+(setq doom-modeline-env-ruby-executable "ruby")
+(setq doom-modeline-env-perl-executable "perl")
+(setq doom-modeline-env-go-executable "go")
+(setq doom-modeline-env-elixir-executable "iex")
+(setq doom-modeline-env-rust-executable "rustc")
+
+;; What to dispaly as the version while a new one is being loaded
+(setq doom-modeline-env-load-string "...")
+
+;; Hooks that run before/after the modeline version string is updated
+(setq doom-modeline-before-update-env-hook nil)
+(setq doom-modeline-after-update-env-hook nil)
+
+(use-package all-the-icons)
+
+(defun fk/disable-all-themes ()
+  "Disable all active themes."
+  (interactive)
+  (dolist (theme custom-enabled-themes)
+    (disable-theme theme)))
+
+(defadvice load-theme (before disable-themes-first activate)
+  (fk/disable-all-themes))
+
+(use-package poet-theme
+  :defer t)
+
+(use-package doom-themes)
+(load-theme 'doom-horizon t)
 
 (scroll-bar-mode -1)
 (setq scroll-step            1
@@ -71,6 +256,15 @@
 (global-prettify-symbols-mode 1)
 
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
+(setq-default 
+ ring-bell-function 'ignore
+ inhibit-startup-screen t
+ initial-major-mode 'fundamental-mode
+ initial-scratch-message nil
+ create-lockfiles nil
+ backup-by-copying t
+ require-final-newline t
+ delete-old-versions t)
 (make-directory user-temporary-file-directory t)
 (setq backup-by-copying t)
 (setq backup-directory-alist `(("." . ,user-temporary-file-directory) 
@@ -113,6 +307,30 @@
 ;; troca a cor do midnight mode para combinar com a cor do tema
 (setq pdf-view-midnight-colors (cons (face-attribute 'default :foreground) (face-attribute 'default :background)))
 
+;; TODO FAZER O BÁSICO PRIMEIRO
+(setq pdf-time-before 0)
+(setq pdf-time-after 0)
+;; TODO adicionar uma função para chamar isso
+(add-hook 'pdf-view-after-change-page-hook (lambda () (progn (set-pdf-time-after)
+														(message (int-to-string (- pdf-time-after pdf-time-before)))
+														(set-pdf-time-before))))
+
+(defun set-pdf-time-after ()
+  (setq pdf-time-after (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+
+(defun set-pdf-time-before ()
+  (setq pdf-time-before (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+
+;; TODO uma função que checa se avançamos nas páginas
+(defun pdf-check-page-advance ()
+  (interactive)
+  "checks if we are going forward on non-read pages"
+  (if (not (member (pdf-view-current-page) pdf-time-pages))
+	  (setq pdf-time-pages (append (pdf-view-current-page)))))
+;; TODO uma função que conta o tempo numa página
+;; TODO uma outra função que estima o tempo final
+;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
+
 ;; (defun org-noter-insert-selected-text-inside-note-content ()
 ;;   (interactive)
 ;;   (progn (setq currenb (buffer-name))
@@ -123,11 +341,12 @@
 
 ;; (define-key pdf-view-mode-map (kbd "y") 'org-noter-insert-selected-text-inside-note-content)
 
-;; (define-key flyspell-mode-map (kbd "C-,") #'flyspell-goto-next-error)
-
 (use-package try)
 
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :hook
+  (css-mode . rainbow-mode)
+  (web-mode . rainbow-mode))
 
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -175,10 +394,6 @@
   (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
   (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
   (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp))
-
-(use-package leetcode)
-(setq leetcode-prefer-language "python3")
-(setq leetcode-prefer-sql "mysql")
 
 (use-package deft
   :commands deft
@@ -304,7 +519,21 @@
 (column-number-mode 1)
 (setq linum-relative-current-symbol "")
 
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters
+  :config
+  (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1"))))))
 
 (use-package anki-editor
   :after org
@@ -359,6 +588,69 @@
 (use-package undo-tree)
 (global-undo-tree-mode)
 
+(require 'mu4e)
+
+;; use mu4e for e-mail in emacs
+(setq mail-user-agent 'mu4e-user-agent)
+
+(setq mu4e-drafts-folder "/[Gmail].Rascunhos")
+(setq mu4e-sent-folder   "/[Gmail].E-mails enviados")
+(setq mu4e-trash-folder  "/[Gmail].Lixeira")
+
+;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+(setq mu4e-sent-messages-behavior 'delete)
+
+;; (See the documentation for `mu4e-sent-messages-behavior' if you have
+;; additional non-Gmail addresses and want assign them different
+;; behavior.)
+
+;; setup some handy shortcuts
+;; you can quickly switch to your Inbox -- press ``ji''
+;; then, when you want archive some messages, move them to
+;; the 'All Mail' folder by pressing ``ma''.
+
+;; (setq mu4e-maildir-shortcuts
+;;     '( (:maildir "/INBOX"              :key ?i)
+;;        (:maildir "/[Gmail].E-mails enviados"  :key ?s)
+;;        (:maildir "/[Gmail].Lixeira"      :key ?t)
+;;        (:maildir "/[Gmail].Todos e-mails"   :key ?a)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap")
+
+;; something about ourselves
+(setq
+   user-mail-address "seankuchida@gmail.com"
+   user-full-name  "Sean K. Uchida"
+   mu4e-compose-signature
+    (concat
+      "Sean K. Uchida\n"
+      "http://seanvert.github.io\n"))
+
+;; sending mail -- replace USERNAME with your gmail username
+;; also, make sure the gnutls command line utils are installed
+;; package 'gnutls-bin' in Debian/Ubuntu
+
+(require 'smtpmail)
+(setq message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.gmail.com" 587 "seankuchida@gmail.com" nil))
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587)
+
+;; alternatively, for emacs-24 you can use:
+;;(setq message-send-mail-function 'smtpmail-send-it
+;;     smtpmail-stream-type 'starttls
+;;     smtpmail-default-smtp-server "smtp.gmail.com"
+;;     smtpmail-smtp-server "smtp.gmail.com"
+;;     smtpmail-smtp-service 587)
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
+
 (use-package frames-only-mode)
 (frames-only-mode 1)
 
@@ -410,7 +702,7 @@
 		  ;; changed this
 		  ;; helm-completion-in-region-fuzzy-match t
 		  helm-completion-style 'emacs
-		  helm-ff-auto-update-initial-value t
+		  helm-ff-auto-update-initial-value nil
 		  helm-split-window-inside-p t
           helm-quick-update t
 		  ;; helm-mode-fuzzy-match t
@@ -433,6 +725,7 @@
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 
 (use-package helm-swoop)
+()
 (use-package helm-c-yasnippet)
 (use-package helm-org-rifle)
 
@@ -446,7 +739,6 @@
   (global-set-key (kbd "<escape>") 'god-local-mode))
 
 (god-mode-all)
-
 (defun my-update-cursor ()
   (setq cursor-type (if (or god-local-mode buffer-read-only)
                         'box
@@ -480,11 +772,10 @@
   :bind
   ("C-c n j" . org-journal-new-entry))
 
-(use-package org-pretty-tags)
 (use-package org-ref
     :config
     (setq
-         org-ref-completion-library 'org-ref-ivy-cite
+         org-ref-completion-library 'org-ref-helm-insert-cite
          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
          org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
          org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
@@ -650,6 +941,28 @@
 ;; todo states
 (setq org-todo-keywords '((sequence "PRA FAZER(t)" "ESPERANDO(e)" "NÃO ENTENDI(n)" "REVER(r)" "|" "PRONTO(p)" "CANCELADO(c)")))
 
+(use-package hl-todo
+  :custom
+  ;; Better hl-todo colors, taken from spacemacs
+  (hl-todo-keyword-faces '(("TODO" . "#dc752f")
+                           ("NEXT" . "#dc752f")
+                           ("THEM" . "#2d9574")
+                           ("PROG" . "#4f97d7")
+                           ("OKAY" . "#4f97d7")
+                           ("DONT" . "#f2241f")
+                           ("FAIL" . "#f2241f")
+                           ("DONE" . "#86dc2f")
+                           ("NOTE" . "#b1951d")
+                           ("KLUDGE" . "#b1951d")
+                           ("HACK" . "#b1951d")
+                           ("TEMP" . "#b1951d")
+                           ("QUESTION" . "#b1951d")
+                           ("HOLD" . "#dc752f")
+                           ("FIXME" . "#dc752f")
+                           ("XXX+" . "#dc752f")))
+  :config
+  (global-hl-todo-mode))
+
 (use-package ob-sml)
 
 (org-babel-do-load-languages
@@ -665,7 +978,6 @@
    (sml        . t)
    (python     . t)
    (ocaml      . t)
-   (restclient . t)
    (emacs-lisp . t)
    (plantuml   . t)
    (js         . t)
@@ -679,117 +991,12 @@
 	  org-src-preserve-indentation nil
 	  org-edit-src-content-indentation 0)
 
-(use-package ox-jekyll-md)
 (use-package ox-epub)
 (use-package ox-reveal)
-
-(setq org-publish-project-alist
-      '(("seanvert.github.io"
-         ;; Path to org files.
-         :base-directory "~/ossu/org"
-         :base-extension "org"
-
-         ;; Path to Jekyll Posts
-         :publishing-directory "~/Desktop/projetos/seanvert.github.io/_posts"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4
-         :html-extension "html"
-         :body-only t
-         )))
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
 									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
-
-(use-package realgud)
-
-(use-package lsp-ui
-  :ensure t
-  :requires lsp-mode flycheck
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-doc-enable t
-		lsp-ui-doc-use-childframe t
-		lsp-ui-doc-position 'top
-		lsp-ui-doc-include-signature t
-		lsp-ui-sideline-enable nil
-		lsp-ui-flycheck-enable t
-		lsp-ui-flycheck-list-position 'right
-		lsp-ui-flycheck-live-reporting t
-		lsp-ui-peek-enable t
-		lsp-ui-peek-list-width 60
-		lsp-ui-peek-peek-height 25))
-
-
-
-(use-package lsp-treemacs
-  :commands lsp-treemacs-errors-list)
-(use-package helm-lsp
-  :after helm
-  :commands helm-lsp-workspace-symbol
-  :config
-  (defun netrom/helm-lsp-workspace-symbol-at-point ()
-	(interactive)
-    (let ((current-prefix-arg t))
-      (call-interactively #'helm-lsp-workspace-symbol)))
-  
-  (defun netrom/helm-lsp-global-workspace-symbol-at-point ()
-    (interactive)
-    (let ((current-prefix-arg t))
-      (call-interactively #'helm-lsp-global-workspace-symbol))))
-
-
-(use-package dap-mode)
-(setq dap-auto-configure-features '(sessions locals controls tooltip))
-(use-package lsp-python-ms)
-;;(use-package lsp-clangd)
-
-(use-package lsp-mode
-  :requires hydra helm helm-lsp
-  :commands (lsp lsp-deferred)
-  :hook (haskell-mode . lsp)
-  :config
-(setq lsp-diagnostic-package nil
-;; changed this 
-;; lsp-prefer-flymake nil
-		netrom--general-lsp-hydra-heads
-        '(;; Xref
-          ("d" xref-find-definitions "Definitions" :column "Xref")
-          ("D" xref-find-definitions-other-window "-> other win")
-          ("r" xref-find-references "References")
-          ("s" netrom/helm-lsp-workspace-symbol-at-point "Helm search")
-          ("S" netrom/helm-lsp-global-workspace-symbol-at-point "Helm global search")
-
-          ;; Peek
-          ("C-d" lsp-ui-peek-find-definitions "Definitions" :column "Peek")
-          ("C-r" lsp-ui-peek-find-references "References")
-          ("C-i" lsp-ui-peek-find-implementation "Implementation")
-
-          ;; LSP
-          ("p" lsp-describe-thing-at-point "Describe at point" :column "LSP")
-          ("C-a" lsp-execute-code-action "Execute code action")
-          ("R" lsp-rename "Rename")
-          ("t" lsp-goto-type-definition "Type definition")
-          ("i" lsp-goto-implementation "Implementation")
-          ("f" helm-imenu "Filter funcs/classes (Helm)")
-          ("C-c" lsp-describe-session "Describe session")
-
-          ;; Flycheck
-          ("l" lsp-ui-flycheck-list "List errs/warns/notes" :column "Flycheck"))
-
-        netrom--misc-lsp-hydra-heads
-        '(;; Misc
-          ("q" nil "Cancel" :column "Misc")
-          ("b" pop-tag-mark "Back")))
-   ;; Create general hydra.
-   (eval `(defhydra netrom/lsp-hydra (:color blue :hint nil)
-			,@(append
-			   netrom--general-lsp-hydra-heads
-			   netrom--misc-lsp-hydra-heads)))
-
-  (add-hook 'lsp-mode-hook
-            (lambda () (local-set-key (kbd "C-c C-l") 'netrom/lsp-hydra/body))))
 
 (use-package 
   markdown-mode 
@@ -800,25 +1007,20 @@
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 
-(use-package flycheck)
-  ;; :ensure t)
-  ;; :init
-  ;; (add-hook 'prog-mode-hook 'flycheck-mode))
-  ;;(global-flycheck-mode t))
-(use-package flycheck-irony)
-(use-package flycheck-haskell)
-(use-package flycheck-pycheckers)
-(use-package flycheck-plantuml)
-(use-package flycheck-cask)
-
 (use-package magit)
+(setq magit-refresh-status-buffer nil)
+(setq auto-revert-buffer-list-filter
+      'magit-auto-revert-repository-buffer-p)
+(remove-hook 'server-switch-hook 'magit-commit-diff)
 
 (use-package company
   :ensure t
   :config
   (add-hook 'prog-mode-hook 'company-mode)
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+  (setq company-minimum-prefix-length 1)
+  (setq company-show-numbers t)
+)
 
 ;; global company mode
 (add-hook 'after-init-hook 'global-company-mode)
@@ -839,13 +1041,13 @@
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 
-(let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,bg))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+;; (let ((bg (face-attribute 'default :background)))
+;;     (custom-set-faces
+;;      `(company-tooltip ((t (:inherit default :background ,bg))))
+;;      `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+;;      `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+;;      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+;;      `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
 (use-package company-org-roam
   :requires company
@@ -859,71 +1061,62 @@
 
 (setq-default tab-width 4)
 
-(use-package skewer-mode)
-(use-package emmet-mode
-:ensure t
-:defer t
-:mode ("\\.html\\'"
-	   "\\.css\\'"
-	   "\\.ejs\\'"))
+(use-package cider)
 
-(unless (package-installed-p 'indium)
-  (use-package indium))
-(setq indium-chrome-executable "google-chrome-stable")
-
-(use-package json-mode
-:ensure t
-:defer t)
-(use-package typescript-mode
-:ensure t
-:defer t)
-(use-package js2-mode
-:mode ("\\.js\\'" . js2-mode)
-:ensure t
-:defer t)
 (use-package web-mode
-:ensure t
-:defer t
-:mode ("\\.html\\'"
- ;; "\\.css\\'"
- "\\.php\\'"
- "\\.ejs\\'"))
+  :custom
+  (css-indent-offset 2)
+  ;;(web-mode-markup-indent-offset 2)
+  (web-mode-enable-auto-indentation nil)
+  (web-mode-enable-auto-pairing nil)
+  (web-mode-engines-alist '(("django" . "\\.html\\'")))
+  :mode ;; Copied from spacemacs
+  (("\\.phtml\\'"      . web-mode)
+   ("\\.tpl\\.php\\'"  . web-mode)
+   ("\\.twig\\'"       . web-mode)
+   ("\\.xml\\'"        . web-mode)
+   ("\\.html\\'"       . web-mode)
+   ("\\.htm\\'"        . web-mode)
+   ("\\.[gj]sp\\'"     . web-mode)
+   ("\\.as[cp]x?\\'"   . web-mode)
+   ("\\.eex\\'"        . web-mode)
+   ("\\.erb\\'"        . web-mode)
+   ("\\.mustache\\'"   . web-mode)
+   ("\\.handlebars\\'" . web-mode)
+   ("\\.hbs\\'"        . web-mode)
+   ("\\.eco\\'"        . web-mode)
+   ("\\.ejs\\'"        . web-mode)
+   ("\\.svelte\\'"     . web-mode)
+   ("\\.djhtml\\'"     . web-mode))
+  ;; :hook
+  ;; (web-mode . tree-sitter-hl-mode)
+  ;; (web-mode . (lambda () (fk/add-local-hook 'before-save-hook 'fk/indent-buffer)))
+  )
 
-(setq web-mode-enable-current-column-highlight t
-	  web-mode-enable-current-element-highlight t)
-(add-hook 'web-mode-hook 'emmet-mode)
-(setq emmet-move-cursor-between-quotes t)
+(use-package emmet-mode
+  :custom
+  (emmet-move-cursor-between-quotes t)
+  :custom-face
+  (emmet-preview-input ((t (:inherit lazy-highlight))))
+  :bind
+  (
+   :map emmet-mode-keymap
+   ([remap yas-expand] . emmet-expand-line)
+   ("M-n"  . emmet-next-edit-point)
+   ("M-p"  . emmet-prev-edit-point)
+   ("C-c p" . emmet-preview-mode))
+  :hook
+  ;;(rjsx-mode . (lambda () (setq emmet-expand-jsx-className? t)))
+  (web-mode . emmet-mode)
+  (css-mode . emmet-mode))
 
-(add-hook 'web-mode-before-auto-complete-hooks
-    '(lambda ()
-     (let ((web-mode-cur-language
-  	    (web-mode-language-at-pos)))
-               (if (string= web-mode-cur-language "php")
-    	   (yas-activate-extra-mode 'php-mode)
-      	 (yas-deactivate-extra-mode 'php-mode))
-               (if (string= web-mode-cur-language "css")
-    	   (setq emmet-use-css-transform t)
-      	 (setq emmet-use-css-transform nil)))))
+(use-package nodejs-repl)
 
-;; (setq company-tooltip-align-annotations t)
-
-;; (setq flycheck-javascript-standard-executable "/home/sean/.npm-global/bin/standardx")
-;; (use-package prettier-js)
-
-;; (add-hook 'js-mode-hook #'setup-tide-mode)
-(add-hook 'js-mode-hook 'prettier-js-mode)
-
-(setq prettier-js-args '(
-  "--trailing-comma" "none"
-  "--bracket-spacing" "true"
-  "--single-quote" "true"
-  "--no-semi" "true"
-  "--jsx-single-quote" "true"
-  "--jsx-bracket-same-line" "true"
-  "--print-width" "100"))
-
-(use-package restclient)
-(use-package ob-restclient)
+(use-package prettier-js
+  :hook
+  ;;(web-mode . prettier-js-mode) ;; breaks django templates
+  (css-mode . prettier-js-mode)
+  (json-mode . prettier-js-mode))
 
 (use-package yasnippet
   :config
@@ -951,9 +1144,16 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets"
 						   yasnippet-snippets-dir)))
 
+(use-package haskell-mode)
+(setq haskell-process-type 'stack-ghci)
+(use-package company-ghci)
+(use-package hindent)
+
 (use-package projectile
+  :pin melpa-stable
   :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
 (setq projectile-use-git-grep t)
 
 (use-package helm-dash
@@ -961,28 +1161,32 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
    (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
    (setq helm-dash-browser-func 'browse-url))
 
-(use-package rust-mode)
 (use-package rustic)
 
 (add-to-list 'auto-mode-alist '("\\.m" . octave-mode))
 
-(use-package company-irony)
+(use-package lsp-mode
+  ;; :hook (prog-mode . lsp)
+  :config
+  (setq lsp-idle-delay 0.500))
+
+;;(use-package lsp-ui)
+
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
 
 (add-hook 'python-mode-hook
 		  (lambda () (setq tab-width 4
 					  python-indent-offset 4)))
 
-(use-package django-mode)
-;; (yas/load-directory "/home/sean/.emacs.d/elpa/django-mode-20170522.714/snippets")
-;; (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
-
-(use-package haskell-snippets)
-(use-package company-ghci)
-(use-package lsp-haskell
-  :ensure t
-  :config
-  (setq lsp-haskell-process-path-hie "ghcide")
-  (setq lsp-haskell-process-args-hie '()))
+(use-package lsp-pyright
+  :ensure t)
+  ;; :hook (python-mode . (lambda ()
+  ;;                         (require 'lsp-pyright)
+  ;;                         (lsp))))
 
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)
