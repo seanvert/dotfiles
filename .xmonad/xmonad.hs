@@ -5,11 +5,11 @@ import XMonad.Hooks.DynamicLog
 -- scratchpads
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
-
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.ManageHook
+
 
 -- keys
 import qualified XMonad.StackSet as W
@@ -44,7 +44,7 @@ import XMonad.Layout.TwoPane
 
 -- TESTES
 import XMonad.Layout.ComboP
-
+import XMonad.Util.SpawnOnce
 -- esse daqui acho que é dependência pro combo funcioanr e eu conseguir mudar as janelas de lado
 import XMonad.Layout.WindowNavigation
 
@@ -115,18 +115,18 @@ main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 myBar = "xmobar /home/sean/.xmonad/xmobarrc1"
 
 myConfig = ewmh $ dynamicProjects projects def { modMask = mod4Mask -- Use Super instead of Alt
-               , borderWidth = 4
-               , focusedBorderColor = color14
-               , normalBorderColor = color9
-               , workspaces = myWorkspaces
-               , layoutHook = myLayout
-               , handleEventHook = hintsEventHook
-               , logHook = myLogHook
-               , manageHook = myManageHook <+> manageHook def
-               , keys = myKeys
-               , startupHook = myStartupHook
-               , terminal = myTerminal
-               } `additionalKeys` -- aqui vão os atalhos para sobrepor o padrão
+                                               , borderWidth = 4
+                                               , focusedBorderColor = color14
+                                               , normalBorderColor = color9
+                                               , workspaces = myWorkspaces
+                                               , layoutHook = myLayout
+                                               , handleEventHook = hintsEventHook
+                                               , logHook = myLogHook
+                                               , manageHook = myManageHook <+> manageHook def
+                                               , keys = myKeys
+                                               , startupHook = myStartupHook
+                                               , terminal = myTerminal
+                                               } `additionalKeys` -- aqui vão os atalhos para sobrepor o padrão
   [ ((mod4Mask, xK_p), spawn "rofi -show combi")
   , ((mod4Mask, xK_z)
     , spawn
@@ -187,11 +187,10 @@ keysToAdd x =
                      addWorkspace)--switchProjectPrompt warmPromptTheme)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
   , ((mod4Mask .|. shiftMask, xK_s    ), sendMessage $ SwapWindow)
---  , ((mod4Mask, xK_p), shellPrompt def)
                -- TODO pensar numas coisas legais pra colocar nesse menu
                -- possibilidades: ver como que funciona o fcitx e colocar um seletor com o rofi ou o dmenu
                -- nmtui -(
- , ((mod4Mask, xK_y) -- mod4Mask, xK_y xf86Display 
+ , ((mod4Mask, xK_y)
     , treeselectAction
         myTreeConf
         -- TODO gerar um menu desses com um arquivo xml ou um arquivo do org mode, sei lá json  tanto faz
@@ -240,20 +239,14 @@ keysToAdd x =
   , ((mod4Mask, xK_Left ), sendMessage $ Move L)
   , ((mod4Mask, xK_Up   ), sendMessage $ Move U)
   , ((mod4Mask, xK_Down ), sendMessage $ Move D)
---  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "goldendict")
+  , ((mod4Mask, xK_g), namedScratchpadAction scratchpads "goldendict")
   , ((mod4Mask, xK_u), spawn "emacsclient -c -e '(switch-to-buffer nil)' --alternate-editor=''")
---  , ((mod4Mask, xK_a), bringSelected def)
-  , ((mod4Mask, xK_a), toggleWS)
 
-  -- , ((mod4Mask, xK_a), bringSelected def
-  --                            { gs_navigate   = navNSearch
-  --                            , gs_font = "xft:DroidSansMono Nerd Font:size=9"
-  --                            })
---                       { gs_rearranger = searchStringRearrangerGenerator id })-- spawn "rofi -show windowcd")
-  --, ((mod4Mask, xK_d), namedScratchpadAction scratchpads "qutebrowser")
-     -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi") -- TODO achar alguma outra coisa pra colocar aqui
-     -- gerar esses menus proceduralmente a partir delistas
-  , ((mod4Mask, xK_s) -- , spawn "rofi -show window")
+  , ((mod4Mask, xK_a), toggleWS)
+    -- TODO treeselectAction myTreeConf [test "accomplished" "b" $ return ()]) -- spawn "rofi -show combi")
+    -- TODO achar alguma outra coisa pra colocar aqui
+    -- gerar esses menus proceduralmente a partir delistas
+  , ((mod4Mask, xK_s)
     , spawnSelected'
         [ ("Chrome", "google-chrome-stable")
         , ("Emacs", "emacs")
@@ -266,19 +259,15 @@ keysToAdd x =
         , ("VLC", "vlc")
         , ("FlameShot", "flameshot")
         , ("VSCode", "code")
---        , ("Thunar", "thunar")
+        , ("Thunar", "thunar")
         , ("SMplayer", "smplayer")
---        , ("Clementine", "clementine")
---        , ("Recoll", "recoll")
         , ("Libre Office", "libreoffice")
         , ("Zotero", "zotero")
         ])
   , ((mod4Mask, xK_z), spawn "sleep 0.2; scrot -s ~/foo.png && xclip -selection clipboard -t image/png -i ~/foo.png && rm ~/foo.png")
-  --TODO: montar um scratchpad com o gnome-terminal, talvez com um auto launch do tmuxinator
   , ((mod4Mask, xK_apostrophe), namedScratchpadAction scratchpads "gnome-terminal")
   , ((0, xK_Print), spawn "scrot -q 1 $HOME/Images/screenshots/%Y-%m-%d-%H:%M:%S.png")
   , ((mod4Mask, xK_f), namedScratchpadAction scratchpads "notes")
---     XMonad.windows W.focusDown)
   , ((mod4Mask, xK_d), XMonad.windows W.focusUp)
   ]
   where
@@ -290,7 +279,6 @@ keysToAdd x =
 
 keysToDel x = [ ((mod4Mask .|. shiftMask), xK_c)
               , ((mod4Mask, xK_p))]
-              --((mod4Mask, xK_p))]
 
 newKeys x = M.union (keys def x) (M.fromList (keysToAdd x)) -- to include new keys to existing keys
 
@@ -338,7 +326,7 @@ wssk = zipWith (++) kanji wss
   where
     kanji = map (\x -> " " ++ x) [ "一", "二",　"三",　"四",　"五",　"六",　"七",　"八",　"九" ]
 
-wssi = zipWith (++) wss index 
+wssi = zipWith (++) wssk index 
   where
     index = map (\x -> " " ++ (show x) ++ " ") [1..9]
     
@@ -347,56 +335,48 @@ myWorkspaces = map (\x -> " " ++ (show x ) ++ " ") [1..9]
 scratchpads =
   [ (NS
       "notes"
-      emacs1   -- "LC_CTYPE=jp_JP.utf-8 emacsclient -c -n -e"
+      emacs
       (stringProperty "WM_NAME" =? "scratchemacs-frame")
-    -- rationalrect parameters
-    -- screen width from the left, screen height from the top
-    -- window width by height
+      -- rationalrect parameters
+      -- screen width from the left, screen height from the top
+      -- window width by height
       (customFloating $ W.RationalRect (1120/1920) (20/1080) (800/1920) (1060/1080)))
   , (NS
       "smplayer"
       "smplayer"
       (className =? "smplayer")
-      (doRectFloat $ W.RationalRect (1280/1920) (580/1080) (640/1920) (480/1080))) -- (1.0 / 6) (1.0 / 6) (2.0 / 3) (2.0 / 3)))
-  -- , (NS
-  --     "qutebrowser"
-  --     "qutebrowser"
-  --     (className =? "qutebrowser")
-  --     --(stringProperty "WM_NAME" =? "qutebrowser")
-  --     (doRectFloat $ W.RationalRect 0 0 1 1))
-  -- TODO está meio bugado, depois eu preciso ver isso melhor
+      (doRectFloat $ W.RationalRect (1280/1920) (580/1080) (640/1920) (480/1080)))
   , (NS
-    "gnome-terminal"
-    "gnome-terminal -- /bin/bash -c 'tmuxinator desktop9; gnome-terminal --tab; exec bash';"
-    (className =? "Gnome-terminal")
-    (customFloating $ W.RationalRect (0/1920) (20/1080) (1920/1920) (1060/1080)))
+     "gnome-terminal"
+     "gnome-terminal -- /bin/bash -c 'tmuxinator desktop9; gnome-terminal --tab; exec bash';"
+     (className =? "Gnome-terminal")
+     (customFloating $ W.RationalRect (0/1920) (20/1080) (1920/1920) (1060/1080)))
   , (NS
-    "mpv"
-    "mpv"
-    (className =? "mpv")
-    (doRectFloat $ W.RationalRect (1280/1920) (580/1080) (640/1920) (380/1080)))
-    
+     "mpv"
+     "mpv"
+     (className =? "mpv")
+     (doRectFloat $ W.RationalRect (1280/1920) (580/1080) (640/1920) (380/1080)))
   , (NS
-    "goldendict"
-    "goldendict"
-    (className =? "goldendict")
-    (customFloating $ W.RationalRect (1/40) (1/40) (17/30) (14/15)))
+     "goldendict"
+     "goldendict"
+     (className =? "goldendict")
+     (customFloating $ W.RationalRect (1/40) (1/40) (17/30) (14/15)))
   ] where
-  emacs2 = "emacsclient -nc --alternate-editor='' --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY" 
-  emacs1 = "emacsclient --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
+  emacs = "emacsclient --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
--- comandos pra iniciar junto com o xmonad
 myStartupHook = do
+  --  spawn "pkill -f xmobarrc2"
   spawn "xrdb -merge ~/.Xresources &"
-  spawn "killall stalonetray &"
-  spawn "stalonetray &"
-  spawn "wal -R &"
+  --  spawn "killall stalonetray"
+  spawnOnce "stalonetray &"
+  spawnOnce "wal -R &"
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
-  spawn "pkill -f xmobarrx2 &"
-  spawn "xmobar /home/sean/.xmonad/xmobarrc2 &"
-  setWMName "LG3D"
-
+  spawnOnce "xmobar /home/sean/.xmonad/xmobarrc2 &"
+  spawn "wmname LG3D"
+  spawnOnce "setxkbmap -option ctrl:nocaps &"
+  --  spawn "killall xcape &"
+  spawnOnce "xcape -e 'Control_L=Escape' -t 175"
 -- TODO ver se éisso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"
@@ -430,12 +410,12 @@ myPP =
             (xmobarColor hiddenLWrapperFG hiddenLWrapperBG hiddenLWrapper)
             (xmobarColor hiddenRWrapperFG hiddenRWrapperBG hiddenRWrapper)
       -- ws -> workspace, l -> layout, wn -> window name
-      , ppOrder = \(ws:l:wn:_) -> [ws, shorten 20 l]          
+      , ppOrder = \(ws:l:wn:_) -> [ws, shorten 20 l]
                      -- , xmobarColor layoutFG layoutBG $ shorten 20 l ++ " " ++
                                  -- xmobarColor separatorPPXmobarFG separatorPPXmobarBG separatorPPXmobar]
       , ppSep = xmobarColor sepFG sepBG sep
       , ppWsSep = xmobarColor wsSepFG wsSepBG wsSep
---      , ppUrgent = xmobarColor color5 color2
+      , ppUrgent = xmobarColor color5 color2
       , ppTitle = xmobarColor color0 color2 . shorten 50
        }
 
