@@ -18,9 +18,9 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq read-process-output-max (* 1024 1024))  ;; lsp-mode's performance suggest
 
-(if (and (fboundp 'server-running-p)
- 		 (not (server-running-p)))
- 	(server-start))
+(add-hook 'after-init-hook (lambda () (if (and (fboundp 'server-running-p)
+ 										  (not (server-running-p)))
+ 									 (server-start))))
 
 ;; (define-key key-translation-map (kbd "<f1>") (kbd "TAB"))
 ;; (define-key key-translation-map (kbd "<f2>") (kbd "("))
@@ -446,7 +446,7 @@
   ;; (defvar org-roam-directory nil)
   :init
   :config
-  (add-to-list 'org-roam-capture-templates
+  (progn (add-to-list 'org-roam-capture-templates
                '("w" "webref" plain (function org-roam-capture--get-point)
                  "%?"
                  :file-name "web/${slug}"
@@ -489,7 +489,7 @@
   ;; mode line in the org-roam buffer, since it serves no purpose. This
   ;; makes it easier to distinguish among other org buffers.
   ;; (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-                )
+                ))
   :bind (:map org-roam-mode-map
                           (("C-c n l" . org-roam)
                            ("C-c n f" . org-roam-find-file)
@@ -818,30 +818,15 @@
 	;; (run-at-time "0.5 sec" nil #'org-noter))
 
   (add-hook 'pdf-view-mode-hook 'org-noter-init-pdf-view)) 
-;;TODO: fazer um esquema de screen shot com o flameshot
-(defun org-noter-insert-image-slice-note (event &optional switch-back)
-  (interactive "@e")
-  )
-(define-key org-noter-doc-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
-(defun org-noter-insert-pdf-slice-note (event &optional switch-back)
-  (interactive "@e")
-  (setq current-b (buffer-name))
-  (progn  (pdf-view-mouse-set-region-rectangle event)
-		  (pdf-view-extract-region-image pdf-view-active-region
-										 (pdf-view-current-page)
-										 (pdf-view-image-size)
-										 (get-buffer-create "teste")
-										 t)
-		  (set-buffer "teste")
-		  (write-file "/tmp/screenshot.png" nil)
-		  (kill-buffer "screenshot.png")
-		  (set-buffer current-b)
-		  (org-noter-insert-note)
-		  (org-download-screenshot)
-		  (if switch-back			 
-			  (switch-to-buffer-other-frame current-b))))
 
-(define-key org-noter-doc-mode-map [C-M-down-mouse-1] 'org-noter-insert-pdf-slice-note)
+(defun org-noter-insert-image-slice-note ()
+  (interactive)
+  (async-start (shell-command "flameshot gui")
+			   (progn (shell-command "xdotool key --clearmodifiers super+Tab")
+					  (async-start (org-noter-insert-note)
+								   (org-download-clipboard)))))
+
+(define-key org-noter-doc-mode-map (kbd "y") 'org-noter-insert-image-slice-note)
 
 (defun org-noter-insert-selected-text-inside-note-content ()
   (interactive)
@@ -850,8 +835,8 @@
 		 (org-noter-insert-precise-note)
 		 (set-buffer currenb)
 		 (org-noter-insert-note))
-   	 (shell-command "xdotool key --clearmodifiers super+Tab") ;; plays nice with frames-only-mode
-	 ))
+   	 (shell-command "xdotool key --clearmodifiers super+Tab"))) ;; plays nice with frames-only-mode
+
 
 (define-key org-noter-doc-mode-map (kbd "q") 'org-noter-insert-selected-text-inside-note-content)
 
@@ -1197,21 +1182,20 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package org-projectile
   :bind ("C-c n p" . org-projectile-project-todo-completing-read)
   :config
-  (progn
-	(org-projectile-per-project)
-	(setq org-projectile-per-project-filepath "my_project_todo_filename.org")
-    (setq org-projectile-projects-file "/home/sean/projetos.org"
-          org-projectile-capture-template
-          (format "%s%s" "* TODO %? %A\n" created-property))
-    (add-to-list 'org-capture-templates
-                 (org-projectile-project-todo-entry
-                  :capture-character "l"
-                  :capture-heading "Linked Project TODO"))
-    (add-to-list 'org-capture-templates
-                 (org-projectile-project-todo-entry
-                  :capture-character "p"))
-    (setq org-confirm-elisp-link-function nil)
-	(setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))))
+  (progn (org-projectile-per-project)
+		 (setq org-projectile-per-project-filepath "README.org")
+		 (setq org-projectile-projects-file "/home/sean/projetos.org"
+			   org-projectile-capture-template
+			   (format "%s%s" "* TODO %? %A" created-property))
+		 (add-to-list 'org-capture-templates
+					  (org-projectile-project-todo-entry
+					   :capture-character "l"
+					   :capture-heading "Linked Project TODO"))
+		 (add-to-list 'org-capture-templates
+					  (org-projectile-project-todo-entry
+					   :capture-character "p"))
+		 (setq org-confirm-elisp-link-function nil)
+		 (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))))
 
 (use-package helm-dash
   :config

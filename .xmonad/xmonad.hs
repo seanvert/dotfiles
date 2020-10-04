@@ -5,6 +5,7 @@ import XMonad.Hooks.DynamicLog
 -- scratchpads
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
+import Data.Text.Encoding
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
@@ -184,7 +185,7 @@ keysToAdd x =
                          , gs_rearranger = searchStringRearrangerGenerator id
                          , gs_font = "xft:DroidSansMono Nerd Font:size=15"
                          }
-                     addWorkspace)--switchProjectPrompt warmPromptTheme)
+                     addWorkspace)
   , ((mod4Mask, xK_i), shiftToProjectPrompt warmPromptTheme)
   , ((mod4Mask .|. shiftMask, xK_s    ), sendMessage $ SwapWindow)
                -- TODO pensar numas coisas legais pra colocar nesse menu
@@ -288,14 +289,12 @@ myKeys x = foldr M.delete (newKeys x) (keysToDel x) -- to delete the unused keys
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 spawnSelected' :: [(String, String)] -> X ()
-
 spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
   where
     conf = def { gs_navigate = navNSearch
                , gs_cellheight = 40
                , gs_cellwidth = 130
                , gs_cellpadding = 30
---               , gs_originFractX = 0.01
                , gs_rearranger = searchStringRearrangerGenerator id
                }    
 
@@ -374,7 +373,8 @@ myStartupHook = do
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
   spawnOnce "xmobar /home/sean/.xmonad/xmobarrc2 &"
   spawn "wmname LG3D"
-  spawnOnce "setxkbmap -option ctrl:nocaps &"
+  spawnOnce "flameshot &"
+  spawn "setxkbmap -option ctrl:nocaps &"
   --  spawn "killall xcape &"
   spawnOnce "xcape -e 'Control_L=Escape' -t 175"
 -- TODO ver se éisso que está bugando o emacs

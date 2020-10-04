@@ -1,3 +1,7 @@
+* PRA FAZER documentação
+- [ ] adicionar uns highlights com uns links pra dentro do código
+- [ ] adicionar umas screenshots
+
 * imports 
 #+begin_src haskell :tangle yes
 import XMonad
@@ -89,7 +93,10 @@ separatorPPXmobarFG = color2
 separatorPPXmobarBG = background
 #+end_src
 
-* cores do tema do wal
+* PRA FAZER cores do tema do wal
+ver alguma coisa para pegar a pasta do wal automaticamente quando ele
+recompilar
+
 #+begin_src haskell :tangle yes
 -- colors
 -- Shell variables
@@ -120,7 +127,9 @@ color14="#AB8767"
 color15="#b4b4b9"
 #+end_src
 
-* resto
+* PRA FAZER resto
+adicionar o flameshot no esquema dos screenshots
+
 #+begin_src haskell :tangle yes
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
@@ -176,8 +185,8 @@ myPromptTheme =
 #+end_src
 
 * tree conf
+configuração da aparência do menu de árvore do M-y
 #+begin_src haskell :tangle yes
--- configuração da aparência do menu de árvore
 myTreeConf =
   TSConfig
     { ts_hidechildren = True
@@ -396,8 +405,10 @@ scratchpads =
   emacs = "emacsclient --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 #+end_src
 
-* startup hooks
+* PRA FAZER startup hooks
 comandos pra iniciar junto com o xmonad vai rodar toda vez que recompilar
+a parte do xcape está bugada. Aparentemente arrumei, mas preciso ver a
+próxima vez que reiniciar.
 
 #+begin_src haskell :tangle yes
 myStartupHook = do
@@ -411,7 +422,7 @@ myStartupHook = do
   spawnOnce "xmobar /home/sean/.xmonad/xmobarrc2 &"
   spawn "wmname LG3D"
   spawnOnce "flameshot &"
-  spawnOnce "setxkbmap -option ctrl:nocaps &"
+  spawn "setxkbmap -option ctrl:nocaps &"
   --  spawn "killall xcape &"
   spawnOnce "xcape -e 'Control_L=Escape' -t 175"
 -- TODO ver se éisso que está bugando o emacs

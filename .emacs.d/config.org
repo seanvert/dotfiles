@@ -22,12 +22,12 @@
 (setq read-process-output-max (* 1024 1024))  ;; lsp-mode's performance suggest
 #+END_SRC
 
-** server mode
-
+** PRONTO server mode
+aparentemente está bom agora
 #+BEGIN_SRC emacs-lisp
-(if (and (fboundp 'server-running-p)
- 		 (not (server-running-p)))
- 	(server-start))
+(add-hook 'after-init-hook (lambda () (if (and (fboundp 'server-running-p)
+ 										  (not (server-running-p)))
+ 									 (server-start))))
 #+END_SRC
 
 ** CANCELADO conserta o teclado
@@ -97,11 +97,8 @@ algum problema nele
 ** texto
 
 #+begin_src emacs-lisp
-  ;; highlight lines
-  (global-hl-line-mode)
-
-
-
+;; highlight lines
+(global-hl-line-mode)
 #+end_src
 
 ** fonte
@@ -117,6 +114,7 @@ algum problema nele
 ** powerline
 
 *** doom line
+
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
@@ -355,16 +353,15 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
 (use-package pdf-view-restore
   :after pdf-tools
-  :config
-  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
-(add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
+  :hook pdf-view-mode)
+
 (use-package pdfgrep)
 (use-package pdf-tools
   :ensure t
   ;; :pin manual ;; manually update
   :config
   ;; initialise
-  (pdf-tools-install)
+  (pdf-tools-install :no-query)
   ;; numero de páginas no cache. default 64
   (setq pdf-cache-image-limit 15)
   ;; tempo que ele demora pra apagar uma imagem do cache
@@ -377,14 +374,8 @@ montar um esquema dentro do emacs pra tirar pedaços de imagens de pdfs
   ;; 
   ;; use normal isearch
   ;; (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  ;; turn off cua so copy works
-  (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
   ;; more fine-grained zooming
   (setq pdf-view-resize-factor 1.1)
-  ;; keyboard shortcuts
-  (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-  (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-  (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete)
   (define-key pdf-view-mode-map (kbd "z") 'org-noter))
 
 ;; troca a cor do midnight mode para combinar com a cor do tema
@@ -401,9 +392,11 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 (setq pdf-time-before 0)
 (setq pdf-time-after 0)
 ;; TODO adicionar uma função para chamar isso
-(add-hook 'pdf-view-after-change-page-hook (lambda () (progn (set-pdf-time-after)
-														(message (int-to-string (- pdf-time-after pdf-time-before)))
-														(set-pdf-time-before))))
+(add-hook 'pdf-view-after-change-page-hook
+		  (lambda () (progn (set-pdf-time-after)
+					   (message (int-to-string
+								 (- pdf-time-after pdf-time-before)))
+					   (set-pdf-time-before))))
 
 
 ;;TODO: fazer uma função pra entrar no hook do relógio conforme passam
@@ -412,11 +405,15 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 ;; comando do shell pra pegar a janela ativa
 ;; xdotool getwindowfocus getwindowname
 
+;; TODO fazer um esquema pra toda vez que eu rodar o org noter ele pegar o nome da janela
+;; e comparar o buffer com esse nome
+
 (defun set-pdf-time-after ()
-  (setq pdf-time-after (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+  (setq pdf-time-after (nth 1 (parse-time-string display-time-string))))
 
 (defun set-pdf-time-before ()
-  (setq pdf-time-before (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+  (setq pdf-time-before (nth 1 (parse-time-string display-time-string))))
+
 
 ;; TODO uma função que checa se avançamos nas páginas
 (defun pdf-check-page-advance ()
@@ -569,7 +566,7 @@ em blocos menores
     ;; (defvar org-roam-directory nil)
     :init
     :config
-    (add-to-list 'org-roam-capture-templates
+    (progn (add-to-list 'org-roam-capture-templates
                  '("w" "webref" plain (function org-roam-capture--get-point)
                    "%?"
                    :file-name "web/${slug}"
@@ -612,7 +609,7 @@ em blocos menores
     ;; mode line in the org-roam buffer, since it serves no purpose. This
     ;; makes it easier to distinguish among other org buffers.
     ;; (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-                  )
+                  ))
     :bind (:map org-roam-mode-map
                             (("C-c n l" . org-roam)
                              ("C-c n f" . org-roam-find-file)
@@ -1628,23 +1625,23 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   :END:")
 
 (use-package org-projectile
-  :bind ("C-c n p" . org-projectile-project-todo-completing-read)
+  :bind
+  ("C-c n p" . org-projectile-project-todo-completing-read)
   :config
-  (progn
-	(org-projectile-per-project)
-	(setq org-projectile-per-project-filepath "my_project_todo_filename.org")
-    (setq org-projectile-projects-file "/home/sean/projetos.org"
-          org-projectile-capture-template
-          (format "%s%s" "* TODO %? %A\n" created-property))
-    (add-to-list 'org-capture-templates
-                 (org-projectile-project-todo-entry
-                  :capture-character "l"
-                  :capture-heading "Linked Project TODO"))
-    (add-to-list 'org-capture-templates
-                 (org-projectile-project-todo-entry
-                  :capture-character "p"))
-    (setq org-confirm-elisp-link-function nil)
-	(setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))))
+  (progn (org-projectile-per-project)
+		 (setq org-projectile-per-project-filepath "README.org")
+		 (setq org-projectile-projects-file "/home/sean/projetos.org"
+			   org-projectile-capture-template
+			   (format "%s%s" "* TODO %? %A" created-property))
+		 (add-to-list 'org-capture-templates
+					  (org-projectile-project-todo-entry
+					   :capture-character "l"
+					   :capture-heading "Linked Project TODO"))
+		 (add-to-list 'org-capture-templates
+					  (org-projectile-project-todo-entry
+					   :capture-character "p"))
+		 (setq org-confirm-elisp-link-function nil)
+		 (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))))
 #+end_src
 
 ** helm dash
