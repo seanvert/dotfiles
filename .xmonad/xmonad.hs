@@ -160,7 +160,6 @@ myPromptTheme =
     , position = Top
     }
 
--- configuração da aparência do menu de árvore
 myTreeConf =
   TSConfig
     { ts_hidechildren = True
@@ -376,7 +375,7 @@ myStartupHook = do
   spawnOnce "flameshot &"
   spawn "setxkbmap -option ctrl:nocaps &"
   --  spawn "killall xcape &"
-  spawnOnce "xcape -e 'Control_L=Escape' -t 175"
+  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175"
 -- TODO ver se éisso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"
