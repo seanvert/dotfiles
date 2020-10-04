@@ -12,8 +12,8 @@ urxvtd &
 stalonetray &
 xrdb ~/.Xresources
 dunst -config /home/sean/.config/dunst/dunstrc &
-setxkbmap -option ctrl:nocaps
-xcape -e 'Control_L=Escape' -t 175
+# setxkbmap -option ctrl:nocaps
+# xcape -e 'Control_L=Escape' -t 175
 xrandr --output LVDS1 --auto --output VGA1 --auto --left-of LVDS1
 # redshift -l -23:-47 &
 # compton &
