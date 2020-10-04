@@ -1201,19 +1201,7 @@ arquivos na agenda manualmente
 #+END_SRC
 
 ** PRA FAZER [#C] org clock 
-depois ver isso com calma
 #+BEGIN_SRC emacs-lisp
-;; acho que não tem necessidade de usar essa função
-(defun hhmmtomm (time)
-  "converts hh:mm formated time string to minutes int"
-  (if time
-   (if (= 4 (length time))
-	   (+ (* (string-to-number (substring time 0 1)) 60)
-		  (string-to-number (substring time 2)))
-	   (+ (* (string-to-number (substring time 0 2)) 60)
-		  (string-to-number (substring time 3))))
-   0))
-
 (defun speak-current-task ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
@@ -1221,15 +1209,13 @@ depois ver isso com calma
 (display-time)
 (defun esf/org-clocking-info-to-file ()
   (with-temp-file "/tmp/clocking"
-    ;; (message (org-clock-get-clock-string))
     (if (org-clock-is-active)
         (insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
-                        (- (org-clock-get-clocked-time) org-clock-total-time)
+						(- (org-clock-get-clocked-time) org-clock-total-time)
                         org-clock-total-time
                         (org-clock-get-clocked-time)  ;; all time total
-						;; FIX ME fazer isso usando funções nativas do emacs lisp
-						(- (hhmmtomm org-clock-effort)
+						(- (nth 1 (parse-time-string org-clock-effort))
 						   (- (org-clock-get-clocked-time)
 							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
 (esf/org-clocking-info-to-file)
