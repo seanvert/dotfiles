@@ -15,12 +15,9 @@ dunst -config /home/sean/.config/dunst/dunstrc &
 setxkbmap -option ctrl:nocaps
 xcape -e 'Control_L=Escape' -t 175
 xrandr --output LVDS1 --auto --output VGA1 --auto --left-of LVDS1
-# flameshot &
 # redshift -l -23:-47 &
 # compton &
 exec dbus-launch /home/sean/.xmonad/xmonad-x86_64-linux
-#exec dbus-launch /home/sean/.local/bin/xmonad
 # exec emacs
-#exec stack exec -- xmonad 
 #exec dbus-launch qtile
 #exec notion

@@ -1,0 +1,4 @@
+* TODO teste alguma coisa que vou deixar aqui pra ver [[file:~/.xmonad/xmonad.org::*imports][teste]]
+  :PROPERTIES:
+  :CREATED: [2020-10-04 dom 00:30]
+  :END:

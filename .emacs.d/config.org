@@ -1217,7 +1217,8 @@ arquivos na agenda manualmente
                         (org-clock-get-clocked-time)  ;; all time total
 						(- (nth 1 (parse-time-string org-clock-effort))
 						   (- (org-clock-get-clocked-time)
-							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
+							  org-clock-total-time))))))) 
+
 (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
@@ -1394,7 +1395,6 @@ adicionar mais templates e consertar o de imagens
   :init (setq markdown-command "multimarkdown"))
 #+end_src
 
-
 ** magit git
 
 #+BEGIN_SRC emacs-lisp
@@ -1516,7 +1516,6 @@ depois preciso ver o company
   ;; (web-mode . tree-sitter-hl-mode)
   ;; (web-mode . (lambda () (fk/add-local-hook 'before-save-hook 'fk/indent-buffer)))
   )
-
 #+end_src
 
 *** emmet
@@ -1553,6 +1552,7 @@ depois preciso ver o company
   (css-mode . prettier-js-mode)
   (json-mode . prettier-js-mode))
 #+end_src
+
 ** yasnippets
 
 #+BEGIN_SRC emacs-lisp
@@ -1581,8 +1581,8 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   :config
   (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets"
 						   yasnippet-snippets-dir)))
-
 #+END_SRC
+
 ** haskell
 #+begin_src emacs-lisp
 (use-package haskell-mode)
