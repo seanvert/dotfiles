@@ -275,16 +275,15 @@
 (add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
 (use-package pdf-view-restore
   :after pdf-tools
-  :config
-  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
-(add-hook 'pdf-view-mode-hook (lambda () (pdf-view-restore-mode t)))
+  :hook pdf-view-mode)
+
 (use-package pdfgrep)
 (use-package pdf-tools
   :ensure t
   ;; :pin manual ;; manually update
   :config
   ;; initialise
-  (pdf-tools-install)
+  (pdf-tools-install :no-query)
   ;; numero de páginas no cache. default 64
   (setq pdf-cache-image-limit 15)
   ;; tempo que ele demora pra apagar uma imagem do cache
@@ -297,14 +296,8 @@
   ;; 
   ;; use normal isearch
   ;; (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  ;; turn off cua so copy works
-  (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
   ;; more fine-grained zooming
   (setq pdf-view-resize-factor 1.1)
-  ;; keyboard shortcuts
-  (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-  (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-  (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete)
   (define-key pdf-view-mode-map (kbd "z") 'org-noter))
 
 ;; troca a cor do midnight mode para combinar com a cor do tema
@@ -314,9 +307,11 @@
 (setq pdf-time-before 0)
 (setq pdf-time-after 0)
 ;; TODO adicionar uma função para chamar isso
-(add-hook 'pdf-view-after-change-page-hook (lambda () (progn (set-pdf-time-after)
-														(message (int-to-string (- pdf-time-after pdf-time-before)))
-														(set-pdf-time-before))))
+(add-hook 'pdf-view-after-change-page-hook
+		  (lambda () (progn (set-pdf-time-after)
+					   (message (int-to-string
+								 (- pdf-time-after pdf-time-before)))
+					   (set-pdf-time-before))))
 
 
 ;;TODO: fazer uma função pra entrar no hook do relógio conforme passam
@@ -325,11 +320,15 @@
 ;; comando do shell pra pegar a janela ativa
 ;; xdotool getwindowfocus getwindowname
 
+;; TODO fazer um esquema pra toda vez que eu rodar o org noter ele pegar o nome da janela
+;; e comparar o buffer com esse nome
+
 (defun set-pdf-time-after ()
-  (setq pdf-time-after (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+  (setq pdf-time-after (nth 1 (parse-time-string display-time-string))))
 
 (defun set-pdf-time-before ()
-  (setq pdf-time-before (hhmmtomm (car (split-string (substring-no-properties display-time-string) " ")))))
+  (setq pdf-time-before (nth 1 (parse-time-string display-time-string))))
+
 
 ;; TODO uma função que checa se avançamos nas páginas
 (defun pdf-check-page-advance ()
@@ -660,6 +659,28 @@
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
 
+(setq erc-autojoin-channels-alist '(("freenode.net"
+									 "#emacs"
+									 "#linux"
+									 "#archlinux"
+									 "#ubuntu"
+									 "#xmonad"
+									 "#haskell"
+									 "#rust"
+									 "#clojure"
+									 "#python"
+									 "#calibre"
+
+ 									;; não está funcionando
+ 									("-"
+ 									 "#trestranqueira"
+ 									 )))
+
+(load-library "~/.irckeys.el.gpg")
+(erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
+(erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
+	 :password twitch-key)
+
 (use-package frames-only-mode)
 (frames-only-mode 1)
 
@@ -881,35 +902,27 @@
 (setq org-pomodoro-long-break-sound-args "-volume 0.4")
 (setq org-pomodoro-short-break-sound-args "-volume 0.4")
 
-;; acho que não tem necessidade de usar essa função
-(defun hhmmtomm (time)
-  "converts hh:mm formated time string to minutes int"
-  (if time
-   (if (= 4 (length time))
-	   (+ (* (string-to-number (substring time 0 1)) 60)
-		  (string-to-number (substring time 2)))
-	   (+ (* (string-to-number (substring time 0 2)) 60)
-		  (string-to-number (substring time 3))))
-   0))
-
 (defun speak-current-task ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
 
-(display-time)
+(display-time-mode)
+(shell-command "mkfifo /tmp/clocking")
+;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
+  (if (eq nil org-clock-effort)
+	  (setq org-clock-effort "0:00"))
   (with-temp-file "/tmp/clocking"
-    ;; (message (org-clock-get-clock-string))
-    (if (org-clock-is-active)
-        (insert (format "\ue003 %s: %d (%d->%d) min %d cd"
+	(if (org-clock-is-active)
+		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
-                        (- (org-clock-get-clocked-time) org-clock-total-time)
-                        org-clock-total-time
-                        (org-clock-get-clocked-time)  ;; all time total
-						;; FIX ME fazer isso usando funções nativas do emacs lisp
-						(- (hhmmtomm org-clock-effort)
+						(- (org-clock-get-clocked-time) org-clock-total-time)
+						org-clock-total-time
+						(org-clock-get-clocked-time)  ;; all time total
+						(- (nth 1 (parse-time-string org-clock-effort))
 						   (- (org-clock-get-clocked-time)
-							  org-clock-total-time))))))) ;;(org-clock-get-clock-string)
+							  org-clock-total-time)))))))
+
 (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
@@ -1013,7 +1026,6 @@
 (use-package ox-reveal)
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
 
 (use-package 
@@ -1025,11 +1037,26 @@
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 
+(use-package wakatime-mode
+  :init
+  (global-wakatime-mode)
+  :config
+  (progn
+	(load-library "~/.wakatime.el.gpg")
+	(setq wakatime-cli-path "/usr/bin/wakatime"))
+
 (use-package magit)
 (setq magit-refresh-status-buffer nil)
 (setq auto-revert-buffer-list-filter
       'magit-auto-revert-repository-buffer-p)
 (remove-hook 'server-switch-hook 'magit-commit-diff)
+(use-package forge
+  :after magit)
+(setq auth-sources '("~/.authinfo.gpg"))
+
+(use-package epg
+  :config
+  (epa-file-enable))
 
 (use-package company
   :ensure t
@@ -1167,6 +1194,8 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package company-ghci)
 (use-package hindent)
 
+(use-package devdocs)
+
 (use-package projectile
   :pin melpa-stable
   :config
@@ -1180,7 +1209,8 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   :END:")
 
 (use-package org-projectile
-  :bind ("C-c n p" . org-projectile-project-todo-completing-read)
+  :bind
+  ("C-c n p" . org-projectile-project-todo-completing-read)
   :config
   (progn (org-projectile-per-project)
 		 (setq org-projectile-per-project-filepath "README.org")
@@ -1197,10 +1227,10 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 		 (setq org-confirm-elisp-link-function nil)
 		 (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))))
 
-(use-package helm-dash
-  :config
-   (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
-   (setq helm-dash-browser-func 'browse-url))
+;; (use-package helm-dash
+;;   :config
+;;    (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
+;;    (setq helm-dash-browser-func 'browse-url))
 
 (use-package rustic)
 
@@ -1229,6 +1259,22 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   ;;                         (require 'lsp-pyright)
   ;;                         (lsp))))
 
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+(use-package pyenv-mode
+  :config
+  (defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset)))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+
 (show-paren-mode 1)
 (setq show-paren-style 'parenthesis)
 
@@ -1246,3 +1292,5 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (with-eval-after-load "helm-net"
   (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
         helm-google-suggest-actions))
+
+(use-package reason-mode)

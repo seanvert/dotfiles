@@ -857,6 +857,33 @@ ver como que mexe nisso e montar um notes e fazer um post
 
 #+end_src
 
+** PRA FAZER erc irc
+arrumei o arquivo das senhas, mas ainda n é oq eu quero.
+#+begin_src emacs-lisp
+(setq erc-autojoin-channels-alist '(("freenode.net"
+									 "#emacs"
+									 "#linux"
+									 "#archlinux"
+									 "#ubuntu"
+									 "#xmonad"
+									 "#haskell"
+									 "#rust"
+									 "#clojure"
+									 "#python"
+									 "#calibre"
+
+ 									;; não está funcionando
+ 									("-"
+ 									 "#trestranqueira"
+ 									 )))
+
+(load-library "~/.irckeys.el.gpg")
+(erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
+(erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
+	 :password twitch-key)
+
+#+end_src
+
 * interface
 ** frames only
 esse daqui só presta se for pra usar os frames separados. Tipo no
@@ -1206,18 +1233,22 @@ arquivos na agenda manualmente
   "function that says the name out loud"
   (espeak org-clock-current-task))
 
-(display-time)
+(display-time-mode)
+(shell-command "mkfifo /tmp/clocking")
+;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
+  (if (eq nil org-clock-effort)
+	  (setq org-clock-effort "0:00"))
   (with-temp-file "/tmp/clocking"
-    (if (org-clock-is-active)
-        (insert (format "\ue003 %s: %d (%d->%d) min %d cd"
+	(if (org-clock-is-active)
+		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
 						(- (org-clock-get-clocked-time) org-clock-total-time)
-                        org-clock-total-time
-                        (org-clock-get-clocked-time)  ;; all time total
+						org-clock-total-time
+						(org-clock-get-clocked-time)  ;; all time total
 						(- (nth 1 (parse-time-string org-clock-effort))
 						   (- (org-clock-get-clocked-time)
-							  org-clock-total-time))))))) 
+							  org-clock-total-time)))))))
 
 (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
@@ -1377,12 +1408,11 @@ adicionar mais templates e consertar o de imagens
 
 * programming
 ** hooks
-
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-									   (smartparens-mode 1)
 									   (rainbow-delimiters-mode 1))))
 #+END_SRC
+
 ** markdown
 #+begin_src emacs-lisp
 (use-package 
@@ -1394,6 +1424,16 @@ adicionar mais templates e consertar o de imagens
 	 ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 #+end_src
+** wakatime
+#+begin_src emacs-lisp
+(use-package wakatime-mode
+  :init
+  (global-wakatime-mode)
+  :config
+  (progn
+	(load-library "~/.wakatime.el.gpg")
+	(setq wakatime-cli-path "/usr/bin/wakatime"))
+#+end_src
 
 ** magit git
 
@@ -1403,10 +1443,18 @@ adicionar mais templates e consertar o de imagens
 (setq auto-revert-buffer-list-filter
       'magit-auto-revert-repository-buffer-p)
 (remove-hook 'server-switch-hook 'magit-commit-diff)
-
-
+(use-package forge
+  :after magit)
+(setq auth-sources '("~/.authinfo.gpg"))
 
 #+END_SRC
+
+** encription
+#+begin_src emacs-lisp
+(use-package epg
+  :config
+  (epa-file-enable))
+#+end_src
 
 ** PRA FAZER company
 depois preciso ver o company 
@@ -1591,6 +1639,10 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package hindent)
 #+end_src
 
+** dev docs
+#+begin_src emacs-lisp
+(use-package devdocs)
+#+end_src
 ** projectile
 
 #+BEGIN_SRC emacs-lisp
@@ -1633,10 +1685,10 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 ** helm dash
 
 #+BEGIN_SRC emacs-lisp
-(use-package helm-dash
-  :config
-   (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
-   (setq helm-dash-browser-func 'browse-url))
+;; (use-package helm-dash
+;;   :config
+;;    (setq helm-dash-common-docsets '("Python_3" "Standard ML"))
+;;    (setq helm-dash-browser-func 'browse-url))
 #+END_SRC
 
 ** rust 
@@ -1686,6 +1738,29 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   ;;                         (lsp))))
 #+end_src
 
+*** elpy
+#+begin_src emacs-lisp
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+#+end_src
+
+*** pyenvmode
+
+#+begin_src emacs-lisp
+(use-package pyenv-mode
+  :config
+  (defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset)))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+#+end_src
+
 ** lisp
 
 #+begin_src emacs-lisp
@@ -1720,6 +1795,11 @@ montar um negócio pra enfiar no capture
   (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
         helm-google-suggest-actions))
 #+END_SRC
+
+** reasonml
+#+begin_src emacs-lisp
+(use-package reason-mode)
+#+end_src
 
 * properties
 #+PROPERTY: header-args    :results silent

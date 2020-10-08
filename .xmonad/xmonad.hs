@@ -11,7 +11,6 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.ManageHook
 
-
 -- keys
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -364,8 +363,8 @@ scratchpads =
 
 myStartupHook = do
   --  spawn "pkill -f xmobarrc2"
-  spawn "xrdb -merge ~/.Xresources &"
   --  spawn "killall stalonetray"
+  spawn "xrdb -merge ~/.Xresources &"
   spawnOnce "stalonetray &"
   spawnOnce "wal -R &"
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
@@ -374,9 +373,8 @@ myStartupHook = do
   spawn "wmname LG3D"
   spawnOnce "flameshot &"
   spawn "setxkbmap -option ctrl:nocaps &"
-  --  spawn "killall xcape &"
-  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175"
--- TODO ver se éisso que está bugando o emacs
+  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175 &"
+-- TODO ver se é isso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"
 
