@@ -50,7 +50,8 @@ xrdb ~/.Xresources
 dunst -config /home/sean/.config/dunst/dunstrc &
 # setxkbmap -option ctrl:nocaps
 # xcape -e 'Control_L=Escape' -t 175
-xrandr --output LVDS1 --auto --output VGA1 --auto --left-of LVDS1
+# xrandr --output LVDS1 --auto --output VGA1 --auto --left-of LVDS1
+xrandr --output VGA1 --mode 1920x1080 --output LVDS1 --mode 1366x768 --right-of VGA1
 # redshift -l -23:-47 &
 # compton &
 exec /home/sean/.xmonad/xmonad-x86_64-linux

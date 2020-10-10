@@ -66,7 +66,7 @@ static char *gnus-pointer[] = {
  '(org-agenda-files
    '("/ubuntu/home/sean/20200723120050-projects.org" "/ubuntu/home/sean/20200723114804-emacs.org" "/ubuntu/home/sean/20200724100553-reading_assistant_emacs.org" "/ubuntu/home/sean/20200724101050-philosophy.org" "/ubuntu/home/sean/Ancient Philosophy Volume 1 - Anthony Kenny.org" "/ubuntu/home/sean/Judith S. Beck Phd - Cognitive Behavior Therapy_ Basics and Beyond, Second Edition  -The Guilford Press (2011).org" "/ubuntu/home/sean/German Quickly_ A Grammar for Reading Germ - April Wilson.org" "/ubuntu/home/sean/20200724100440-meu_guia.org" "/ubuntu/home/sean/posts.org" "/ubuntu/home/sean/20200724095938-math.org" "/ubuntu/home/sean/computer.org" "/ubuntu/home/sean/20200804231437-ciclo.org" "/ubuntu/home/sean/Voyage of Discovery, 4th ed_ - William F. Lawhead.org" "/ubuntu/home/sean/20200724115032-vestibular.org" "/ubuntu/home/sean/20200724201749-books.org" "~/.emacs.d/config.org"))
  '(package-selected-packages
-   '(forge wakatime-mode wakatime devdocs devdocs-lookup reason-mode elpy pyenv-mode exwm realgud yaml-mode css-mode rustic rust-mode rainbow-mode ob-restclient restclient yasnippet-snippets which-key web-mode use-package undo-tree try tree-mode smartparens skewer-mode rainbow-delimiters prettier-js polymode pdfgrep pdf-view-restore ox-reveal ox-jekyll-md ox-epub org-roam-bibtex org-ref org-pretty-tags org-pomodoro org-plus-contrib org-noter org-journal org-download ob-sml nov multi-term memoize magit lsp-ui lsp-haskell lsp-clangd linum-relative leetcode keycast json-mode html-to-markdown howdoyou helm-swoop helm-org-rifle helm-lsp helm-c-yasnippet haskell-snippets god-mode gif-screencast frames-only-mode flycheck-pycheckers flycheck-plantuml flycheck-package flycheck-irony flycheck-haskell flycheck-demjsonlint flycheck-cask emmet-mode django-mode deft deferred dap-mode company-quickhelp company-org-roam company-math company-irony auto-yasnippet auto-org-md auto-complete auto-compile anki-editor))
+   '(tuareg tuareg-mode merlin-eldoc merlin ranger company-c-headers helm-gtags gg-tags forge wakatime-mode wakatime devdocs devdocs-lookup reason-mode elpy pyenv-mode exwm realgud yaml-mode css-mode rustic rust-mode rainbow-mode ob-restclient restclient yasnippet-snippets which-key web-mode use-package undo-tree try tree-mode smartparens skewer-mode rainbow-delimiters prettier-js polymode pdfgrep pdf-view-restore ox-reveal ox-jekyll-md ox-epub org-roam-bibtex org-ref org-pretty-tags org-pomodoro org-plus-contrib org-noter org-journal org-download ob-sml nov multi-term memoize magit lsp-ui lsp-haskell lsp-clangd linum-relative leetcode keycast json-mode html-to-markdown howdoyou helm-swoop helm-org-rifle helm-lsp helm-c-yasnippet haskell-snippets god-mode gif-screencast frames-only-mode flycheck-pycheckers flycheck-plantuml flycheck-package flycheck-irony flycheck-haskell flycheck-demjsonlint flycheck-cask emmet-mode django-mode deft deferred dap-mode company-quickhelp company-org-roam company-math company-irony auto-yasnippet auto-org-md auto-complete auto-compile anki-editor))
  '(pdf-view-midnight-colors (cons "#FAFFF6" "#172030"))
  '(pos-tip-background-color "#ffffffffffff")
  '(pos-tip-foreground-color "#78909C")
@@ -101,9 +101,9 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-scrollbar-bg ((t (:background "#3ca724641aaf"))))
- '(company-scrollbar-fg ((t (:background "#2ae019b912dd"))))
- '(company-tooltip ((t (:inherit default :background "#190f0b"))))
+ '(company-scrollbar-bg ((t (:background "#31d4356343a0"))))
+ '(company-scrollbar-fg ((t (:background "#26f829c034e3"))))
+ '(company-tooltip ((t (:inherit default :background "#1c1e26"))))
  '(company-tooltip-common ((t (:inherit font-lock-constant-face))))
  '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(emmet-preview-input ((t (:inherit lazy-highlight))))

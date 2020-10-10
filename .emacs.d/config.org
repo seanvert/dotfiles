@@ -4,9 +4,11 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+(setq epa-pinentry-mode 'loopback)
+(load-library "~/.ekeys.el.gpg")
+
 (require 'use-package)
 (unless (package-installed-p 'use-package)
-;;  (package-refresh-contents)
   (package-install 'use-package))
 
 (setq use-package-verbose t)
@@ -426,6 +428,10 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 #+end_src
 
+** ranger
+#+begin_src emacs-lisp
+(use-package ranger)
+#+end_src
 
 ** emacs application framework
 #+begin_src emacs-lisp
@@ -499,12 +505,21 @@ visualizar cores no buffer
 #+END_SRC
 
 
-** smart parens
-
+** PRA FAZER smart parens
+redefinir alguns local pairs {}
+fazer os do django e do ejs também
 #+BEGIN_SRC emacs-lisp
+(defun my-create-newline-and-enter-sexp (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
   :config
+  (sp-local-pair '(rustic-mode c-mode js2-mode c++-mode) "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair '(emacs-lisp-mode clojure-mode) "'" nil :actions nil)
   (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
   (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
   (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -861,26 +876,32 @@ ver como que mexe nisso e montar um notes e fazer um post
 arrumei o arquivo das senhas, mas ainda n é oq eu quero.
 #+begin_src emacs-lisp
 (setq erc-autojoin-channels-alist '(("freenode.net"
-									 "#emacs"
-									 "#linux"
-									 "#archlinux"
-									 "#ubuntu"
-									 "#xmonad"
-									 "#haskell"
-									 "#rust"
-									 "#clojure"
-									 "#python"
-									 "#calibre"
+                                                                         "#emacs"
+                                                                         "#linux"
+                                                                         "#archlinux"
+                                                                         "#ubuntu"
+                                                                         "#xmonad"
+                                                                         "#haskell"
+                                                                         "#rust"
+                                                                         "#clojure"
+                                                                         "#python"
+                                                                         "#calibre"
+                                                                         )
+                                                                        ;; não está funcionando
+                                                                        ("-"
+                                                                         "#trestranqueira"
+                                                                         )))
 
- 									;; não está funcionando
- 									("-"
- 									 "#trestranqueira"
- 									 )))
 
-(load-library "~/.irckeys.el.gpg")
-(erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
-(erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
-	 :password twitch-key)
+(defun erc-join-all ()
+  (interactive)
+  (async-start
+   (unless (boundp 'fnodep)
+	 (load-library "~/.ekeys.el.gpg"))
+   (progn
+	 (erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
+	 (erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
+              :password twitch-key))))
 
 #+end_src
 
@@ -986,7 +1007,6 @@ ver esse negócio e dividir em partes
 
 #+begin_src emacs-lisp
 (use-package helm-swoop)
-()
 (use-package helm-c-yasnippet)
 (use-package helm-org-rifle)
 #+end_src
@@ -1081,43 +1101,44 @@ juntar com as outras keybinds
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
 
-
 * Org mode
 ** PRA FAZER Módulos adicionais
 separar isso daqui em vários blocos
 
 #+BEGIN_SRC emacs-lisp
-(setq org-enable-org-journal-support t)
-(add-to-list 'org-modules 'org-tempo t)
-;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
-(require 'org-habit)
-(require 'org-tempo)
-;; TODO este pedaço não está funcionando
-(setq org-startup-folded 'content) ;; default t)
-(use-package org-journal
-  :bind
-  ("C-c n j" . org-journal-new-entry))
-
-(use-package org-ref
+  (setq org-enable-org-journal-support t)
+  (add-to-list 'org-modules 'org-tempo t)
+  ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+  (require 'org-habit)
+  (require 'org-tempo)
+  ;; TODO este pedaço não está funcionando
+  (setq org-startup-folded 'content) ;; default t)
+  (use-package org-journal
+    :bind
+    ("C-c n j" . org-journal-new-entry)
     :config
-    (setq
-         org-ref-completion-library 'org-ref-helm-insert-cite
-         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
-         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
-         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-         org-ref-notes-directory "/ubuntu/home/sean/"
-         org-ref-notes-function 'orb-edit-notes))
+    (org-journal-dir "~/Documentos/journal/")) 
 
-(use-package org-download
-  :custom
-  (org-download-screenshot-method "gnome-screenshot")
-  (org-download-image-dir "./assets/images"))
-(use-package html-to-markdown)
+  (use-package org-ref
+      :config
+      (setq
+           org-ref-completion-library 'org-ref-helm-insert-cite
+           org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+           org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
+           org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
+           org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+           org-ref-notes-directory "/ubuntu/home/sean/"
+           org-ref-notes-function 'orb-edit-notes))
 
-(use-package auto-org-md)
-(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
-(setq plantuml-default-exec-mode 'jar)
+  (use-package org-download
+    :custom
+    (org-download-screenshot-method "gnome-screenshot")
+    (org-download-image-dir "./assets/images"))
+  (use-package html-to-markdown)
+
+  (use-package auto-org-md)
+  (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar)
 #+END_SRC
 
 ** PRA FAZER org-noter
@@ -1209,7 +1230,7 @@ arquivos na agenda manualmente
 #+END_SRC
 
 ** org pomodoro
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC 
 (use-package org-pomodoro)
 ;; duração
 (setq org-pomodoro-length 50)
@@ -1227,20 +1248,28 @@ arquivos na agenda manualmente
 (setq org-pomodoro-short-break-sound-args "-volume 0.4")
 #+END_SRC
 
-** PRA FAZER [#C] org clock 
+** PRA FAZER [#C] org clock
+:PROPERTIES:
+:Effort:   0:30
+:END:
+:LOGBOOK:
+CLOCK: [2020-10-09 sex 02:53]
+:END:
 #+BEGIN_SRC emacs-lisp
 (defun speak-current-task ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
 
 (display-time-mode)
-(shell-command "mkfifo /tmp/clocking")
+(if (not (file-exists-p "/tmp/clocking"))
+    (shell-command "mkfifo /tmp/clocking"))
+
 ;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
-  (if (eq nil org-clock-effort)
-	  (setq org-clock-effort "0:00"))
-  (with-temp-file "/tmp/clocking"
-	(if (org-clock-is-active)
+  (unless (boundp 'org-clock-effort)
+	(setq org-clock-effort "0:00"))
+  (if (org-clock-is-active)
+      (with-temp-file "/tmp/clocking"
 		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
 						(- (org-clock-get-clocked-time) org-clock-total-time)
@@ -1410,8 +1439,47 @@ adicionar mais templates e consertar o de imagens
 ** hooks
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-									   (rainbow-delimiters-mode 1))))
+									   (setq show-trailing-whitespace 1)
+									   (rainbow-delimiters-mode 1)
+									   (whitespace-newline-mode 1))))
 #+END_SRC
+** ggtags
+#+begin_src emacs-lisp
+(setq helm-gtags-prefix-key "\C-cg")
+
+(use-package helm-gtags
+  :init
+  (progn
+    (setq helm-gtags-ignore-case t
+          helm-gtags-auto-update t
+          helm-gtags-use-input-at-cursor t
+          helm-gtags-pulse-at-cursor t
+          helm-gtags-prefix-key "\C-cg"
+          helm-gtags-suggested-key-mapping t)
+
+    ;; Enable helm-gtags-mode in Dired so you can jump to any tag
+    ;; when navigate project tree with Dired
+    (add-hook 'dired-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in Eshell for the same reason as above
+    (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in languages that GNU Global supports
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (add-hook 'c++-mode-hook 'helm-gtags-mode)
+    (add-hook 'java-mode-hook 'helm-gtags-mode)
+    (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+    ;; key bindings
+    (with-eval-after-load 'helm-gtags
+      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+      (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
+
+#+end_src
 
 ** markdown
 #+begin_src emacs-lisp
@@ -1431,29 +1499,28 @@ adicionar mais templates e consertar o de imagens
   (global-wakatime-mode)
   :config
   (progn
-	(load-library "~/.wakatime.el.gpg")
-	(setq wakatime-cli-path "/usr/bin/wakatime"))
+	(load-library "~/.ekeys.el.gpg")
+	(setq wakatime-cli-path "/usr/bin/wakatime")))
 #+end_src
 
 ** magit git
 
 #+BEGIN_SRC emacs-lisp
-(use-package magit)
-(setq magit-refresh-status-buffer nil)
-(setq auto-revert-buffer-list-filter
-      'magit-auto-revert-repository-buffer-p)
-(remove-hook 'server-switch-hook 'magit-commit-diff)
-(use-package forge
-  :after magit)
-(setq auth-sources '("~/.authinfo.gpg"))
+    (use-package magit)
+    (setq magit-refresh-status-buffer nil)
+    (setq auto-revert-buffer-list-filter
+          'magit-auto-revert-repository-buffer-p)
+    (remove-hook 'server-switch-hook 'magit-commit-diff)
+    (use-package forge
+      :after magit
+      :config
+      (setq auth-sources '("~/.authinfo.gpg")))
 
 #+END_SRC
 
-** encription
+** encryption
 #+begin_src emacs-lisp
-(use-package epg
-  :config
-  (epa-file-enable))
+(epa-file-enable)
 #+end_src
 
 ** PRA FAZER company
@@ -1492,13 +1559,13 @@ depois preciso ver o company
 
 *** company colors
 #+begin_src emacs-lisp
-;; (let ((bg (face-attribute 'default :background)))
-;;     (custom-set-faces
-;;      `(company-tooltip ((t (:inherit default :background ,bg))))
-;;      `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-;;      `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-;;      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-;;      `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+(let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,bg))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 #+end_src
 
 *** company backends
@@ -1637,6 +1704,24 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (setq haskell-process-type 'stack-ghci)
 (use-package company-ghci)
 (use-package hindent)
+#+end_src
+
+** c
+#+begin_src emacs-lisp
+(use-package company-c-headers
+  :config
+  (add-to-list 'company-backends 'company-c-headers)
+#+end_src
+
+*** GDB
+#+begin_src emacs-lisp
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t
+ )
 #+end_src
 
 ** dev docs
@@ -1796,9 +1881,15 @@ montar um negócio pra enfiar no capture
         helm-google-suggest-actions))
 #+END_SRC
 
-** reasonml
+** reasonml/ocaml
 #+begin_src emacs-lisp
 (use-package reason-mode)
+(load-library "~/.emacs.d/opam-user-setup.elc")
+(use-package merlin)
+(use-package merlin-eldoc)
+(add-to-list 'load-path "/home/sean/.opam/default/share/emacs/site-lisp")
+(require 'ocp-indent)
+(use-package tuareg)
 #+end_src
 
 * properties

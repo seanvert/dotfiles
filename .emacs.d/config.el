@@ -1,9 +1,11 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+(setq epa-pinentry-mode 'loopback)
+(load-library "~/.ekeys.el.gpg")
+
 (require 'use-package)
 (unless (package-installed-p 'use-package)
-;;  (package-refresh-contents)
   (package-install 'use-package))
 
 (setq use-package-verbose t)
@@ -340,6 +342,8 @@
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
+(use-package ranger)
+
 (use-package eaf
   :load-path "/usr/share/emacs/site-lisp/eaf" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
   :custom
@@ -660,26 +664,32 @@
 (setq message-kill-buffer-on-exit t)
 
 (setq erc-autojoin-channels-alist '(("freenode.net"
-									 "#emacs"
-									 "#linux"
-									 "#archlinux"
-									 "#ubuntu"
-									 "#xmonad"
-									 "#haskell"
-									 "#rust"
-									 "#clojure"
-									 "#python"
-									 "#calibre"
+                                                                         "#emacs"
+                                                                         "#linux"
+                                                                         "#archlinux"
+                                                                         "#ubuntu"
+                                                                         "#xmonad"
+                                                                         "#haskell"
+                                                                         "#rust"
+                                                                         "#clojure"
+                                                                         "#python"
+                                                                         "#calibre"
+                                                                         )
+                                                                        ;; não está funcionando
+                                                                        ("-"
+                                                                         "#trestranqueira"
+                                                                         )))
 
- 									;; não está funcionando
- 									("-"
- 									 "#trestranqueira"
- 									 )))
 
-(load-library "~/.irckeys.el.gpg")
-(erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
-(erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
-	 :password twitch-key)
+(defun erc-join-all ()
+  (interactive)
+  (async-start
+   (unless (boundp 'fnodep)
+	 (load-library "~/.ekeys.el.gpg"))
+   (progn
+	 (erc-tls :server "irc.freenode.net" :port 6697 :nick "seanvert" :password fnodep)
+	 (erc-tls :server "irc.chat.twitch.tv" :port 6697 :nick "trestranqueira"
+              :password twitch-key))))
 
 (use-package frames-only-mode)
 (frames-only-mode 1)
@@ -755,7 +765,6 @@
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 
 (use-package helm-swoop)
-()
 (use-package helm-c-yasnippet)
 (use-package helm-org-rifle)
 
@@ -800,7 +809,9 @@
 (setq org-startup-folded 'content) ;; default t)
 (use-package org-journal
   :bind
-  ("C-c n j" . org-journal-new-entry))
+  ("C-c n j" . org-journal-new-entry)
+  :config
+  (org-journal-dir "~/Documentos/journal/")) 
 
 (use-package org-ref
     :config
@@ -886,34 +897,20 @@
       org-fontify-quote-and-verse-blocks t
       org-special-ctrl-a/e t)
 
-(use-package org-pomodoro)
-;; duração
-(setq org-pomodoro-length 50)
-;; duração dos intervalos curtos
-(setq org-pomodoro-short-break-length 10)
-;;duração dos intervalos longos
-(setq org-pomodoro-long-break-length 20)
-;; frequência dos intervalos longos
-(setq org-pomodoro-long-break-frequency 3)
-
-(setq org-pomodoro-audio-player "mplayer")
-
-(setq org-pomodoro-finished-sound-args "-volume 0.4")
-(setq org-pomodoro-long-break-sound-args "-volume 0.4")
-(setq org-pomodoro-short-break-sound-args "-volume 0.4")
-
 (defun speak-current-task ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
 
 (display-time-mode)
-(shell-command "mkfifo /tmp/clocking")
+(if (not (file-exists-p "/tmp/clocking"))
+    (shell-command "mkfifo /tmp/clocking"))
+
 ;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
-  (if (eq nil org-clock-effort)
-	  (setq org-clock-effort "0:00"))
-  (with-temp-file "/tmp/clocking"
-	(if (org-clock-is-active)
+  (unless (boundp 'org-clock-effort)
+	(setq org-clock-effort "0:00"))
+  (if (org-clock-is-active)
+      (with-temp-file "/tmp/clocking"
 		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
 						org-clock-heading
 						(- (org-clock-get-clocked-time) org-clock-total-time)
@@ -1026,7 +1023,43 @@
 (use-package ox-reveal)
 
 (add-hook 'prog-mode-hook (lambda () (progn (linum-relative-mode 1)
-									   (rainbow-delimiters-mode 1))))
+									   (setq show-trailing-whitespace 1)
+									   (rainbow-delimiters-mode 1)
+									   (whitespace-newline-mode 1))))
+
+(setq helm-gtags-prefix-key "\C-cg")
+
+(use-package helm-gtags
+  :init
+  (progn
+    (setq helm-gtags-ignore-case t
+          helm-gtags-auto-update t
+          helm-gtags-use-input-at-cursor t
+          helm-gtags-pulse-at-cursor t
+          helm-gtags-prefix-key "\C-cg"
+          helm-gtags-suggested-key-mapping t)
+
+    ;; Enable helm-gtags-mode in Dired so you can jump to any tag
+    ;; when navigate project tree with Dired
+    (add-hook 'dired-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in Eshell for the same reason as above
+    (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in languages that GNU Global supports
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (add-hook 'c++-mode-hook 'helm-gtags-mode)
+    (add-hook 'java-mode-hook 'helm-gtags-mode)
+    (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+    ;; key bindings
+    (with-eval-after-load 'helm-gtags
+      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+      (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
 
 (use-package 
   markdown-mode 
@@ -1042,8 +1075,8 @@
   (global-wakatime-mode)
   :config
   (progn
-	(load-library "~/.wakatime.el.gpg")
-	(setq wakatime-cli-path "/usr/bin/wakatime"))
+	(load-library "~/.ekeys.el.gpg")
+	(setq wakatime-cli-path "/usr/bin/wakatime")))
 
 (use-package magit)
 (setq magit-refresh-status-buffer nil)
@@ -1051,12 +1084,11 @@
       'magit-auto-revert-repository-buffer-p)
 (remove-hook 'server-switch-hook 'magit-commit-diff)
 (use-package forge
-  :after magit)
-(setq auth-sources '("~/.authinfo.gpg"))
-
-(use-package epg
+  :after magit
   :config
-  (epa-file-enable))
+  (setq auth-sources '("~/.authinfo.gpg")))
+
+(epa-file-enable)
 
 (use-package company
   :ensure t
@@ -1086,13 +1118,13 @@
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 
-;; (let ((bg (face-attribute 'default :background)))
-;;     (custom-set-faces
-;;      `(company-tooltip ((t (:inherit default :background ,bg))))
-;;      `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-;;      `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-;;      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-;;      `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+(let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,bg))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
 (use-package company-org-roam
   :requires company
@@ -1194,6 +1226,18 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package company-ghci)
 (use-package hindent)
 
+(use-package company-c-headers
+  :config
+  (add-to-list 'company-backends 'company-c-headers)
+
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t
+ )
+
 (use-package devdocs)
 
 (use-package projectile
@@ -1294,3 +1338,9 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
         helm-google-suggest-actions))
 
 (use-package reason-mode)
+(load-library "~/.emacs.d/opam-user-setup.elc")
+(use-package merlin)
+(use-package merlin-eldoc)
+(add-to-list 'load-path "/home/sean/.opam/default/share/emacs/site-lisp")
+(require 'ocp-indent)
+(use-package tuareg)

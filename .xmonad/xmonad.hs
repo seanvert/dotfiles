@@ -362,18 +362,18 @@ scratchpads =
   emacs = "emacsclient --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
 myStartupHook = do
-  --  spawn "pkill -f xmobarrc2"
+  spawn "pkill -f xmobarrc2"
   --  spawn "killall stalonetray"
   spawn "xrdb -merge ~/.Xresources &"
   spawnOnce "stalonetray &"
   spawnOnce "wal -R &"
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
-  spawnOnce "xmobar /home/sean/.xmonad/xmobarrc2 &"
+  spawn "xmobar /home/sean/.xmonad/xmobarrc2 &"
   spawn "wmname LG3D"
   spawnOnce "flameshot &"
   spawn "setxkbmap -option ctrl:nocaps &"
-  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175 &"
+  spawn "killall xcape &; xcape -e 'Control_L=Escape' -t 175 &"
 -- TODO ver se é isso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"
