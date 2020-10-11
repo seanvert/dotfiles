@@ -362,18 +362,16 @@ scratchpads =
   emacs = "emacsclient --no-wait --create-frame --frame-parameters='(quote (name . \"scratchemacs-frame\"))' --display $DISPLAY"
 
 myStartupHook = do
-  spawn "pkill -f xmobarrc2"
-  --  spawn "killall stalonetray"
   spawn "xrdb -merge ~/.Xresources &"
   spawnOnce "stalonetray &"
   spawnOnce "wal -R &"
   -- TODO enfiar um script pra arrumar a parte do cabeçalho
   --  spawn "cp ~/.cache/wal/colors.hs ~/.xmonad/lib/XMonad/Colors/Colors.hs"
-  spawn "xmobar /home/sean/.xmonad/xmobarrc2 &"
+  spawnOnce "xmobar /home/sean/.xmonad/xmobarrc2"
   spawn "wmname LG3D"
   spawnOnce "flameshot &"
   spawn "setxkbmap -option ctrl:nocaps &"
-  spawn "killall xcape &; xcape -e 'Control_L=Escape' -t 175 &"
+  spawn "xcape -e 'Control_L=Escape' -t 175 &"
 -- TODO ver se é isso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"
@@ -428,10 +426,11 @@ myLayout =
         (TwoPane 0.03 0.5)
         (tabbed shrinkText myTabConfig)
         (tabbed shrinkText myTabConfig)
-        (Role "browser")))
+        (Role "browser"))) |||
+  multiple
       -- default tiling algorithm partitions the screen into two panes
   where
-    -- multiple = combineTwo (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig)
+    multiple = combineTwo (TwoPane 0.03 0.5) (tabbed shrinkText myTabConfig) (tabbed shrinkText myTabConfig)
     tabs = tabbed shrinkText myTabConfig
     noBordersLayout = noBorders Full
     tiled = spacing 40 $ Tall nmaster delta ratio
@@ -440,20 +439,15 @@ myLayout =
       -- Default proportion of screen occupied by master pane
     ratio = 2 / 3 - 5 / 100
       -- Percent of screen to increment by when resizing panes
-    delta = 5 / 100 -- configurações
-    -- TODO não está funcionando
+    delta = 5 / 100
     myTabConfig =
       def
-      -- inactiveBorderColor = color15
-      --                 , activeTextColor = color0
-      --                 , inactiveTextColor = color0
-      --                 , activeBorderColor = color3
         { fontName = "xft:DroidSansMono Nerd Font:size=10"
-        , activeColor = color14 -- "#999999"
-        , inactiveColor = color10 -- "#666666"
+        , activeColor = color14 
+        , inactiveColor = color10
         , urgentColor = "#FFFF00"
-        , activeBorderColor = color15 --"#FFFFFF"
-        , inactiveBorderColor = color8 -- "#BBBBBB"
+        , activeBorderColor = color15
+        , inactiveBorderColor = color8
         , urgentBorderColor = "##00FF00"
         , activeBorderWidth = 1
         , inactiveBorderWidth = 1

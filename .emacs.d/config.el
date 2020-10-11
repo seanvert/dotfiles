@@ -399,9 +399,18 @@
 (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
 ;;(add-hook 'nov-mode-hook 'visual-fill-column-mode)
 
+(defun my-create-newline-and-enter-sexp (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
 (use-package smartparens
   :hook (prog-mode . smartparens-mode)
   :config
+  (sp-local-pair '(rustic-mode c-mode js2-mode c++-mode) "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair '(emacs-lisp-mode clojure-mode rustic-mode) "'" nil :actions nil)
+  (sp-local-pair 'emacs-lisp-mode "`" "'")
   (global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
   (global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
   (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -1202,10 +1211,10 @@
 Taken from https://github.com/syl20bnr/spacemacs/pull/179."
       (if (and (listp backends) (memq 'company-yasnippet backends))
 	  backends
-	(append (if (consp backends)
-		    backends
-		  (list backends))
-		'(:with company-yasnippet))))
+	  (append (if (consp backends)
+				  backends
+				(list backends))
+			  '(:with company-yasnippet))))
     ;; add yasnippet to all backends
   (setq company-backends
 		(mapcar #'mars/company-backend-with-yas company-backends))
@@ -1229,14 +1238,12 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package company-c-headers
   :config
   (add-to-list 'company-backends 'company-c-headers)
-
-(setq
- ;; use gdb-many-windows by default
- gdb-many-windows t
-
- ;; Non-nil means display source file containing the main routine at startup
- gdb-show-main t
- )
+  (setq
+   ;; use gdb-many-windows by default
+   gdb-many-windows t
+   ;; Non-nil means display source file containing the main routine at startup
+   gdb-show-main t
+   ))
 
 (use-package devdocs)
 
@@ -1342,5 +1349,6 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package merlin)
 (use-package merlin-eldoc)
 (add-to-list 'load-path "/home/sean/.opam/default/share/emacs/site-lisp")
-(require 'ocp-indent)
 (use-package tuareg)
+
+(use-package php-mode)
