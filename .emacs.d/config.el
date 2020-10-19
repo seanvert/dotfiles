@@ -20,6 +20,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq read-process-output-max (* 1024 1024))  ;; lsp-mode's performance suggest
 
+(require 'server)
 (add-hook 'after-init-hook (lambda () (if (and (fboundp 'server-running-p)
  										  (not (server-running-p)))
  									 (server-start))))
@@ -68,8 +69,11 @@
 
 (set-frame-font "Droid Sans Mono for Powerline Plus Nerd File Types Mono" nil t)
 
-(use-package olivetti)
+(use-package olivetti
+  :defer t
+  :commands olivetti)
 
+(setq max-specpdl-size 3000)
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
@@ -342,9 +346,13 @@
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 
+
+
 (use-package ranger)
 
 (use-package eaf
+  :commands eaf-mode
+  :defer t
   :load-path "/usr/share/emacs/site-lisp/eaf" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
   :custom
   (eaf-find-alternate-file-in-dired t)
@@ -360,7 +368,10 @@
   (css-mode . rainbow-mode)
   (web-mode . rainbow-mode))
 
-(use-package nov)
+(use-package nov
+  :commands nov-mode
+  :defer t
+  :config
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (defun my-nov-font-setup ()
@@ -396,7 +407,7 @@
               'my-nov-window-configuration-change-hook
               nil t)))
 
-(add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
+(add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook))
 ;;(add-hook 'nov-mode-hook 'visual-fill-column-mode)
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
@@ -405,7 +416,10 @@
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
+
 (use-package smartparens
+  :commands smartparens-mode
+  :defer t
   :hook (prog-mode . smartparens-mode)
   :config
   (sp-local-pair '(rustic-mode c-mode js2-mode c++-mode) "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
@@ -418,6 +432,7 @@
 
 (use-package deft
   :commands deft
+  :defer t
   :init
   (setq deft-default-extension "org"
         ;; de-couples filename and note title:
@@ -443,6 +458,7 @@
 
 (use-package org-roam
   :hook (org-load . org-roam-mode)
+  :defer t
   :commands (org-roam-buffer-toggle-display
              org-roam-find-file
              org-roam-graph
@@ -519,6 +535,8 @@
 ;;   :after org-protocol)
 
 (use-package org-roam-bibtex
+  :defer t
+  :commands org-roam-bibtex-mode
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
@@ -558,6 +576,8 @@
 
 (use-package anki-editor
   :after org
+  :defer t
+  :commands anki-editor-mode
   :bind (:map org-mode-map
               ("<f12>" . anki-editor-cloze-region-auto-incr)
               ("<f11>" . anki-editor-cloze-region-dont-incr)
@@ -673,21 +693,21 @@
 (setq message-kill-buffer-on-exit t)
 
 (setq erc-autojoin-channels-alist '(("freenode.net"
-                                                                         "#emacs"
-                                                                         "#linux"
-                                                                         "#archlinux"
-                                                                         "#ubuntu"
-                                                                         "#xmonad"
-                                                                         "#haskell"
-                                                                         "#rust"
-                                                                         "#clojure"
-                                                                         "#python"
-                                                                         "#calibre"
-                                                                         )
-                                                                        ;; não está funcionando
-                                                                        ("-"
-                                                                         "#trestranqueira"
-                                                                         )))
+                                     "#emacs"
+                                     "#linux"
+                                     "#archlinux"
+                                     "#ubuntu"
+                                     "#xmonad"
+                                     "#haskell"
+                                     "#rust"
+                                     "#clojure"
+                                     "#python"
+                                     "#calibre"
+                                     )
+                                    ;; não está funcionando
+                                    ("-"
+                                     "#trestranqueira"
+                                     )))
 
 
 (defun erc-join-all ()
@@ -823,6 +843,8 @@
   (org-journal-dir "~/Documentos/journal/")) 
 
 (use-package org-ref
+    :commands org-ref
+    :defer t
     :config
     (setq
          org-ref-completion-library 'org-ref-helm-insert-cite
@@ -837,6 +859,7 @@
   :custom
   (org-download-screenshot-method "gnome-screenshot")
   (org-download-image-dir "./assets/images"))
+(use-package org-attach-screenshot)
 (use-package html-to-markdown)
 
 (use-package auto-org-md)
@@ -896,6 +919,10 @@
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 
+(use-package org-superstar
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+  (setq inhibit-compacting-font-caches t))
 (setq org-startup-indented t
 	  org-ellipsis "";; " ⤵" ;; folding symbol
       org-pretty-entities t
@@ -911,25 +938,27 @@
   (espeak org-clock-current-task))
 
 (display-time-mode)
-(if (not (file-exists-p "/tmp/clocking"))
-    (shell-command "mkfifo /tmp/clocking"))
+(defun org-clocking-info-string ()
+   (format "\ue003 %s: %d (%d->%d) min %d cd"
+		  org-clock-heading
+		  (- (org-clock-get-clocked-time) org-clock-total-time)
+		  org-clock-total-time
+		  (org-clock-get-clocked-time)  ;; all time total
+		  (- (nth 1 (parse-time-string (if (eq org-clock-effort nil)
+										   "0:15" ;; default effort for a task
+										 org-clock-effort))) 
+			 (- (org-clock-get-clocked-time)
+				org-clock-total-time))))
 
-;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
-  (unless (boundp 'org-clock-effort)
-	(setq org-clock-effort "0:00"))
-  (if (org-clock-is-active)
-      (with-temp-file "/tmp/clocking"
-		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
-						org-clock-heading
-						(- (org-clock-get-clocked-time) org-clock-total-time)
-						org-clock-total-time
-						(org-clock-get-clocked-time)  ;; all time total
-						(- (nth 1 (parse-time-string org-clock-effort))
-						   (- (org-clock-get-clocked-time)
-							  org-clock-total-time)))))))
+  (async-start (lambda () (if (not (file-exists-p "/tmp/clocking"))
+							  (shell-command "mkfifo /tmp/clocking")
+							nil))
+			   (lambda (ok) (if (org-clock-is-active)
+						   (call-process-shell-command
+							(format "echo \'%s\' >> /tmp/clocking &" (org-clocking-info-string)))))))
 
-(esf/org-clocking-info-to-file)
+;; (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
@@ -1036,6 +1065,18 @@
 									   (rainbow-delimiters-mode 1)
 									   (whitespace-newline-mode 1))))
 
+(use-package flycheck
+  :ensure t
+  :config
+  ;; Enable/disable Flycheck depending on a mode.
+  (setq flycheck-global-modes
+        '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+              org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode))
+  (setq flycheck-emacs-lisp-load-path 'inherit)
+  ;; Only check while saving and opening files.
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (global-flycheck-mode t))
+
 (setq helm-gtags-prefix-key "\C-cg")
 
 (use-package helm-gtags
@@ -1102,16 +1143,14 @@
 (use-package company
   :ensure t
   :config
-  (add-hook 'prog-mode-hook 'company-mode)
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (setq company-show-numbers t)
+  (setq company-idle-delay 0
+		company-minimum-prefix-length 1
+		company-show-numbers t
+		company-dabbrev-other-buffers t)
+  (add-hook 'after-init-hook 'global-company-mode)
 )
 
-;; global company mode
-(add-hook 'after-init-hook 'global-company-mode)
 
-(setq company-dabbrev-other-buffers t)
 
 (use-package company-math)
 
@@ -1147,7 +1186,13 @@
 
 (setq-default tab-width 4)
 
-(use-package cider)
+(use-package cider
+  :commands cider
+  :defer t)
+(use-package flycheck-clj-kondo
+  :after cider)
+(use-package flycheck-joker
+  :after cider)
 
 (use-package web-mode
   :custom
@@ -1180,6 +1225,8 @@
   )
 
 (use-package emmet-mode
+  :commands emmet-mode
+  :defer t
   :custom
   (emmet-move-cursor-between-quotes t)
   :custom-face
@@ -1196,13 +1243,21 @@
   (web-mode . emmet-mode)
   (css-mode . emmet-mode))
 
-(use-package nodejs-repl)
+(use-package nodejs-repl
+  :commands nodejs-repl
+  :defer t)
 
 (use-package prettier-js
+  :commands prettier-js-mode
+  :defer t
   :hook
   ;;(web-mode . prettier-js-mode) ;; breaks django templates
   (css-mode . prettier-js-mode)
   (json-mode . prettier-js-mode))
+
+(use-package rjsx-mode
+  :commands rjsx-mode
+  :defer t)
 
 (use-package yasnippet
   :config
@@ -1230,10 +1285,27 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   (setq yas-snippet-dirs '("/home/sean/.emacs.d/snippets"
 						   yasnippet-snippets-dir)))
 
-(use-package haskell-mode)
+(use-package haskell-mode
+  :commands haskell-mode
+  :defer t)
 (setq haskell-process-type 'stack-ghci)
-(use-package company-ghci)
-(use-package hindent)
+(use-package dante
+  :ensure t
+  :defer t
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  ;; OR for flymake support:
+  (add-hook 'haskell-mode-hook 'flymake-mode)
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  )
+(use-package company-ghci
+  :after haskell-mode)
+(use-package hindent
+  :after haskell-mode)
 
 (use-package company-c-headers
   :config
@@ -1250,9 +1322,20 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (use-package projectile
   :pin melpa-stable
   :config
+  (setq projectile-enable-caching nil
+        projectile-create-missing-test-files t
+        projectile-switch-project-action #'projectile-commander
+        projectile-ignored-project-function 'file-remote-p
+		projectile-use-git-grep t)
+		;; Register custom PHP project type
+		;; (projectile-register-project-type 'php '("composer.json")
+		;; 								  :src-dir "src"
+		;; 								  :test "composer test"
+		;; 								  :run "composer serve"
+		;; 								  :test-suffix "Test"
+		;; 								  :test-dir "tests"))
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1))
-(setq projectile-use-git-grep t)
 
 (setq created-property "
   :PROPERTIES:
@@ -1289,10 +1372,27 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 
 (use-package lsp-mode
   ;; :hook (prog-mode . lsp)
+  :commands lsp
   :config
-  (setq lsp-idle-delay 0.500))
+  (setq lsp-idle-delay 0.500
+		lsp-keep-workspace-alive nil
+		lsp-enable-semantic-highlighting t))
 
-;;(use-package lsp-ui)
+(use-package lsp-ui
+  :requires lsp-mode flycheck
+  :config
+  (setq lsp-ui-doc-enable t
+		lsp-ui-doc-use-childframe t
+		lsp-ui-doc-position ‘top
+		lsp-ui-doc-include-signature t
+		lsp-ui-sideline-enable nil
+		lsp-ui-flycheck-enable t
+		lsp-ui-flycheck-list-position ‘right
+		lsp-ui-flycheck-live-reporting t
+		lsp-ui-peek-enable t
+		lsp-ui-peek-list-width 60
+		lsp-ui-peek-peek-height 25
+		lsp-ui-sideline-enable nil))
 
 (use-package dap-mode
   :after lsp-mode
@@ -1309,6 +1409,9 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   ;; :hook (python-mode . (lambda ()
   ;;                         (require 'lsp-pyright)
   ;;                         (lsp))))
+
+(use-package flycheck-mypy)
+(use-package flycheck-pycheckers)
 
 (use-package elpy
   :ensure t
@@ -1338,17 +1441,33 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 
 (use-package sml-mode)
 
-(use-package howdoyou)
+(use-package howdoyou
+  :defer t
+  :commands (howdoyou-query)
+  :config
+  (setq howdoyou-number-of-answers 5))
 
 (with-eval-after-load "helm-net"
   (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
         helm-google-suggest-actions))
 
-(use-package reason-mode)
-(load-library "~/.emacs.d/opam-user-setup.elc")
-(use-package merlin)
-(use-package merlin-eldoc)
 (add-to-list 'load-path "/home/sean/.opam/default/share/emacs/site-lisp")
+(use-package reason-mode
+  :commands reason-mode
+  
+  )
+(load-library "~/.emacs.d/opam-user-setup.elc")
+(use-package merlin
+  :after reason-mode tuareg)
+(use-package merlin-eldoc
+  :after merlin)
+
 (use-package tuareg)
 
-(use-package php-mode)
+(use-package php-mode
+  :defer t
+  :commands php-mode)
+(use-package composer)
+;; (use-package company-php
+;;   :defer
+;;   :after company)

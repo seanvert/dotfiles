@@ -25,8 +25,15 @@
 #+END_SRC
 
 ** PRONTO server mode
+:PROPERTIES:
+:Effort:   0:10
+:END:
+:LOGBOOK:
+CLOCK: [2020-10-17 sáb 05:23]--[2020-10-17 sáb 05:37] =>  0:14
+:END:
 aparentemente está bom agora
 #+BEGIN_SRC emacs-lisp
+(require 'server)
 (add-hook 'after-init-hook (lambda () (if (and (fboundp 'server-running-p)
  										  (not (server-running-p)))
  									 (server-start))))
@@ -110,7 +117,9 @@ algum problema nele
 
 ** olliveti
 #+begin_src emacs-lisp
-(use-package olivetti)
+(use-package olivetti
+  :defer t
+  :commands olivetti)
 #+end_src
 
 ** powerline
@@ -118,6 +127,7 @@ algum problema nele
 *** doom line
 
 #+begin_src emacs-lisp
+(setq max-specpdl-size 3000)
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
@@ -327,7 +337,9 @@ linha que coloca o relógio na modeline preciso confirmar depois
 
 * configurações
   
-** autosave
+** DONE autosave
+   CLOSED: [2020-10-18 dom 17:16]
+   já passei para o spacemacs
 coloca os autosaves numa pasta só ao invés de largar junto com os arquivos
 #+begin_src emacs-lisp
 (defvar user-temporary-file-directory "~/.emacs-autosaves/")
@@ -427,6 +439,10 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 ;; TODO uma outra função que estima o tempo final
 ;; TODO uma função que pega a última página como algo arbitrário para remover índices no final
 #+end_src
+** tramp
+#+begin_src emacs-lisp
+
+#+end_src
 
 ** ranger
 #+begin_src emacs-lisp
@@ -436,6 +452,8 @@ preciso ver isso depois. Talvez pensar melhor na abordagem
 ** emacs application framework
 #+begin_src emacs-lisp
 (use-package eaf
+  :commands eaf-mode
+  :defer t
   :load-path "/usr/share/emacs/site-lisp/eaf" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
   :custom
   (eaf-find-alternate-file-in-dired t)
@@ -464,7 +482,10 @@ visualizar cores no buffer
 ** nov mode (epub)
 
 #+BEGIN_SRC emacs-lisp
-(use-package nov)
+(use-package nov
+  :commands nov-mode
+  :defer t
+  :config
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (defun my-nov-font-setup ()
@@ -500,7 +521,7 @@ visualizar cores no buffer
               'my-nov-window-configuration-change-hook
               nil t)))
 
-(add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
+(add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook))
 ;;(add-hook 'nov-mode-hook 'visual-fill-column-mode)
 #+END_SRC
 
@@ -515,7 +536,10 @@ fazer os do django e do ejs também
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
+
 (use-package smartparens
+  :commands smartparens-mode
+  :defer t
   :hook (prog-mode . smartparens-mode)
   :config
   (sp-local-pair '(rustic-mode c-mode js2-mode c++-mode) "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
@@ -532,6 +556,7 @@ fazer os do django e do ejs também
 #+begin_src emacs-lisp
 (use-package deft
   :commands deft
+  :defer t
   :init
   (setq deft-default-extension "org"
         ;; de-couples filename and note title:
@@ -565,82 +590,83 @@ isso daqui tá uma bagunça e muito grande. preciso organizar e dividir
 em blocos menores
 #+begin_src emacs-lisp
 
-  (use-package org-roam
-    :hook (org-load . org-roam-mode)
-    :commands (org-roam-buffer-toggle-display
-               org-roam-find-file
-               org-roam-graph
-               org-roam-insert
-               org-roam-switch-to-buffer
-               org-roam-dailies-date
-               org-roam-dailies-today
-               org-roam-dailies-tomorrow
-               org-roam-dailies-yesterday)
-    :preface
-    ;; Set this to nil so we can later detect whether the user has set a custom
-    ;; directory for it, and default to `org-directory' if they haven't.
-    ;; (defvar org-roam-directory nil)
-    :init
-    :config
-    (progn (add-to-list 'org-roam-capture-templates
-                 '("w" "webref" plain (function org-roam-capture--get-point)
-                   "%?"
-                   :file-name "web/${slug}"
-                   :head "#+TITLE: ${title}\n#+ROAM_KEY: %x\n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
-                   :unnarrowed t))
-    (add-to-list 'org-roam-capture-templates '("r" "regular" plain (function org-roam-capture--get-point)
-                                               "%?"
-                                               :file-name "${slug}"
-                                               :head "#+TITLE: ${title}\n#+ROAM_KEY: \n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
-                                               :unnarrowed t))
-    (require 'org-roam-protocol)
-    (setq 
-  ;; org-roam-directory (expand-file-name (or org-roam-directory "roam")
-  ;;                                               org-directory)
-          org-roam-verbose nil  ;; https://youtu.be/fn4jIlFwuLU
-  ;; changed this 
-          ;; org-roam-buffer-no-delete-other-windows t ;; make org-roam buffer sticky
-                  org-roam-buffer-window-parameters '((no-delete-other-windows . t))
-          org-roam-completion-system 'default
-                  org-roam-graph-executable "/usr/bin/dot"
-                  org-roam-graph-viewer "/usr/bin/google-chrome-stable"
-                  org-roam-completion-system 'helm
-                  org-roam-index-file "index.org"
+(use-package org-roam
+  :hook (org-load . org-roam-mode)
+  :defer t
+  :commands (org-roam-buffer-toggle-display
+             org-roam-find-file
+             org-roam-graph
+             org-roam-insert
+             org-roam-switch-to-buffer
+             org-roam-dailies-date
+             org-roam-dailies-today
+             org-roam-dailies-tomorrow
+             org-roam-dailies-yesterday)
+  :preface
+  ;; Set this to nil so we can later detect whether the user has set a custom
+  ;; directory for it, and default to `org-directory' if they haven't.
+  ;; (defvar org-roam-directory nil)
+  :init
+  :config
+  (progn (add-to-list 'org-roam-capture-templates
+               '("w" "webref" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "web/${slug}"
+                 :head "#+TITLE: ${title}\n#+ROAM_KEY: %x\n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
+                 :unnarrowed t))
+  (add-to-list 'org-roam-capture-templates '("r" "regular" plain (function org-roam-capture--get-point)
+                                             "%?"
+                                             :file-name "${slug}"
+                                             :head "#+TITLE: ${title}\n#+ROAM_KEY: \n#+ROAM_ALIAS: \n#+ROAM_TAGS: ${tags} \n#+CREATED: %u\n#+LAST_MODIFIED: %U\n- links :: \n\n"
+                                             :unnarrowed t))
+  (require 'org-roam-protocol)
+  (setq 
+;; org-roam-directory (expand-file-name (or org-roam-directory "roam")
+;;                                               org-directory)
+        org-roam-verbose nil  ;; https://youtu.be/fn4jIlFwuLU
+;; changed this 
+        ;; org-roam-buffer-no-delete-other-windows t ;; make org-roam buffer sticky
+                org-roam-buffer-window-parameters '((no-delete-other-windows . t))
+        org-roam-completion-system 'default
+                org-roam-graph-executable "/usr/bin/dot"
+                org-roam-graph-viewer "/usr/bin/google-chrome-stable"
+                org-roam-completion-system 'helm
+                org-roam-index-file "index.org"
 
 
-    ;; Normally, the org-roam buffer doesn't open until you explicitly call
-    ;; `org-roam'. If `+org-roam-open-buffer-on-find-file' is non-nil, the
-    ;; org-roam buffer will be opened for you when you use `org-roam-find-file'
-    ;; (but not `find-file', to limit the scope of this behavior).
-    ;; (add-hook 'find-file-hook
-    ;;   (defun +org-roam-open-buffer-maybe-h ()
-    ;;     (and +org-roam-open-buffer-on-find-file
-    ;;          (memq 'org-roam-buffer--update-maybe post-command-hook)
-    ;;          (not (window-parameter nil 'window-side)) ;; don't proc for popups
-    ;;          (not (eq 'visible (org-roam-buffer--visibility)))
-    ;;          (with-current-buffer (window-buffer)
-    ;;            (org-roam-buffer--get-create)))))
+  ;; Normally, the org-roam buffer doesn't open until you explicitly call
+  ;; `org-roam'. If `+org-roam-open-buffer-on-find-file' is non-nil, the
+  ;; org-roam buffer will be opened for you when you use `org-roam-find-file'
+  ;; (but not `find-file', to limit the scope of this behavior).
+  ;; (add-hook 'find-file-hook
+  ;;   (defun +org-roam-open-buffer-maybe-h ()
+  ;;     (and +org-roam-open-buffer-on-find-file
+  ;;          (memq 'org-roam-buffer--update-maybe post-command-hook)
+  ;;          (not (window-parameter nil 'window-side)) ;; don't proc for popups
+  ;;          (not (eq 'visible (org-roam-buffer--visibility)))
+  ;;          (with-current-buffer (window-buffer)
+  ;;            (org-roam-buffer--get-create)))))
 
-    ;; ;; Hide the 
-    ;; mode line in the org-roam buffer, since it serves no purpose. This
-    ;; makes it easier to distinguish among other org buffers.
-    ;; (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-                  ))
-    :bind (:map org-roam-mode-map
-                            (("C-c n l" . org-roam)
-                             ("C-c n f" . org-roam-find-file)
-                             ("C-c n g" . org-roam-graph)
-                             ("C-c n i" . org-roam-insert)
-                             ("C-c n I" . org-roam-insert-immediate)
-                             ("C-c n d" . deft)))
-    )
+  ;; ;; Hide the 
+  ;; mode line in the org-roam buffer, since it serves no purpose. This
+  ;; makes it easier to distinguish among other org buffers.
+  ;; (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+                ))
+  :bind (:map org-roam-mode-map
+                          (("C-c n l" . org-roam)
+                           ("C-c n f" . org-roam-find-file)
+                           ("C-c n g" . org-roam-graph)
+                           ("C-c n i" . org-roam-insert)
+                           ("C-c n I" . org-roam-insert-immediate)
+                           ("C-c n d" . deft)))
+  )
 
 
-  ;; Since the org module lazy loads org-protocol (waits until an org URL is
-  ;; detected), we can safely chain `org-roam-protocol' to it.
+;; Since the org module lazy loads org-protocol (waits until an org URL is
+;; detected), we can safely chain `org-roam-protocol' to it.
 
-  ;; (use-package org-roam-protocol
-  ;;   :after org-protocol)
+;; (use-package org-roam-protocol
+;;   :after org-protocol)
 
 
 
@@ -648,23 +674,25 @@ em blocos menores
 
 **** org-roam-bibtex
 #+begin_src emacs-lisp
-  (use-package org-roam-bibtex
-    :after org-roam
-    :hook (org-roam-mode . org-roam-bibtex-mode)
-    :config
+(use-package org-roam-bibtex
+  :defer t
+  :commands org-roam-bibtex-mode
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
 
-    (setq orb-preformat-keywords
-     '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+  (setq orb-preformat-keywords
+   '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
 
-    (setq orb-templates
-	  '(("r" "ref" plain (function org-roam-capture--get-point)
-	     ""
-	     :file-name "${slug}"
-	     :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-	     - tags ::
-	     - keywords :: ${keywords}
-	     \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-	     :unnarrowed t))))
+  (setq orb-templates
+	'(("r" "ref" plain (function org-roam-capture--get-point)
+	   ""
+	   :file-name "${slug}"
+	   :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+	   - tags ::
+	   - keywords :: ${keywords}
+	   \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+	   :unnarrowed t))))
 #+end_src
 
 ** relative linum
@@ -674,7 +702,6 @@ em blocos menores
 (column-number-mode 1)
 (setq linum-relative-current-symbol "")
 #+END_SRC
-
 
 ** rainbow delimiters
 
@@ -723,6 +750,8 @@ https://yiufung.net/post/anki-org/
 #+begin_src emacs-lisp
 (use-package anki-editor
   :after org
+  :defer t
+  :commands anki-editor-mode
   :bind (:map org-mode-map
               ("<f12>" . anki-editor-cloze-region-auto-incr)
               ("<f11>" . anki-editor-cloze-region-dont-incr)
@@ -758,8 +787,6 @@ https://yiufung.net/post/anki-org/
   )
 #+end_src
 
-
-
 #+begin_src emacs-lisp
 (setq org-my-anki-file "/ubuntu/home/sean/anki.org")
 
@@ -767,7 +794,6 @@ https://yiufung.net/post/anki-org/
 (setq select-enable-clipboard t
       select-enable-primary t)
 #+end_src
-
 
 ** PRA FAZER screencast gif / keycast
 arrumar o keycast
@@ -856,42 +882,25 @@ ver como que mexe nisso e montar um notes e fazer um post
 (setq message-kill-buffer-on-exit t)
 #+end_src
 
-** PRA FAZER exwm
-#+begin_src
-(use-package exwm)
-(require 'exwm-config)
-(exwm-config-default)
-(require 'exwm-systemtray)
-(exwm-systemtray-enable)
-(require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(1 "VGA1"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output VGA1 --right-of LVDS1 --auto")))
-(exwm-randr-enable)
-
-#+end_src
-
 ** PRA FAZER erc irc
 arrumei o arquivo das senhas, mas ainda n é oq eu quero.
 #+begin_src emacs-lisp
 (setq erc-autojoin-channels-alist '(("freenode.net"
-                                                                         "#emacs"
-                                                                         "#linux"
-                                                                         "#archlinux"
-                                                                         "#ubuntu"
-                                                                         "#xmonad"
-                                                                         "#haskell"
-                                                                         "#rust"
-                                                                         "#clojure"
-                                                                         "#python"
-                                                                         "#calibre"
-                                                                         )
-                                                                        ;; não está funcionando
-                                                                        ("-"
-                                                                         "#trestranqueira"
-                                                                         )))
+                                     "#emacs"
+                                     "#linux"
+                                     "#archlinux"
+                                     "#ubuntu"
+                                     "#xmonad"
+                                     "#haskell"
+                                     "#rust"
+                                     "#clojure"
+                                     "#python"
+                                     "#calibre"
+                                     )
+                                    ;; não está funcionando
+                                    ("-"
+                                     "#trestranqueira"
+                                     )))
 
 
 (defun erc-join-all ()
@@ -905,6 +914,7 @@ arrumei o arquivo das senhas, mas ainda n é oq eu quero.
               :password twitch-key))))
 
 #+end_src
+
 
 * interface
 ** frames only
@@ -1024,8 +1034,9 @@ arrumar isso e colocar junto com outros atalhos
 (use-package hydra)
 #+end_src
 
-** PRA FAZER god mode
-não está funcionando
+** DONE PRA FAZER god mode
+   CLOSED: [2020-10-18 dom 17:17]
+
 #+begin_src emacs-lisp
 (use-package god-mode
   :config
@@ -1040,39 +1051,6 @@ não está funcionando
 
 (add-hook 'god-mode-enabled-hook 'my-update-cursor)
 (add-hook 'god-mode-disabled-hook 'my-update-cursor)
-#+end_src
-
-** modalka
-#+begin_src 
-(use-package modalka
-  :config
-  (add-to-list 'modalka-excluded-modes 'magit-status-mode)
-  (global-set-key (kbd "<escape>") #'modalka-mode)
-  (modalka-define-kbd "a" "C-a")
-  (modalka-define-kbd "b" "C-b")
-  (modalka-define-kbd "c" "C-c")
-  (modalka-define-kbd "d" "C-d")
-  (modalka-define-kbd "e" "C-e")
-  (modalka-define-kbd "f" "C-f")
-  (modalka-define-kbd "n" "C-n")
-  (modalka-define-kbd "p" "C-p")
-  (modalka-define-kbd "x" "C-x")
-  
-  
-  )
-
-
-#+end_src
-
-
-** vim mode 
-#+begin_src 
-(unless (package-installed-p 'evil)
-  (package-install 'evil))
-
-;; Enable Evil
-(require 'evil)
-(evil-mode 1)
 #+end_src
 
 ** PRA FAZER espeak
@@ -1107,42 +1085,46 @@ juntar com as outras keybinds
 separar isso daqui em vários blocos
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-enable-org-journal-support t)
-  (add-to-list 'org-modules 'org-tempo t)
-  ;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
-  (require 'org-habit)
-  (require 'org-tempo)
-  ;; TODO este pedaço não está funcionando
-  (setq org-startup-folded 'content) ;; default t)
-  (use-package org-journal
-    :bind
-    ("C-c n j" . org-journal-new-entry)
+(setq org-enable-org-journal-support t)
+(add-to-list 'org-modules 'org-tempo t)
+;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
+(require 'org-habit)
+(require 'org-tempo)
+;; TODO este pedaço não está funcionando
+(setq org-startup-folded 'content) ;; default t)
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry)
+  :config
+  (org-journal-dir "~/Documentos/journal/")) 
+
+(use-package org-ref
+    :commands org-ref
+    :defer t
     :config
-    (org-journal-dir "~/Documentos/journal/")) 
+    (setq
+         org-ref-completion-library 'org-ref-helm-insert-cite
+         org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+         org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
+         org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
+         org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+         org-ref-notes-directory "/ubuntu/home/sean/"
+         org-ref-notes-function 'orb-edit-notes))
 
-  (use-package org-ref
-      :config
-      (setq
-           org-ref-completion-library 'org-ref-helm-insert-cite
-           org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-           org-ref-default-bibliography (list "/home/sean/Minha biblioteca.bib")
-           org-ref-bibliography-notes "/ubuntu/home/sean/biblio.org"
-           org-ref-note-title-format "* PRA FAZER %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-           org-ref-notes-directory "/ubuntu/home/sean/"
-           org-ref-notes-function 'orb-edit-notes))
+(use-package org-download
+  :custom
+  (org-download-screenshot-method "gnome-screenshot")
+  (org-download-image-dir "./assets/images"))
+(use-package org-attach-screenshot)
+(use-package html-to-markdown)
 
-  (use-package org-download
-    :custom
-    (org-download-screenshot-method "gnome-screenshot")
-    (org-download-image-dir "./assets/images"))
-  (use-package html-to-markdown)
-
-  (use-package auto-org-md)
-  (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
-  (setq plantuml-default-exec-mode 'jar)
+(use-package auto-org-md)
+(setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
 #+END_SRC
 
-** PRA FAZER org-noter
+** DONE PRA FAZER org-noter
+   CLOSED: [2020-10-18 dom 18:03]
 https://orgmode.org/manual/Initial-visibility.html
 olhar isso daqui e mexer nas coisas do org mode depois
 também preciso ver um jeito de montar um 'smartcast' pra selecionar as
@@ -1219,6 +1201,10 @@ arquivos na agenda manualmente
 ** org aparência
 
 #+BEGIN_SRC emacs-lisp
+(use-package org-superstar
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+  (setq inhibit-compacting-font-caches t))
 (setq org-startup-indented t
 	  org-ellipsis "";; " ⤵" ;; folding symbol
       org-pretty-entities t
@@ -1250,43 +1236,44 @@ arquivos na agenda manualmente
 #+END_SRC
 
 ** PRA FAZER [#C] org clock
-:PROPERTIES:
-:Effort:   0:30
-:END:
 :LOGBOOK:
-CLOCK: [2020-10-09 sex 02:53]
+CLOCK: [2020-10-19 seg 17:05]
+CLOCK: [2020-10-18 dom 19:47]
 :END:
+
 #+BEGIN_SRC emacs-lisp
 (defun speak-current-task ()
   "function that says the name out loud"
   (espeak org-clock-current-task))
 
 (display-time-mode)
-(if (not (file-exists-p "/tmp/clocking"))
-    (shell-command "mkfifo /tmp/clocking"))
+(defun org-clocking-info-string ()
+   (format "\ue003 %s: %d (%d->%d) min %d cd"
+		  org-clock-heading
+		  (- (org-clock-get-clocked-time) org-clock-total-time)
+		  org-clock-total-time
+		  (org-clock-get-clocked-time)  ;; all time total
+		  (- (nth 1 (parse-time-string (if (eq org-clock-effort nil)
+										   "0:15" ;; default effort for a task
+										 org-clock-effort))) 
+			 (- (org-clock-get-clocked-time)
+				org-clock-total-time))))
 
-;; depois falta ver oq ele pode fazer qdo n tem effort
 (defun esf/org-clocking-info-to-file ()
-  (unless (boundp 'org-clock-effort)
-	(setq org-clock-effort "0:00"))
-  (if (org-clock-is-active)
-      (with-temp-file "/tmp/clocking"
-		(insert (format "\ue003 %s: %d (%d->%d) min %d cd"
-						org-clock-heading
-						(- (org-clock-get-clocked-time) org-clock-total-time)
-						org-clock-total-time
-						(org-clock-get-clocked-time)  ;; all time total
-						(- (nth 1 (parse-time-string org-clock-effort))
-						   (- (org-clock-get-clocked-time)
-							  org-clock-total-time)))))))
+  (async-start (lambda () (if (not (file-exists-p "/tmp/clocking"))
+							  (shell-command "mkfifo /tmp/clocking")
+							nil))
+			   (lambda (ok) (if (org-clock-is-active)
+						   (call-process-shell-command
+							(format "echo \'%s\' >> /tmp/clocking &" (org-clocking-info-string)))))))
 
-(esf/org-clocking-info-to-file)
+;; (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in-prepare-hook 'esf/org-clocking-info-to-file)
 (add-hook 'display-time-hook 'esf/org-clocking-info-to-file)
 #+END_SRC
 
-** interface
+* interface
 
 #+begin_src emacs-lisp
 (setq org-use-speed-commands 1)
@@ -1444,6 +1431,20 @@ adicionar mais templates e consertar o de imagens
 									   (rainbow-delimiters-mode 1)
 									   (whitespace-newline-mode 1))))
 #+END_SRC
+** flycheck
+#+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :config
+  ;; Enable/disable Flycheck depending on a mode.
+  (setq flycheck-global-modes
+        '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+              org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode))
+  (setq flycheck-emacs-lisp-load-path 'inherit)
+  ;; Only check while saving and opening files.
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (global-flycheck-mode t))
+#+end_src
 ** ggtags
 #+begin_src emacs-lisp
 (setq helm-gtags-prefix-key "\C-cg")
@@ -1530,16 +1531,14 @@ depois preciso ver o company
 (use-package company
   :ensure t
   :config
-  (add-hook 'prog-mode-hook 'company-mode)
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (setq company-show-numbers t)
+  (setq company-idle-delay 0
+		company-minimum-prefix-length 1
+		company-show-numbers t
+		company-dabbrev-other-buffers t)
+  (add-hook 'after-init-hook 'global-company-mode)
 )
 
-;; global company mode
-(add-hook 'after-init-hook 'global-company-mode)
 
-(setq company-dabbrev-other-buffers t)
 
 (use-package company-math)
 
@@ -1594,10 +1593,14 @@ depois preciso ver o company
 
 ** clojure
 
-*** cider
 #+begin_src emacs-lisp
-(use-package cider)
-
+(use-package cider
+  :commands cider
+  :defer t)
+(use-package flycheck-clj-kondo
+  :after cider)
+(use-package flycheck-joker
+  :after cider)
 #+end_src
 
 ** web
@@ -1637,6 +1640,8 @@ depois preciso ver o company
 *** emmet
 #+begin_src emacs-lisp
 (use-package emmet-mode
+  :commands emmet-mode
+  :defer t
   :custom
   (emmet-move-cursor-between-quotes t)
   :custom-face
@@ -1656,19 +1661,30 @@ depois preciso ver o company
 
 *** node js repl
 #+begin_src emacs-lisp
-(use-package nodejs-repl)
+(use-package nodejs-repl
+  :commands nodejs-repl
+  :defer t)
 #+end_src
 
 *** js
 
 #+begin_src emacs-lisp
 (use-package prettier-js
+  :commands prettier-js-mode
+  :defer t
   :hook
   ;;(web-mode . prettier-js-mode) ;; breaks django templates
   (css-mode . prettier-js-mode)
   (json-mode . prettier-js-mode))
 #+end_src
 
+**** react
+
+#+begin_src emacs-lisp
+(use-package rjsx-mode
+  :commands rjsx-mode
+  :defer t)
+#+end_src
 ** yasnippets
 
 #+BEGIN_SRC emacs-lisp
@@ -1701,10 +1717,27 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 
 ** haskell
 #+begin_src emacs-lisp
-(use-package haskell-mode)
+(use-package haskell-mode
+  :commands haskell-mode
+  :defer t)
 (setq haskell-process-type 'stack-ghci)
-(use-package company-ghci)
-(use-package hindent)
+(use-package dante
+  :ensure t
+  :defer t
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  ;; OR for flymake support:
+  (add-hook 'haskell-mode-hook 'flymake-mode)
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  )
+(use-package company-ghci
+  :after haskell-mode)
+(use-package hindent
+  :after haskell-mode)
 #+end_src
 
 ** c
@@ -1724,15 +1757,26 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 #+begin_src emacs-lisp
 (use-package devdocs)
 #+end_src
-** projectile
+** PRA FAZER projectile
 
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :pin melpa-stable
   :config
+  (setq projectile-enable-caching nil
+        projectile-create-missing-test-files t
+        projectile-switch-project-action #'projectile-commander
+        projectile-ignored-project-function 'file-remote-p
+		projectile-use-git-grep t)
+		;; Register custom PHP project type
+		;; (projectile-register-project-type 'php '("composer.json")
+		;; 								  :src-dir "src"
+		;; 								  :test "composer test"
+		;; 								  :run "composer serve"
+		;; 								  :test-suffix "Test"
+		;; 								  :test-dir "tests"))
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1))
-(setq projectile-use-git-grep t)
 #+END_SRC
 
 *** org-projectile
@@ -1787,10 +1831,27 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 #+begin_src emacs-lisp
 (use-package lsp-mode
   ;; :hook (prog-mode . lsp)
+  :commands lsp
   :config
-  (setq lsp-idle-delay 0.500))
+  (setq lsp-idle-delay 0.500
+		lsp-keep-workspace-alive nil
+		lsp-enable-semantic-highlighting t))
 
-;;(use-package lsp-ui)
+(use-package lsp-ui
+  :requires lsp-mode flycheck
+  :config
+  (setq lsp-ui-doc-enable t
+		lsp-ui-doc-use-childframe t
+		lsp-ui-doc-position ‘top
+		lsp-ui-doc-include-signature t
+		lsp-ui-sideline-enable nil
+		lsp-ui-flycheck-enable t
+		lsp-ui-flycheck-list-position ‘right
+		lsp-ui-flycheck-live-reporting t
+		lsp-ui-peek-enable t
+		lsp-ui-peek-list-width 60
+		lsp-ui-peek-peek-height 25
+		lsp-ui-sideline-enable nil))
 #+end_src
 
 ** dap mode
@@ -1819,6 +1880,11 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
   ;;                         (lsp))))
 #+end_src
 
+*** flycheck
+#+begin_src emacs-lisp
+(use-package flycheck-mypy)
+(use-package flycheck-pycheckers)
+#+end_src
 *** elpy
 #+begin_src emacs-lisp
 (use-package elpy
@@ -1870,7 +1936,11 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 montar um negócio pra enfiar no capture
 
 #+BEGIN_SRC emacs-lisp
-(use-package howdoyou)
+(use-package howdoyou
+  :defer t
+  :commands (howdoyou-query)
+  :config
+  (setq howdoyou-number-of-answers 5))
 
 (with-eval-after-load "helm-net"
   (push (cons "How Do You"  (lambda (candidate) (howdoyou-query candidate)))
@@ -1879,20 +1949,29 @@ montar um negócio pra enfiar no capture
 
 ** reasonml/ocaml
 #+begin_src emacs-lisp
-(use-package reason-mode)
-(load-library "~/.emacs.d/opam-user-setup.elc")
-(use-package merlin)
-(use-package merlin-eldoc)
 (add-to-list 'load-path "/home/sean/.opam/default/share/emacs/site-lisp")
+(use-package reason-mode
+  :commands reason-mode
+  
+  )
+(load-library "~/.emacs.d/opam-user-setup.elc")
+(use-package merlin
+  :after reason-mode tuareg)
+(use-package merlin-eldoc
+  :after merlin)
+
 (use-package tuareg)
 #+end_src
 
 ** php
 #+begin_src emacs-lisp
-(use-package php-mode)
-(use-package company-php
-  :defer
-  :after company)  
+(use-package php-mode
+  :defer t
+  :commands php-mode)
+(use-package composer)
+;; (use-package company-php
+;;   :defer
+;;   :after company)  
 #+end_src
 
 * properties
