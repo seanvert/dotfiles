@@ -1,0 +1,15 @@
+keycode 67 =  1 exclam 1 exclam onesuperior exclamdown onesuperior
+keycode 68 =  2 at 2 at twosuperior onehalf twosuperior
+keycode 69 =  3 numbersign 3 numbersign threesuperior threequarters threesuperior
+keycode 70 =  4 dollar 4 dollar sterling onequarter sterling
+keycode 71 =  5 percent 5 percent cent threeeighths cent
+keycode 72 =  6 dead_diaeresis 6 dead_diaeresis notsign diaeresis notsign
+keycode 73 =  7 ampersand 7 ampersand braceleft seveneighths braceleft
+keycode 74 =  8 asterisk 8 asterisk bracketleft trademark bracketleft
+keycode 75 =  9 parenleft 9 parenleft bracketright plusminus bracketright
+keycode 76 =  0 parenright 0 parenright braceright degree braceright
+keycode 95 = minus underscore minus underscore backslash questiondown backslash
+keycode 96 = equal plus equal plus section dead_ogonek section
+keycode 135 = Tab ISO_Left_Tab Tab ISO_Left_Tab
+keycode 19 = dead_tilde dead_circumflex dead_tilde dead_circumflex asciitilde asciicircum asciitilde
+

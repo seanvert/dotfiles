@@ -395,8 +395,8 @@ myStartupHook = do
 --  spawn "pkill -f xmobarrc2; sleep 10 ; xmobar /home/sean/.xmonad/xmobarrc2"
   spawn "wmname LG3D"
   spawnOnce "flameshot &"
-  spawn "setxkbmap -option ctrl:nocaps &"
-  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175 &"
+--  spawn "setxkbmap -option ctrl:nocaps &"
+--  spawn "killall xcape; xcape -e 'Control_L=Escape' -t 175 &"
 -- TODO ver se é isso que está bugando o emacs
 -- TODO ver o que está fazendo esse efeito bizarro no vídeo
 --  spawn " compton --config ~/.config/compton.conf"

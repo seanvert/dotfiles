@@ -1087,16 +1087,14 @@ separar isso daqui em vários blocos
 #+BEGIN_SRC emacs-lisp
 (setq org-enable-org-journal-support t)
 (add-to-list 'org-modules 'org-tempo t)
-;; não sei porque mas os módulos do org-plus-contrib precisam ser usados com require
 (require 'org-habit)
 (require 'org-tempo)
-;; TODO este pedaço não está funcionando
 (setq org-startup-folded 'content) ;; default t)
 (use-package org-journal
   :bind
   ("C-c n j" . org-journal-new-entry)
   :config
-  (org-journal-dir "~/Documentos/journal/")) 
+  (setq org-journal-dir "~/Documentos/journal/"))
 
 (use-package org-ref
     :commands org-ref
@@ -1123,7 +1121,8 @@ separar isso daqui em vários blocos
 (setq plantuml-default-exec-mode 'jar)
 #+END_SRC
 
-** DONE PRA FAZER org-noter
+** PRA FAZER org-noter
+
    CLOSED: [2020-10-18 dom 18:03]
 https://orgmode.org/manual/Initial-visibility.html
 olhar isso daqui e mexer nas coisas do org mode depois
@@ -1237,8 +1236,8 @@ arquivos na agenda manualmente
 
 ** PRA FAZER [#C] org clock
 :LOGBOOK:
-CLOCK: [2020-10-19 seg 17:05]
-CLOCK: [2020-10-18 dom 19:47]
+CLOCK: [2020-10-22 qui 12:12]
+CLOCK: [2020-10-18 dom 19:47]--[2020-10-20 ter 17:29] => 45:42
 :END:
 
 #+BEGIN_SRC emacs-lisp
@@ -1249,23 +1248,24 @@ CLOCK: [2020-10-18 dom 19:47]
 (display-time-mode)
 (defun org-clocking-info-string ()
    (format "\ue003 %s: %d (%d->%d) min %d cd"
-		  org-clock-heading
-		  (- (org-clock-get-clocked-time) org-clock-total-time)
-		  org-clock-total-time
-		  (org-clock-get-clocked-time)  ;; all time total
-		  (- (nth 1 (parse-time-string (if (eq org-clock-effort nil)
-										   "0:15" ;; default effort for a task
-										 org-clock-effort))) 
-			 (- (org-clock-get-clocked-time)
-				org-clock-total-time))))
+                  org-clock-heading
+                  (- (org-clock-get-clocked-time) org-clock-total-time)
+                  org-clock-total-time
+                  (org-clock-get-clocked-time)  ;; all time total
+                  (- (nth 1 (parse-time-string (if (eq org-clock-effort nil)
+                                                   "0:15" ;; default effort for a task
+                                                 org-clock-effort))) 
+                     (- (org-clock-get-clocked-time)
+                        org-clock-total-time))))
+
 
 (defun esf/org-clocking-info-to-file ()
   (async-start (lambda () (if (not (file-exists-p "/tmp/clocking"))
-							  (shell-command "mkfifo /tmp/clocking")
-							nil))
-			   (lambda (ok) (if (org-clock-is-active)
-						   (call-process-shell-command
-							(format "echo \'%s\' >> /tmp/clocking &" (org-clocking-info-string)))))))
+                         (shell-command "mkfifo /tmp/clocking")
+                       nil))
+               (lambda (ok) (if (org-clock-is-active)
+                           (call-process-shell-command
+                            (format "echo \'%s\' >> /tmp/clocking &" (org-clocking-info-string)))))))
 
 ;; (esf/org-clocking-info-to-file)
 (add-hook 'org-clock-in 'esf/org-clocking-info-to-file)
@@ -1915,6 +1915,14 @@ Taken from https://github.com/syl20bnr/spacemacs/pull/179."
 (setq show-paren-style 'parenthesis)
 #+end_src
 
+*** emacs init file profler
+#+begin_src emacs-lisp
+(use-package esup
+  :ensure t
+  ;; To use MELPA Stable use ":pin mepla-stable",
+  :pin melpa
+  :commands (esup))
+#+end_src
 ** yaml
 #+begin_src emacs-lisp 
 (use-package yaml-mode
