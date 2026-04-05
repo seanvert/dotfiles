@@ -1,0 +1,13 @@
+configuration {
+    modi: "combi";
+    combi-modi: "drun,window";
+    display-combi: "Procurar";
+    show-icons: true;
+	/* Mantém os apps mais usados no topo */
+    disable-history: false;
+    sort: true;
+    sorting-method: "fzf"; /* Se você tiver o fzf instalado, a busca fica ultra rápida */
+    
+    /* Remove o prefixo 'drun' ou 'window' se achar poluído */
+    combi-hide-mode-prefix: true;
+}
