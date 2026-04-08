@@ -8,7 +8,7 @@ vec4 window_shader() {
     vec2 texsize = textureSize(tex, 0);
     vec4 color = texture2D(tex, texcoord / texsize, 0);
     float gray = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
-    
+    gray = pow(gray, 1.6);
     // Tonalidade Azul Petróleo (Deep Blue)
     vec3 tint = vec3(1.0, 0.5, 0.8); 
     color.rgb = vec3(gray) * tint;
