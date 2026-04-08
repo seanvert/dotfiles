@@ -1,13 +1,16 @@
 configuration {
     modi: "combi";
-    combi-modi: "drun,window";
+    combi-modi: "window,drun";
     display-combi: "Procurar";
-    show-icons: true;
-	/* Mantém os apps mais usados no topo */
-    disable-history: false;
-    sort: true;
-    sorting-method: "fzf"; /* Se você tiver o fzf instalado, a busca fica ultra rápida */
     
-    /* Remove o prefixo 'drun' ou 'window' se achar poluído */
+    /* As três linhas abaixo são as que garantem a ordem que você viu no terminal */
+    sort: false;
+    disable-history: true;
     combi-hide-mode-prefix: true;
+
+    /* Outras opções que você já tinha e são boas */
+    show-icons: true;
+    terminal: "xfce4-terminal"; /* Ou o seu terminal de preferência */
 }
+
+/* Garanta que não haja nenhum @theme após as chaves que sobrescreva o sort */
