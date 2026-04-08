@@ -18,3 +18,4 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(starship init bash)"
 export PATH="/home/arch/.local/bin:$PATH"
 export PATH="/home/arch/.local/share/solana/install/active_release/bin:$PATH"
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
