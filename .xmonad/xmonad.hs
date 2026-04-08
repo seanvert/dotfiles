@@ -95,6 +95,7 @@ myConfig = ewmh $ dynamicProjects projects $ docks def {
   } `additionalKeys` -- aqui vão os atalhos para sobrepor o padrão
   [ ((mod4Mask, xK_p), spawn "rofi -show combi")
   , ((mod4Mask, xK_F8), spawn "~/.config/picom/toggle-shader.sh")
+  , ((mod4Mask, xK_F7), spawn "~/.config/picom/shader-menu.sh")
   , (((mod4Mask .|. shiftMask), xK_s), namedScratchpadAction scratchpads "edgeb")
   , ((0, xK_Print)
     , spawn "flameshot gui")
