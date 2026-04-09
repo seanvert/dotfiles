@@ -2160,5 +2160,12 @@ montar um negócio pra enfiar no capture
 ;;   :after company)  
 #+end_src
 
+** shaders
+#+begin_src emacs-lisp
+(use-package glsl-mode
+  :ensure t
+  :mode ("\\.vert\\'" "\\.frag\\'" "\\.geom\\'" "\\.glsl\\'"))
+#+end_src
+
 * properties
 #+PROPERTY: header-args    :results silent
