@@ -77,7 +77,7 @@ myBar = "xmobar /home/sean/.xmonad/xmobarrc1"
 
 myConfig = ewmh $ dynamicProjects projects $ docks def {
   modMask = mod4Mask -- Use Super instead of Alt
-  , borderWidth = 3
+  , borderWidth = 0
   , focusedBorderColor = color7
   , normalBorderColor = color0
   , workspaces = myWorkspaces
